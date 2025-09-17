@@ -1,0 +1,125 @@
+name: Avaliação de Exercícios
+on:
+  pull_request:
+    branches: [ main, develop ]
+    types: [opened, synchronize]
+
+# Adicionar permissões explícitas para o GITHUB_TOKEN
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código do estagiário
+        uses: actions/checkout@v2
+        with:
+          path: student-code
+      
+      - name: Checkout do repositório gabarito (apenas testes)
+        uses: actions/checkout@v2
+        with:
+          repository: qwasolucoes/mentorado-gabarito
+          path: test-repo
+          token: ${{ secrets.GABARITO_ACCESS_TOKEN }}
+      
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      
+      - name: Preparar ambiente de teste
+        run: |
+          # Criar uma estrutura temporária para executar os testes
+          mkdir -p temp-project/src/main
+          mkdir -p temp-project/src/test
+          # Copiar o código do estagiário
+          cp -r student-code/src/main/* temp-project/src/main/
+          # Copiar os testes do repositório gabarito
+          cp -r test-repo/src/test/* temp-project/src/test/
+          # Copiar o pom.xml do repositório gabarito
+          cp test-repo/pom.xml temp-project/
+      
+      - name: Executar testes unitários
+        id: test-run
+        run: |
+          cd temp-project
+          mvn test -Dsurefire.useFile=false | tee test-output.txt
+          echo "::set-output name=total_tests::$(grep 'Tests run:' test-output.txt | tail -n 1 | sed -E 's/.*Tests run: ([0-9]+).*/\1/' || echo '0')"
+          echo "::set-output name=passed_tests::$(($(grep 'Tests run:' test-output.txt | tail -n 1 | sed -E 's/.*Tests run: ([0-9]+).*/\1/' || echo '0') - $(grep 'Failures:' test-output.txt | tail -n 1 | sed -E 's/.*Failures: ([0-9]+).*/\1/' || echo '0') - $(grep 'Errors:' test-output.txt | tail -n 1 | sed -E 's/.*Errors: ([0-9]+).*/\1/' || echo '0')))"
+      
+      - name: Publicar comentário no PR
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const totalTests = parseInt('${{ steps.test-run.outputs.total_tests }}') || 0;
+            const passedTests = parseInt('${{ steps.test-run.outputs.passed_tests }}') || 0;
+            const successRate = totalTests > 0 ? Math.round((passedTests / totalTests) * 100) : 0;
+            
+            let comment = '## Relatório de Avaliação\n\n';
+            comment += `- Testes executados: ${totalTests}\n`;
+            comment += `- Testes passados: ${passedTests}\n`;
+            comment += `- Taxa de sucesso: ${successRate}%\n\n`;
+            
+            comment += '### Status:\n';
+            if (successRate === 100) {
+              comment += '✅ Todos os testes passaram!\n';
+            } else if (successRate >= 70) {
+              comment += '⚠️ Alguns testes falharam. Verifique o log para mais detalhes.\n';
+            } else {
+              comment += '❌ Muitos testes falharam. É necessário revisar o código.\n';
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Salvar log como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: temp-project/test-output.txt
+          
+      # --- NOVO PASSO PARA NOTIFICAR O GOOGLE CHAT ----
+      - name: Notificar Google Chat
+        if: always()
+        env:
+          WEBHOOK_URL: ${{ secrets.GOOGLECHAT }}
+        run: |
+          ACTOR="${{ github.actor }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          TOTAL_TESTS="${{ steps.test-run.outputs.total_tests }}"
+          PASSED_TESTS="${{ steps.test-run.outputs.passed_tests }}"
+          PERCENTAGE_SUCCESS=$(echo "scale=2; ($PASSED_TESTS / $TOTAL_TESTS) * 100" | bc)
+          STATUS_MSG=""
+          PERCENTAGE_INT=$(printf "%.0f" "$PERCENTAGE_SUCCESS") 
+
+          # Escolher emoji de status
+          if [ "$PERCENTAGE_INT" -eq 100 ]; then
+            STATUS_MSG="✅ *Todos os testes passaram!*"
+          elif [ "$PERCENTAGE_INT" -ge 70 ]; then
+            STATUS_MSG="⚠️ Alguns testes falharam. Verifique o log para mais detalhes."  
+          else
+            STATUS_MSG="❌ Muitos testes falharam. É necessário revisar o código."
+          fi
+
+          MESSAGE="*Relatório de Avaliação*
+          • *Autor:* ${ACTOR}
+          • *Pull Request:* #${PR_NUMBER}
+          • *Testes executados:* ${TOTAL_TESTS}
+          • *Testes passados:* ${PASSED_TESTS}
+          • *Taxa de sucesso:* ${PERCENTAGE_SUCCESS}
+          • *Status:* ${STATUS_MSG}"
+
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d "{\"text\": \"${MESSAGE}\"}" \
+            "$WEBHOOK_URL"   
