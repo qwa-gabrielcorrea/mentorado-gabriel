@@ -160,8 +160,39 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<String> listaTextoDuplicados(List<String> textos) {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> textosRepetidos = new ArrayList<>();
+		String texto;
+
+		for (int i = 0; i < textos.size(); i++) {
+			texto = textos.get(i);
+			int contador = 0;
+
+			for (int j = 0; j < textos.size(); j++) {
+				if (texto.equals(textos.get(j))) {
+					contador++;
+				}
+			}
+
+			if (contador > 1) {
+				boolean taNaLista = false;
+				for (int k = 0; k < textosRepetidos.size(); k++) {
+					if (texto.equals(textosRepetidos.get(k))) {
+						taNaLista = true;
+						break;
+					}
+				}
+				if (!taNaLista) {
+					textosRepetidos.add(texto);
+				}
+			}
+
+		}
+
+		for (String valor : textosRepetidos) {
+			System.out.println(valor);
+		}
+
+		return textosRepetidos;
 	}
 
 	@Override
