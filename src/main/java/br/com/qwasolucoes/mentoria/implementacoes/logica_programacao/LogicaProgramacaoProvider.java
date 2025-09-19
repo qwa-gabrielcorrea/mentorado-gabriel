@@ -409,20 +409,35 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[][] tabuada(int valor) {
 
-		int[][] matriz = new int[valor * 10][3];
+		int auxiliar;
+
+		if (valor < 0) {
+			auxiliar = valor * (-1);
+		} else {
+			auxiliar = valor;
+		}
+
+		int[][] matriz = new int[auxiliar * 10][3];
 		int linhaAtual = 0;
 
-		for (int i = 1; i <= valor; i++) {
+		for (int i = 1; i <= auxiliar; i++) {
 			for (int j = 1; j <= 10; j++) {
-				matriz[linhaAtual][0] = i;
-				matriz[linhaAtual][1] = j;
-				matriz[linhaAtual][2] = i * j;
+				if (valor < 0) {
+					matriz[linhaAtual][0] = i * (-1);
+					matriz[linhaAtual][1] = j;
+					matriz[linhaAtual][2] = (i * (-1)) * j;
+				} else {
+					matriz[linhaAtual][0] = i;
+					matriz[linhaAtual][1] = j;
+					matriz[linhaAtual][2] = i * j;
+				}
 				System.out
-						.println(matriz[linhaAtual][0] + " x " + matriz[linhaAtual][1] + " = " + matriz[linhaAtual][2]);
+						.println(matriz[linhaAtual][0] + " x " + matriz[linhaAtual][1] + " = "
+								+ matriz[linhaAtual][2]);
 				linhaAtual++;
 			}
 		}
-		
+
 		return matriz;
 	}
 
