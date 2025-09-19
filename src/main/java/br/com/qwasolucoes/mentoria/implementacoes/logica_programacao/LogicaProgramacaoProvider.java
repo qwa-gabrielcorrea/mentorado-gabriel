@@ -321,7 +321,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		}
 		return false;
 	}
-	}
+	
 
 	@Override
 	public String parOuImpar(int valor) {
