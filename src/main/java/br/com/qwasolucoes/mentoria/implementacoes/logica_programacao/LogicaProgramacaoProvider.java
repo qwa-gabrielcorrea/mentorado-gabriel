@@ -1,6 +1,7 @@
 package br.com.qwasolucoes.mentoria.implementacoes.logica_programacao;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.qwasolucoes.mentoria.interfaces.logica_programacao.LogicaProgramacao;
@@ -148,20 +149,114 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<Integer> listaInteirosDuplicados(List<Integer> numeros) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Integer> numerosDuplicados = new ArrayList<>();
+		Integer numero;
+
+		for (int i = 0; i < numeros.size(); i++) {
+			numero = numeros.get(i);
+			int contador = 0;
+
+			for (int j = 0; j < numeros.size(); j++) {
+				if (numero.equals(numeros.get(j))) {
+					contador++;
+				}
+			}
+
+			if (contador > 1) {
+				boolean taNaLista = false;
+				for (int k = 0; k < numerosDuplicados.size(); k++) {
+					if (numero.equals(numerosDuplicados.get(k))) {
+						taNaLista = true;
+						break;
+					}
+				}
+				if (!taNaLista) {
+					numerosDuplicados.add(numero);
+				}
+			}
+		}
+
+		for (Integer valor : numerosDuplicados) {
+			System.out.println(valor);
+		}
+
+		return numerosDuplicados;
 	}
 
 	@Override
 	public List<BigDecimal> listaDecimalDuplicados(List<BigDecimal> textos) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<BigDecimal> decimaisRepetidos = new ArrayList <>();
+		BigDecimal texto;
+
+		for (int i = 0; i < textos.size(); i ++){
+			int contador = 0;
+			texto = textos.get(i); 
+
+			for(int j = 0; j < textos.size(); j++){
+				if(texto.equals(textos.get(j))){
+					contador ++;
+				}
+			}
+
+			if (contador > 1){
+				boolean taNaLista = false; 
+				for(int k = 0; k < decimaisRepetidos.size(); k++){
+					if(texto.equals(decimaisRepetidos.get(k))){
+						taNaLista = true; 
+						break;
+					}
+				}
+				if (!taNaLista){
+					decimaisRepetidos.add(texto);
+				}
+			}
+		}
+
+		for(BigDecimal decimal : decimaisRepetidos){
+			System.out.println(decimal);
+		}
+		
+		return decimaisRepetidos;
 	}
 
 	@Override
 	public List<String> listaTextoDuplicados(List<String> textos) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<String> textosRepetidos = new ArrayList<>();
+		String texto;
+
+		for (int i = 0; i < textos.size(); i++) {
+			texto = textos.get(i);
+			int contador = 0;
+
+			for (int j = 0; j < textos.size(); j++) {
+				if (texto.equals(textos.get(j))) {
+					contador++;
+				}
+			}
+
+			if (contador > 1) {
+				boolean taNaLista = false;
+				for (int k = 0; k < textosRepetidos.size(); k++) {
+					if (texto.equals(textosRepetidos.get(k))) {
+						taNaLista = true;
+						break;
+					}
+				}
+				if (!taNaLista) {
+					textosRepetidos.add(texto);
+				}
+			}
+
+		}
+
+		for (String valor : textosRepetidos) {
+			System.out.println(valor);
+		}
+
+		return textosRepetidos;
 	}
 
 	@Override
@@ -220,8 +315,12 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public boolean multiploDeSete(int valor) {
-		// TODO Auto-generated method stub
+
+		if (valor % 7 == 0){
+			return true;
+		}
 		return false;
+	}
 	}
 
 	@Override
@@ -238,25 +337,78 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[] obterDobrosAteDobroInformado(int valor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int auxiliar = 0;
+		List<Integer> listaAuxiliar = new ArrayList<>();
+		int vetor[];
+		int limite = valor * 2; 
+
+		do {
+			listaAuxiliar.add(valor * 2);
+			valor++;
+			auxiliar++;
+		} while ( valor <= limite);
+		
+		vetor = new int[auxiliar];
+
+		for (int i = 0; i < vetor.length; i++){
+			vetor[i] = listaAuxiliar.get(i);
+			System.out.println(vetor[i]);
+		}
+
+		return vetor;
 	}
 
 	@Override
 	public int[] obterDobrosAteDez(int valor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int auxiliar = 0;
+		List<Integer> listaAuxiliar = new ArrayList<>();
+		int vetor[];
+
+
+		do {
+			listaAuxiliar.add(valor * 2);
+			valor ++;
+			auxiliar++;
+		} while (valor <= 10);
+		
+		vetor = new int[auxiliar];
+
+		for (int i = 0; i < vetor.length; i++){
+			vetor[i] = listaAuxiliar.get(i);
+			System.out.println(vetor[i]);
+		}
+
+		return vetor;
 	}
 
 	@Override
 	public int[] obterDobrosAteMil(int valor) {
-		// TODO Auto-generated method stub
-		return null;
+
+		int auxiliar = 0;
+		List<Integer> listaAuxiliar = new ArrayList<>();
+		int vetor[];
+
+		do {
+			valor *= 2;
+			listaAuxiliar.add(valor);
+			auxiliar++;
+		} while (valor <= 1000);
+		
+		vetor = new int[auxiliar];
+
+		for (int i = 0; i < vetor.length; i++){
+			vetor[i] = listaAuxiliar.get(i);
+			System.out.println(vetor[i]);
+		}
+
+		return vetor;
 	}
 
 	@Override
 	public int[][] tabuada(int valor) {
-		
+
 		int[][] matriz = new int[valor * 10][3];
 		int linhaAtual = 0;
 
