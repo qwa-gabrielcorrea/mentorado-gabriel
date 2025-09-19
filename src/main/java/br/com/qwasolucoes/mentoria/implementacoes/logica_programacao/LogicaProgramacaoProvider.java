@@ -256,8 +256,22 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[][] tabuada(int valor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[][] matriz = new int[valor * 10][3];
+		int linhaAtual = 0;
+
+		for (int i = 1; i <= valor; i++) {
+			for (int j = 1; j <= 10; j++) {
+				matriz[linhaAtual][0] = i;
+				matriz[linhaAtual][1] = j;
+				matriz[linhaAtual][2] = i * j;
+				System.out
+						.println(matriz[linhaAtual][0] + " x " + matriz[linhaAtual][1] + " = " + matriz[linhaAtual][2]);
+				linhaAtual++;
+			}
+		}
+		
+		return matriz;
 	}
 
 }
