@@ -65,38 +65,121 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<Integer> numerosPares(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Integer> listaPares = new ArrayList<>();
+
+		for(int i = 0; i <= limite; i++){
+			if(validaParOuImpar(i)){
+				listaPares.add(i);
+			}
+		}
+
+		System.out.println(listaPares);
+		
+		return listaPares;
 	}
 
 	@Override
 	public List<Integer> numerosImpares(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Integer> listaImpares = new ArrayList<>();
+
+		for(int i = 0; i <= limite; i++){
+			if(!validaParOuImpar(i)){
+				listaImpares.add(i);
+			}
+		}
+
+		System.out.println(listaImpares);
+		
+		return listaImpares;
 	}
 
 	@Override
 	public List<Integer> numerosPrimos(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+
+		int aux = 0; 
+		List<Integer> listaPrimos = new ArrayList<>();
+		
+		while (aux <= limite){
+			if (validaPrimo(aux)){
+				listaPrimos.add(aux);
+			}
+			aux ++;
+		}
+
+		System.out.println(listaPrimos);
+				
+		return listaPrimos;
 	}
 
 	@Override
 	public int[] numerosParesArray(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int aux = 0; 
+		List<Integer> listaAuxiliar = new ArrayList<>();
+
+		for(int i = 0; i <= limite; i++){
+			if(validaParOuImpar(i)){
+				aux++;
+				listaAuxiliar.add(i);
+			}
+		}
+
+		int vect[] = new int[aux];
+
+		for(int i = 0; i < vect.length; i++){
+			vect[i] = listaAuxiliar.get(i);
+			System.out.println(vect[i]);
+		}
+		
+		return vect;
 	}
 
 	@Override
 	public int[] numerosImparesArray(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int aux = 0; 
+		List<Integer> listaAuxiliar = new ArrayList<>();
+
+		for(int i = 0; i <= limite; i++){
+			if(!validaParOuImpar(i)){
+				aux++;
+				listaAuxiliar.add(i);
+			}
+		}
+
+		int vect[] = new int[aux];
+
+		for(int i = 0; i < vect.length; i++){
+			vect[i] = listaAuxiliar.get(i);
+			System.out.println(vect[i]);
+		}
+		
+		return vect;
 	}
 
 	@Override
 	public int[] numerosPrimosArray(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int aux = 0; 
+		List<Integer> listaAuxiliar = new ArrayList<>();
+
+		for(int i = 0; i <= limite; i++){
+			if(validaPrimo(i)){
+				aux++;
+				listaAuxiliar.add(i);
+			}
+		}
+
+		int vect[] = new int[aux];
+
+		for(int i = 0; i < vect.length; i++){
+			vect[i] = listaAuxiliar.get(i);
+			System.out.println(vect[i]);
+		}
+		
+		return vect;
 	}
 
 	@Override
@@ -350,14 +433,36 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public String parOuImpar(int valor) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String resultado; 
+
+		if (validaParOuImpar(valor)){
+			resultado = "PAR";
+		} else {
+			resultado = "IMPAR";
+		}
+
+		System.out.println(resultado);
+		
+		return resultado;
 	}
 
 	@Override
 	public String parOuImparOuZero(int valor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String resultado; 
+
+		if (valor == 0){
+			resultado = "ZERO";
+		}else if (validaParOuImpar(valor)){
+			resultado = "PAR";
+		} else {
+			resultado = "IMPAR";
+		}
+
+		System.out.println(resultado);
+		
+		return resultado;
 	}
 
 	@Override
@@ -472,6 +577,29 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		}
 
 		return matriz;
+	}
+
+	public boolean validaParOuImpar (int valor){
+
+		if (valor % 2 == 0){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean validaPrimo (int valor){
+
+		if(valor < 2){
+			return false;
+		}
+
+		for (int i = 0; i * i <= valor; i++){
+			if (valor % i == 0){
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 }
