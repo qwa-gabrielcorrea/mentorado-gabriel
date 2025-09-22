@@ -143,8 +143,33 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public String valorTextoMaiorQtdDuplicados(List<String> textos) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String maisRepetido = "";
+		int aux = 0;
+		int maiorQtde = 0;
+
+		for (String textoAtual : textos) {
+			int contador = 0;
+
+			for (String textoCompara : textos) {
+				if (textoCompara.equals(textoAtual)) {
+					contador++;
+				}
+			}
+
+			if (contador > 1) {
+				maiorQtde = contador;
+
+				if (maiorQtde > aux) {
+					maisRepetido = textoAtual;
+					aux = maiorQtde;
+				}
+
+			}
+
+		}
+
+		return maisRepetido;
 	}
 
 	@Override
@@ -390,20 +415,28 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		List<Integer> listaAuxiliar = new ArrayList<>();
 		int vetor[];
 
-		do {
-			valor *= 2;
-			listaAuxiliar.add(valor);
-			auxiliar++;
-		} while (valor <= 1000);
-		
-		vetor = new int[auxiliar];
+		if (valor == 0) {
+			System.out.println("O valor não pode ser zero.");
+		} else {
 
-		for (int i = 0; i < vetor.length; i++){
-			vetor[i] = listaAuxiliar.get(i);
-			System.out.println(vetor[i]);
+			do {
+				valor *= 2;
+				listaAuxiliar.add(valor);
+				auxiliar++;
+			} while (valor <= 1000);
+
+			vetor = new int[auxiliar];
+
+			for (int i = 0; i < vetor.length; i++) {
+				vetor[i] = listaAuxiliar.get(i);
+				System.out.println(vetor[i]);
+			}
+
+			return vetor;
+
 		}
 
-		return vetor;
+		return null;
 	}
 
 	@Override
