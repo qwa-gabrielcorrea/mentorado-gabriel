@@ -517,20 +517,27 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[] obterDobrosAteDobroInformado(int valor) {
 		
-		int auxiliar = 0;
 		List<Integer> listaAuxiliar = new ArrayList<>();
-		int vetor[];
-		int limite = valor * 2; 
+		int[] vetor;
 
+		if (valor < 0){
+			valor *= (-1);
+		}
+
+		int limite = valor * 2;
+		
 		do {
 			listaAuxiliar.add(valor * 2);
 			valor++;
-			auxiliar++;
-		} while ( valor <= limite);
-		
-		vetor = new int[auxiliar];
+		} while (valor <= limite);
 
-		for (int i = 0; i < vetor.length; i++){
+		for (Integer numero : listaAuxiliar){
+			System.out.println(numero);
+		}
+
+		vetor = new int[listaAuxiliar.size()];
+
+		for (int i = 0; i < vetor.length; i++) {
 			vetor[i] = listaAuxiliar.get(i);
 			System.out.println(vetor[i]);
 		}
