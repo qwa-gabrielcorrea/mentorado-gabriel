@@ -223,25 +223,21 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		Integer inteiroMaisDuplicado = null;
 		int aux = 0; 
-		int maiorQtde = 0; 
 		
-		for (Integer numeroAtual : numeros){
-			int contador = 0; 
+		for (Integer numeroAtual : numeros) {
+			int contador = 0;
 
-			for (Integer numeroCompara : numeros){
-				if (numeroCompara.equals(numeroAtual)){
+			for (Integer numeroCompara : numeros) {
+				if (numeroCompara.equals(numeroAtual)) {
 					contador++;
 				}
 			}
 
-			if (contador > 1){
-				maiorQtde = contador; 
-
-				if (maiorQtde > aux){
-					inteiroMaisDuplicado = numeroAtual; 
-					aux = maiorQtde;
-				}
+			if (contador >= aux) {
+				inteiroMaisDuplicado = numeroAtual;
+				aux = contador;
 			}
+
 		}
 
 		return inteiroMaisDuplicado;
@@ -252,7 +248,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		String maisRepetido = "";
 		int aux = 0;
-		int maiorQtde = 0;
 
 		for (String textoAtual : textos) {
 			int contador = 0;
@@ -263,14 +258,9 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 				}
 			}
 
-			if (contador > 1) {
-				maiorQtde = contador;
-
-				if (maiorQtde > aux) {
-					maisRepetido = textoAtual;
-					aux = maiorQtde;
-				}
-
+			if (contador >= aux) {
+				maisRepetido = textoAtual;
+				aux = contador;
 			}
 
 		}
