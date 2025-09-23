@@ -517,6 +517,8 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[] obterDobrosAteDobroInformado(int valor) {
 		
+		int aux = valor; 
+
 		List<Integer> listaAuxiliar = new ArrayList<>();
 		int[] vetor;
 
@@ -527,13 +529,13 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		int limite = valor * 2;
 		
 		do {
-			listaAuxiliar.add(valor * 2);
+			int resultado = valor * 2;
+			if (aux < 0){
+				resultado *= (-1);
+			}
+			listaAuxiliar.add(resultado);
 			valor++;
 		} while (valor <= limite);
-
-		for (Integer numero : listaAuxiliar){
-			System.out.println(numero);
-		}
 
 		vetor = new int[listaAuxiliar.size()];
 
