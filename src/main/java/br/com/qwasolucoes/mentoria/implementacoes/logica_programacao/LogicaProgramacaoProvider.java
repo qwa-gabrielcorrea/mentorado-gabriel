@@ -220,8 +220,57 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer valorInteiroMaiorQtdDuplicados(List<Integer> numeros) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer inteiroMaisDuplicado = null;
+		int aux = 0;
+		int maiorQtde = 0;
+
+		//metodo para ordenar a lista 
+		int x = numeros.size();
+		boolean trocado; 
+
+		for (int i = 0; i < x - 1; i++){
+			trocado = false; 
+
+			for(int j = 0; j < x - 1; j++){
+				if (numeros.get(j) > numeros.get(j +1)){
+
+					int auxiliar = numeros.get(j);
+					numeros.set(j, numeros.get(j + 1));
+					numeros.set(j + 1, auxiliar);
+					trocado = true;
+				}
+			}
+			if (!trocado){
+				break;
+			}
+		}
+		// final do método de ordenação
+
+		for (Integer numeroAtual : numeros){
+			System.out.println(numeroAtual);
+		}
+
+		for (Integer numeroAtual : numeros) {
+			int contador = 0;
+
+			for (Integer numeroCompara : numeros) {
+				if (numeroCompara.equals(numeroAtual)) {
+					contador++;
+				}
+			}
+
+			if (contador > 1) {
+				maiorQtde = contador;
+
+				if (maiorQtde > aux) {
+					inteiroMaisDuplicado = numeroAtual;
+					aux = maiorQtde;
+				}
+			}
+		}
+
+		return inteiroMaisDuplicado;
 	}
 
 	@Override
@@ -468,20 +517,27 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[] obterDobrosAteDobroInformado(int valor) {
 		
-		int auxiliar = 0;
 		List<Integer> listaAuxiliar = new ArrayList<>();
-		int vetor[];
-		int limite = valor * 2; 
+		int[] vetor;
 
+		if (valor < 0){
+			valor *= (-1);
+		}
+
+		int limite = valor * 2;
+		
 		do {
 			listaAuxiliar.add(valor * 2);
 			valor++;
-			auxiliar++;
-		} while ( valor <= limite);
-		
-		vetor = new int[auxiliar];
+		} while (valor <= limite);
 
-		for (int i = 0; i < vetor.length; i++){
+		for (Integer numero : listaAuxiliar){
+			System.out.println(numero);
+		}
+
+		vetor = new int[listaAuxiliar.size()];
+
+		for (int i = 0; i < vetor.length; i++) {
 			vetor[i] = listaAuxiliar.get(i);
 			System.out.println(vetor[i]);
 		}
@@ -496,16 +552,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		List<Integer> listaAuxiliar = new ArrayList<>();
 		int vetor[];
 
+		if (valor > 0 && valor < 10) {
+			do {
+				listaAuxiliar.add(valor * 2);
+				valor++;
+				auxiliar++;
+			} while (valor <= 10);
+		}
 
-		do {
-			listaAuxiliar.add(valor * 2);
-			valor ++;
-			auxiliar++;
-		} while (valor <= 10);
-		
 		vetor = new int[auxiliar];
 
-		for (int i = 0; i < vetor.length; i++){
+		for (int i = 0; i < vetor.length; i++) {
 			vetor[i] = listaAuxiliar.get(i);
 			System.out.println(vetor[i]);
 		}
