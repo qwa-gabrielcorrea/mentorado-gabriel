@@ -545,16 +545,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		List<Integer> listaAuxiliar = new ArrayList<>();
 		int vetor[];
 
+		if (valor > 0 && valor < 10) {
+			do {
+				listaAuxiliar.add(valor * 2);
+				valor++;
+				auxiliar++;
+			} while (valor <= 10);
+		}
 
-		do {
-			listaAuxiliar.add(valor * 2);
-			valor ++;
-			auxiliar++;
-		} while (valor <= 10);
-		
 		vetor = new int[auxiliar];
 
-		for (int i = 0; i < vetor.length; i++){
+		for (int i = 0; i < vetor.length; i++) {
 			vetor[i] = listaAuxiliar.get(i);
 			System.out.println(vetor[i]);
 		}
