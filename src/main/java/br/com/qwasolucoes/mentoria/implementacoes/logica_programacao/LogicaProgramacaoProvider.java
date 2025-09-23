@@ -220,8 +220,31 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer valorInteiroMaiorQtdDuplicados(List<Integer> numeros) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer inteiroMaisDuplicado = null;
+		int aux = 0; 
+		int maiorQtde = 0; 
+		
+		for (Integer numeroAtual : numeros){
+			int contador = 0; 
+
+			for (Integer numeroCompara : numeros){
+				if (numeroCompara.equals(numeroAtual)){
+					contador++;
+				}
+			}
+
+			if (contador > 1){
+				maiorQtde = contador; 
+
+				if (maiorQtde > aux){
+					inteiroMaisDuplicado = numeroAtual; 
+					aux = maiorQtde;
+				}
+			}
+		}
+
+		return inteiroMaisDuplicado;
 	}
 
 	@Override
