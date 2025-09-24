@@ -597,23 +597,20 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[] obterDobrosAteDez(int valor) {
 		
-		int auxiliar = 0;
 		List<Integer> listaAuxiliar = new ArrayList<>();
-		int vetor[];
+		int[] vetor;
 
-		if (valor > 0 && valor < 10) {
+		if (valor > 0 && valor <= 10) {
 			do {
 				listaAuxiliar.add(valor * 2);
 				valor++;
-				auxiliar++;
 			} while (valor <= 10);
 		}
 
-		vetor = new int[auxiliar];
+		vetor = new int[listaAuxiliar.size()];
 
 		for (int i = 0; i < vetor.length; i++) {
 			vetor[i] = listaAuxiliar.get(i);
-			System.out.println(vetor[i]);
 		}
 
 		return vetor;
