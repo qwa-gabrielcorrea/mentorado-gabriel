@@ -474,7 +474,9 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		Integer auxiliar = 0;
 		Integer soma = null;
 
-			if (limite > 0){
+		if(limite == null){
+			return null;
+		}else if (limite > 0){
 				soma = 0;
 				while (auxiliar <= limite){
 				if (validaPrimo(auxiliar)){
@@ -685,7 +687,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		return matriz;
 	}
 
-	public boolean validaParOuImpar (int valor){
+	public boolean validaParOuImpar (Integer valor){
 
 		if (valor % 2 == 0){
 			return true;
@@ -693,7 +695,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		return false;
 	}
 
-	public boolean validaPrimo (int valor){
+	public boolean validaPrimo (Integer valor){
 
 		if(valor < 2){
 			return false;
