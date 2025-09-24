@@ -472,16 +472,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	public Integer somarValoresPrimos(Integer limite) {
 		
 		Integer auxiliar = 0;
-		int soma = 0;
+		Integer soma = null;
 
-		while (auxiliar <= limite){
-			if (validaPrimo(auxiliar)){
-				soma += auxiliar;
+			if (limite > 0){
+				soma = 0;
+				while (auxiliar <= limite){
+				if (validaPrimo(auxiliar)){
+					soma += auxiliar;
+				}
+				auxiliar ++;
 			}
-			auxiliar ++;
 		}
-		
-		System.out.println(soma);
 
 		return soma;
 	}
