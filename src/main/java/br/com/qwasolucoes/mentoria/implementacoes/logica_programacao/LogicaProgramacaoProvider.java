@@ -418,26 +418,72 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer somarValores(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Integer soma = 0;
+		int aux = 0;
+
+		while (aux <= limite){
+			soma += aux;
+			aux++;
+		}
+
+		System.out.println(soma);
+		
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPares(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer auxiliar = 0;
+		int soma = 0;
+
+		while (auxiliar <= limite){
+			if (validaParOuImpar(auxiliar)){
+				soma += auxiliar;
+			}
+			auxiliar ++;
+		}
+		
+		System.out.println(soma);
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresImpares(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer auxiliar = 0;
+		int soma = 0;
+
+		while (auxiliar <= limite){
+			if (!validaParOuImpar(auxiliar)){
+				soma += auxiliar;
+			}
+			auxiliar ++;
+		}
+		
+		System.out.println(soma);
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPrimos(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer auxiliar = 0;
+		int soma = 0;
+
+		while (auxiliar <= limite){
+			if (validaPrimo(auxiliar)){
+				soma += auxiliar;
+			}
+			auxiliar ++;
+		}
+		
+		System.out.println(soma);
+
+		return soma;
 	}
 
 	@Override
