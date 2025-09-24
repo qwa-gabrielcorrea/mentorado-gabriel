@@ -474,11 +474,9 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		Integer auxiliar = 0;
 		Integer soma = null;
 
-		if(limite == null){
-			return null;
-		}else if (limite > 0){
-				soma = 0;
-				while (auxiliar <= limite){
+		if (limite > 0){
+			soma = 0;
+			while (auxiliar <= limite){
 				if (validaPrimo(auxiliar)){
 					soma += auxiliar;
 				}
@@ -701,7 +699,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			return false;
 		}
 
-		for (int i = 0; i * i <= valor; i++){
+		for (int i = 2; i * i <= valor; i++){
 			if (valor % i == 0){
 				return false;
 			}
