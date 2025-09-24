@@ -418,26 +418,73 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer somarValores(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Integer soma = 0;
+		int aux = 0;
+
+		while (aux <= limite){
+			soma += aux;
+			aux++;
+		}
+
+		System.out.println(soma);
+		
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPares(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer auxiliar = 0;
+		int soma = 0;
+
+		while (auxiliar <= limite){
+			if (validaParOuImpar(auxiliar)){
+				soma += auxiliar;
+			}
+			auxiliar ++;
+		}
+		
+		System.out.println(soma);
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresImpares(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer auxiliar = 0;
+		int soma = 0;
+
+		while (auxiliar <= limite){
+			if (!validaParOuImpar(auxiliar)){
+				soma += auxiliar;
+			}
+			auxiliar ++;
+		}
+		
+		System.out.println(soma);
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPrimos(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer auxiliar = 0;
+		Integer soma = null;
+
+		if (limite > 0){
+			soma = 0;
+			while (auxiliar <= limite){
+				if (validaPrimo(auxiliar)){
+					soma += auxiliar;
+				}
+				auxiliar ++;
+			}
+		}
+
+		return soma;
 	}
 
 	@Override
@@ -517,6 +564,8 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[] obterDobrosAteDobroInformado(int valor) {
 		
+		int aux = valor; 
+
 		List<Integer> listaAuxiliar = new ArrayList<>();
 		int[] vetor;
 
@@ -527,13 +576,13 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		int limite = valor * 2;
 		
 		do {
-			listaAuxiliar.add(valor * 2);
+			int resultado = valor * 2;
+			if (aux < 0){
+				resultado *= (-1);
+			}
+			listaAuxiliar.add(resultado);
 			valor++;
 		} while (valor <= limite);
-
-		for (Integer numero : listaAuxiliar){
-			System.out.println(numero);
-		}
 
 		vetor = new int[listaAuxiliar.size()];
 
@@ -548,23 +597,20 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[] obterDobrosAteDez(int valor) {
 		
-		int auxiliar = 0;
 		List<Integer> listaAuxiliar = new ArrayList<>();
-		int vetor[];
+		int[] vetor;
 
-		if (valor > 0 && valor < 10) {
+		if (valor > 0 && valor <= 10) {
 			do {
 				listaAuxiliar.add(valor * 2);
 				valor++;
-				auxiliar++;
 			} while (valor <= 10);
 		}
 
-		vetor = new int[auxiliar];
+		vetor = new int[listaAuxiliar.size()];
 
 		for (int i = 0; i < vetor.length; i++) {
 			vetor[i] = listaAuxiliar.get(i);
-			System.out.println(vetor[i]);
 		}
 
 		return vetor;
@@ -636,7 +682,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		return matriz;
 	}
 
-	public boolean validaParOuImpar (int valor){
+	public boolean validaParOuImpar (Integer valor){
 
 		if (valor % 2 == 0){
 			return true;
@@ -644,13 +690,13 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		return false;
 	}
 
-	public boolean validaPrimo (int valor){
+	public boolean validaPrimo (Integer valor){
 
 		if(valor < 2){
 			return false;
 		}
 
-		for (int i = 0; i * i <= valor; i++){
+		for (int i = 2; i * i <= valor; i++){
 			if (valor % i == 0){
 				return false;
 			}
