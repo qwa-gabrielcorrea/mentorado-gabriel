@@ -203,12 +203,12 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 		for (Integer valor : valores) {
 			if (validaParOuImpar(valor)) {
-				pares += valor;
+				pares ++;
 			} else {
-				impares += valor;
+				impares ++;
 			}
 			if (validaPrimo(valor)) {
-				primos += valor;
+				primos ++;
 			}
 		}
 
