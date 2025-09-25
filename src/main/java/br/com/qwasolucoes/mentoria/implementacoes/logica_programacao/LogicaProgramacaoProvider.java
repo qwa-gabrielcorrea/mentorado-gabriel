@@ -496,10 +496,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			soma += valores[i];
 		}
 
-		if (soma == 0){
-			return null;
-		}
-
 		return soma;
 	}
 
@@ -512,10 +508,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			if (validaParOuImpar(i)) {
 				soma += valores[i];
 			}
-		}
-
-		if (valores.length <= 0){
-			return null;
 		}
 
 		return soma;
@@ -532,10 +524,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			}
 		}
 
-		if (valores.length <= 0){
-			return null;
-		}
-
 		return soma;
 	}
 
@@ -550,17 +538,27 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			}
 		}
 
-		if (valores.length <= 0){
-			return null;
-		}
-
 		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPosicoesParesMultiplosDe(Integer limite, Integer multiplo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer soma = 0;
+
+		if (multiplo == 0){
+			return 0;
+		}
+
+		for (int i = 0; i <= limite; i++){
+			if (validaParOuImpar(i)){
+				if (i % multiplo == 0){
+					soma += i;
+				}
+			}
+		}
+
+		return soma;
 	}
 
 	@Override
