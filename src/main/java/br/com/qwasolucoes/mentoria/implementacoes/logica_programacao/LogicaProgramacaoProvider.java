@@ -184,8 +184,13 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[] primeiraUltimaPosicaoArray(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[] vetor = new int [2];
+
+		vetor[0] = 0;
+		vetor[1] = limite;
+		
+		return vetor;
 	}
 
 	@Override
