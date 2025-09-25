@@ -548,10 +548,13 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		Integer soma = 0;
 		
 		for (int i = 0; i < valores.length; i++) {
-			if (!validaParOuImpar(i)) {
+			if (validaParOuImpar(valores[i])) {
 				soma += valores[i];
 			}
+			
 		}
+		
+		System.out.println(soma);
 
 		return soma;
 	}
@@ -562,11 +565,13 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		Integer soma = 0;
 		
 		for (int i = 0; i < valores.length; i++) {
-			if (!validaParOuImpar(i)) {
+			if (!validaParOuImpar(valores[i])) {
 				soma += valores[i];
 			}
 		}
 
+		System.out.println(soma);
+		
 		return soma;
 	}
 
@@ -576,11 +581,14 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		Integer soma = 0;
 		
 		for (int i = 0; i < valores.length; i++) {
-			if (validaPrimo(i)) {
-				soma += valores[i];
+			if (validaPrimo(valores[i])) {
+				System.out.println(valores[i]);
+				soma = soma + valores[i];
 			}
 		}
 
+		System.out.println(soma);
+		
 		return soma;
 	}
 
