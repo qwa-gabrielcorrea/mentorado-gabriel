@@ -190,8 +190,28 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[] quantidadeParesImparesPrimos(List<Integer> valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[] vetor = new int[3];
+		int pares = 0;
+		int impares = 0;
+		int primos = 0;
+
+		for (Integer valor : valores) {
+			if (validaParOuImpar(valor)) {
+				pares += valor;
+			} else {
+				impares += valor;
+			}
+			if (validaPrimo(valor)) {
+				primos += valor;
+			}
+		}
+
+		vetor[0] = pares;
+		vetor[1] = impares;
+		vetor[2] = primos;
+
+		return vetor;
 	}
 
 	@Override
