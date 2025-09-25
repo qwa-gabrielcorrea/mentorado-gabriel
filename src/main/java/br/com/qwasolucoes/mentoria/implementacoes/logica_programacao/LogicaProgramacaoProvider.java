@@ -548,7 +548,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		Integer soma = 0;
 		
 		for (int i = 0; i < valores.length; i++) {
-			if (validaParOuImpar(i)) {
+			if (!validaParOuImpar(i)) {
 				soma += valores[i];
 			}
 		}
