@@ -244,8 +244,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<BigDecimal> removerValoresDuplicados(List<BigDecimal> numeros) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<BigDecimal> listaSemNumerosDuplicados = new ArrayList<>();
+
+		for (BigDecimal numero : numeros) {
+
+			if (!listaSemNumerosDuplicados.contains(numero)) {
+				listaSemNumerosDuplicados.add(numero);
+			}
+		}
+
+		return listaSemNumerosDuplicados;
 	}
 
 	@Override
