@@ -606,6 +606,8 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public Integer somarValoresPosicoesParesMultiplosDe(Integer limite, Integer multiplo) {
 		
+		//questionar sobre exercício 
+		
 		Integer soma = 0;
 
 		if (multiplo == 0){
