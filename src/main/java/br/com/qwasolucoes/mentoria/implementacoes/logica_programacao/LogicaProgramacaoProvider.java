@@ -514,6 +514,10 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			}
 		}
 
+		if (valores.length <= 0){
+			return null;
+		}
+
 		return soma;
 	}
 
@@ -528,6 +532,10 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			}
 		}
 
+		if (valores.length <= 0){
+			return null;
+		}
+
 		return soma;
 	}
 
@@ -540,6 +548,10 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			if (validaPrimo(i)) {
 				soma += valores[i];
 			}
+		}
+
+		if (valores.length <= 0){
+			return null;
 		}
 
 		return soma;
