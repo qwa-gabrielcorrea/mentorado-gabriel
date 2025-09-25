@@ -184,14 +184,41 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[] primeiraUltimaPosicaoArray(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[] vetor = new int[2];
+
+		vetor[0] = 0;
+		vetor[1] = (limite - 1);
+
+		System.out.println(vetor);
+
+		return vetor;
 	}
 
 	@Override
 	public int[] quantidadeParesImparesPrimos(List<Integer> valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[] vetor = new int[3];
+		int pares = 0;
+		int impares = 0;
+		int primos = 0;
+
+		for (Integer valor : valores) {
+			if (validaParOuImpar(valor)) {
+				pares ++;
+			} else {
+				impares ++;
+			}
+			if (validaPrimo(valor)) {
+				primos ++;
+			}
+		}
+
+		vetor[0] = pares;
+		vetor[1] = impares;
+		vetor[2] = primos;
+
+		return vetor;
 	}
 
 	@Override
@@ -202,20 +229,47 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<Integer> removerInteirosDuplicados(List<Integer> numeros) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Integer> listaSemInteirosDuplicados = new ArrayList<>();
+
+		for (Integer numero : numeros) {
+
+			if (!listaSemInteirosDuplicados.contains(numero)) {
+				listaSemInteirosDuplicados.add(numero);
+			}
+		}
+
+		return listaSemInteirosDuplicados;
 	}
 
 	@Override
 	public List<BigDecimal> removerValoresDuplicados(List<BigDecimal> numeros) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<BigDecimal> listaSemNumerosDuplicados = new ArrayList<>();
+
+		for (BigDecimal numero : numeros) {
+
+			if (!listaSemNumerosDuplicados.contains(numero)) {
+				listaSemNumerosDuplicados.add(numero);
+			}
+		}
+
+		return listaSemNumerosDuplicados;
 	}
 
 	@Override
 	public List<String> removerTextosDuplicados(List<String> textos) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<String> listaSemTextosDuplicados = new ArrayList<>();
+
+		for (String texto : textos) {
+
+			if (!listaSemTextosDuplicados.contains(texto)) {
+				listaSemTextosDuplicados.add(texto);
+			}
+		}
+
+		return listaSemTextosDuplicados;
 	}
 
 	@Override
@@ -489,32 +543,86 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer somarValoresPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer soma = 0; 
+
+		for(int i = 0; i < valores.length; i++){
+			soma += valores[i];
+		}
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresParesPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Integer soma = 0;
+		
+		for (int i = 0; i < valores.length; i++) {
+			if (validaParOuImpar(valores[i])) {
+				soma += valores[i];
+			}
+			
+		}
+		
+		System.out.println(soma);
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresImparesPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer soma = 0;
+		
+		for (int i = 0; i < valores.length; i++) {
+			if (!validaParOuImpar(valores[i])) {
+				soma += valores[i];
+			}
+		}
+
+		System.out.println(soma);
+		
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPrimosPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer soma = 0;
+		
+		for (int i = 0; i < valores.length; i++) {
+			if (validaPrimo(valores[i])) {
+				System.out.println(valores[i]);
+				soma = soma + valores[i];
+			}
+		}
+
+		System.out.println(soma);
+		
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPosicoesParesMultiplosDe(Integer limite, Integer multiplo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//questionar sobre exercício 
+		
+		Integer soma = 0;
+
+		if (multiplo == 0){
+			return 0;
+		}
+
+		for (int i = 0; i <= limite; i++){
+			if (validaParOuImpar(i)){
+				if (i % multiplo == 0){
+					soma += i;
+				}
+			}
+		}
+
+		return soma;
 	}
 
 	@Override
