@@ -185,11 +185,13 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public int[] primeiraUltimaPosicaoArray(Integer limite) {
 		
-		int[] vetor = new int [2];
+		int[] vetor = new int[2];
 
 		vetor[0] = 0;
-		vetor[1] = limite;
-		
+		vetor[1] = (limite - 1);
+
+		System.out.println(vetor);
+
 		return vetor;
 	}
 
