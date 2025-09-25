@@ -227,8 +227,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<Integer> removerInteirosDuplicados(List<Integer> numeros) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Integer> listaSemInteirosDuplicados = new ArrayList<>();
+
+		for (Integer numero : numeros) {
+
+			if (!listaSemInteirosDuplicados.contains(numero)) {
+				listaSemInteirosDuplicados.add(numero);
+			}
+		}
+
+		return listaSemInteirosDuplicados;
 	}
 
 	@Override
@@ -239,8 +248,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<String> removerTextosDuplicados(List<String> textos) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<String> listaSemTextosDuplicados = new ArrayList<>();
+
+		for (String texto : textos) {
+
+			if (!listaSemTextosDuplicados.contains(texto)) {
+				listaSemTextosDuplicados.add(texto);
+			}
+		}
+
+		return listaSemTextosDuplicados;
 	}
 
 	@Override
