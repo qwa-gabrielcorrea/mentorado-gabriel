@@ -489,8 +489,18 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer somarValoresPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer soma = 0; 
+
+		for(int i = 0; i < valores.length; i++){
+			soma += valores[i];
+		}
+
+		if (soma == 0){
+			return null;
+		}
+
+		return soma;
 	}
 
 	@Override
