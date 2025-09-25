@@ -505,20 +505,44 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer somarValoresParesPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Integer soma = 0;
+		
+		for (int i = 0; i < valores.length; i++) {
+			if (validaParOuImpar(i)) {
+				soma += valores[i];
+			}
+		}
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresImparesPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer soma = 0;
+		
+		for (int i = 0; i < valores.length; i++) {
+			if (!validaParOuImpar(i)) {
+				soma += valores[i];
+			}
+		}
+
+		return soma;
 	}
 
 	@Override
 	public Integer somarValoresPrimosPosicoes(int[] valores) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer soma = 0;
+		
+		for (int i = 0; i < valores.length; i++) {
+			if (validaPrimo(i)) {
+				soma += valores[i];
+			}
+		}
+
+		return soma;
 	}
 
 	@Override
