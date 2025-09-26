@@ -59,8 +59,25 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public String[] antecessorSucessorPor(String[] array, String valor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String[] resultado = new String[2];
+
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].equals(valor)) {
+				if (i > 0) {
+					resultado[0] = array[i - 1];
+				} else {
+					resultado[0] = null;
+				}
+				if (i < array.length && i < array.length - 1) {
+					resultado[1] = array[i + 1];
+				} else {
+					resultado[1] = null;
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
