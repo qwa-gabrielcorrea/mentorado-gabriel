@@ -53,14 +53,50 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public String[] antecessorSucessorPor(String[] array, int posicao) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String[] resultado = new String[2];
+
+		for (int i = 0; i <= array.length; i++) {
+			if (posicao >= 0 && posicao <= array.length) {
+				if (i == posicao) {
+					if ((posicao - 1) > 0) {
+						resultado[0] = array[i - 1];
+					} else {
+						resultado[0] = null;
+					}
+					if ((posicao + 1) >= array.length) {
+						resultado[1] = null;
+					} else {
+						resultado[1] = array[i + 1];
+					}
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public String[] antecessorSucessorPor(String[] array, String valor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String[] resultado = new String[2];
+
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].equals(valor)) {
+				if (i > 0) {
+					resultado[0] = array[i - 1];
+				} else {
+					resultado[0] = null;
+				}
+				if (i < array.length && i < array.length - 1) {
+					resultado[1] = array[i + 1];
+				} else {
+					resultado[1] = null;
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
@@ -223,8 +259,20 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[] primeiraUltimaMediaPosicaoArray(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[] vetor = new int[3];
+		int soma = 0;
+
+		vetor[0] = 0;
+		vetor[1] = limite;
+
+		for (int i = 0; i <= limite; i++) {
+			soma = soma + i;
+		}
+
+		vetor[2] = soma / limite;
+
+		return vetor;
 	}
 
 	@Override
@@ -605,9 +653,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer somarValoresPosicoesParesMultiplosDe(Integer limite, Integer multiplo) {
-		
-		//questionar sobre exercício 
-		
+				
 		Integer soma = 0;
 
 		if (multiplo == 0){
@@ -617,7 +663,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		for (int i = 0; i <= limite; i++){
 			if (validaParOuImpar(i)){
 				if (i % multiplo == 0){
-					soma += i;
+					soma = soma + (i * multiplo);
 				}
 			}
 		}
