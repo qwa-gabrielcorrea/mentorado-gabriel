@@ -35,8 +35,31 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[][] arrayMultidimensionalParesImparesPrimosResto(int[] array, int numeroDivisaoResto) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int aux = 0;
+		List<Integer> listaAuxiliar = new ArrayList<>();
+
+		for(int i = 0; i <= array.length; i++){
+			listaAuxiliar.add(i);
+			aux++;
+		}
+
+		int[][] matriz = new int[4][aux];
+
+		for (int i = 0; i < aux; i++) {
+			for(int j = 0; j <= 4; j++){
+			if (validador.validaParOuImpar(listaAuxiliar.get(i))) {
+				matriz[i][0] = listaAuxiliar.get(i);
+			} else {
+				matriz[i][1] = listaAuxiliar.get(i);
+			}
+			if (validador.validaPrimo(listaAuxiliar.get(i))) {
+				matriz[i][2] = listaAuxiliar.get(i);
+			}
+			matriz[i][3] = (listaAuxiliar.get(i) % numeroDivisaoResto);
+
+			}
+		}
 	}
 
 	@Override
