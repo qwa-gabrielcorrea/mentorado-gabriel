@@ -617,7 +617,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		for (int i = 0; i <= limite; i++){
 			if (validaParOuImpar(i)){
 				if (i % multiplo == 0){
-					soma += i;
+					soma = soma + (i * multiplo);
 				}
 			}
 		}
