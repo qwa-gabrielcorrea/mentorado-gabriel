@@ -223,8 +223,20 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public int[] primeiraUltimaMediaPosicaoArray(Integer limite) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[] vetor = new int[3];
+		int soma = 0;
+
+		vetor[0] = 0;
+		vetor[1] = limite;
+
+		for (int i = 0; i <= limite; i++) {
+			soma = soma + i;
+		}
+
+		vetor[2] = soma / limite;
+
+		return vetor;
 	}
 
 	@Override
@@ -605,9 +617,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Integer somarValoresPosicoesParesMultiplosDe(Integer limite, Integer multiplo) {
-		
-		//questionar sobre exercício 
-		
+				
 		Integer soma = 0;
 
 		if (multiplo == 0){
