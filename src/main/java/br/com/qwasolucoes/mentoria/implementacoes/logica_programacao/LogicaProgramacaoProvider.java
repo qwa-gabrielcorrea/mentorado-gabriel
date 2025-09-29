@@ -62,15 +62,15 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 					if ((posicao - 1) > 0) {
 						resultado[0] = array[i - 1];
 					} else {
-						resultado[0] = null;
+						resultado[0] = "";
 					}
 					if ((posicao + 1) >= array.length) {
-						resultado[1] = null;
+						resultado[1] = "";
 					} else {
 						resultado[1] = array[i + 1];
 					}
 				}
-			}
+			} 
 		}
 
 		return resultado;
@@ -83,15 +83,16 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 		for (int i = 0; i < array.length; i++) {
 			if (array[i].equals(valor)) {
+				resultado = new String[2];
 				if (i > 0) {
 					resultado[0] = array[i - 1];
 				} else {
-					resultado[0] = null;
+					resultado[0] = "";
 				}
 				if (i < array.length && i < array.length - 1) {
 					resultado[1] = array[i + 1];
 				} else {
-					resultado[1] = null;
+					resultado[1] = "";
 				}
 			}
 		}
@@ -270,7 +271,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			soma = soma + i;
 		}
 
-		vetor[2] = soma / limite;
+		vetor[2] = soma / (limite + 1);
 
 		return vetor;
 	}
@@ -662,9 +663,9 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 		for (int i = 0; i <= limite; i++){
 			if (validaParOuImpar(i)){
-				if (i % multiplo == 0){
+				// if (i % multiplo == 0){
 					soma = soma + (i * multiplo);
-				}
+				// }
 			}
 		}
 
