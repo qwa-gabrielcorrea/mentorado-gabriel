@@ -293,15 +293,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		int[] vetor = new int[3];
 		int soma = 0;
+		int aux = 0;
 
 		vetor[0] = 0;
 		vetor[1] = limite;
 
 		for (int i = 0; i <= limite; i++) {
 			soma = soma + i;
+			aux++;
 		}
 
-		vetor[2] = soma / (limite + 1);
+		vetor[2] = soma / aux;
 
 		return vetor;
 	}
