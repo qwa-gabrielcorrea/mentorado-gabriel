@@ -81,23 +81,24 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public String[] antecessorSucessorPor(String[] array, int posicao) {
 		
-		String[] resultado = new String[2];
+		String[] resultado = new String[0];
 
-		for (int i = 0; i <= array.length; i++) {
-			if (posicao >= 0 && posicao <= array.length) {
-				if (i == posicao) {
-					if ((posicao - 1) > 0) {
+		if (array.length > 0) {
+			resultado = new String[2];
+			for (int i = 0; i < array.length; i++) {
+				if (posicao == i) {
+					if (posicao > 0) {
 						resultado[0] = array[i - 1];
+						resultado[1] = array[i + 1];
 					} else {
 						resultado[0] = "";
 					}
 					if ((posicao + 1) >= array.length) {
 						resultado[1] = "";
-					} else {
-						resultado[1] = array[i + 1];
 					}
+
 				}
-			} 
+			}
 		}
 
 		return resultado;
