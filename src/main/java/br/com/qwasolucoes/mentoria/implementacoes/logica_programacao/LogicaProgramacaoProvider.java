@@ -74,8 +74,34 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public String[] arrayMultidimensionalPorValor(String[][] arrayMultidimensional, String valor) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String[] resultado = new String[0];
+
+		if (arrayMultidimensional.length > 0) {
+			resultado = new String[4];
+
+			for (int i = 0; i < arrayMultidimensional.length; i++) {
+				for (int j = 0; j < arrayMultidimensional[i].length; j++) {
+
+					int antecessor = j - 1;
+					int sucessor = j + 1;
+					int acima = i - 1;
+					int abaixo = i + 1;
+
+					if (valor.equals(arrayMultidimensional[i][j])) {
+
+						resultado[0] = arrayMultidimensional[i][antecessor]; // antecessor
+						resultado[1] = arrayMultidimensional[i][sucessor]; // sucessor
+						resultado[2] = arrayMultidimensional[acima][j]; // acima
+						resultado[3] = arrayMultidimensional[abaixo][j]; // abaixo
+
+					}
+
+				}
+			}
+
+		}
+		return resultado;
 	}
 
 	@Override
