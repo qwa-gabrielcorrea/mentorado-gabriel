@@ -342,7 +342,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		int[] vetor = new int[3];
 		int soma = 0;
-		int aux = 0;
+		int aux = 1;
 
 		vetor[0] = 0;
 		vetor[1] = limite;
