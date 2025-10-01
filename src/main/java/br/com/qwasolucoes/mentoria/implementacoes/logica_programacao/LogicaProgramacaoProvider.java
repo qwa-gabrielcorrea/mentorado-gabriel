@@ -1,7 +1,14 @@
 package br.com.qwasolucoes.mentoria.implementacoes.logica_programacao;
 
+
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.qwasolucoes.mentoria.interfaces.logica_programacao.LogicaProgramacao;
@@ -23,14 +30,80 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Funcionario conversaoArrayParaPessoa(String[] array) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Funcionario employee = new Funcionario();
+
+		try {
+
+			Date dataNascimento = converteStringParaData(array[2]);
+			int idade = caculaIdade(dataNascimento);
+			boolean maioridade = calculaMaioridade(idade);
+			BigDecimal salario = converteStringParaBigDecimal(array[7]);
+			BigDecimal taxa = calculaTaxa(idade);
+			BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
+
+			employee.setNome(array[0]);
+			employee.setSobrenome(array[1]);
+			employee.setDataNascimento(dataNascimento);
+			employee.setIdade(idade);
+			employee.setSexo(array[3]);
+			employee.setProfissao(array[4]);
+			employee.setCpfCnpj(array[5]);
+			employee.setEscolaridade(array[6]);
+			employee.setSalario(salario);
+			employee.setMaiorIdade(maioridade);
+			employee.setTaxa(taxa);
+			employee.setSalarioLiquido(salarioLiquido);
+
+		} catch (ParseException e) {
+			e.getMessage();
+		}
+
+		System.out.println(employee);
+
+		return employee;
 	}
 
 	@Override
 	public List<Funcionario> conversaoArrayMultidimensionalParaPessoa(String[][] arrayMultidimensional) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Funcionario> employeeList = new ArrayList<>();
+
+		for (int i = 0; i < arrayMultidimensional.length; i++) {
+
+			Funcionario employee = new Funcionario();
+
+			try {
+
+				Date dataNascimento = converteStringParaData(arrayMultidimensional[i][2]);
+				BigDecimal salario = converteStringParaBigDecimal(arrayMultidimensional[i][7]);
+				int idade = caculaIdade(dataNascimento);
+				BigDecimal taxa = calculaTaxa(idade);
+				BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
+				boolean maioridade = calculaMaioridade(idade);
+
+				employee.setNome(arrayMultidimensional[i][0]);
+				employee.setSobrenome(arrayMultidimensional[i][1]);
+				employee.setDataNascimento(dataNascimento);
+				employee.setSexo(arrayMultidimensional[i][3]);
+				employee.setProfissao(arrayMultidimensional[i][4]);
+				employee.setCpfCnpj(arrayMultidimensional[i][5]);
+				employee.setEscolaridade(arrayMultidimensional[i][6]);
+				employee.setSalario(salario);
+				employee.setIdade(idade);
+				employee.setTaxa(taxa);
+				employee.setSalarioLiquido(salarioLiquido);
+				employee.setMaiorIdade(maioridade);
+
+			} catch (ParseException e) {
+				e.getMessage();
+			}
+
+			employeeList.add(employee);
+		}
+
+		return employeeList;
+
 	}
 
 	@Override
@@ -68,8 +141,36 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public String[] arrayMultidimensionalPorPosicoes(String[][] arrayMultidimensional, int coluna, int linha) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String[] resultado = new String[0];
+
+		if (arrayMultidimensional.length > 0) {
+			resultado = new String[4];
+
+			for (int i = 0; i < arrayMultidimensional.length; i++) {
+				for (int j = 0; j < arrayMultidimensional[i].length; j++) {
+
+					int antecessor = j - 1;
+					int sucessor = j + 1;
+					int acima = i - 1;
+					int abaixo = i + 1;
+
+					if (linha == i && coluna == j) {
+
+						if (j < 0) {
+							resultado[0] = "";
+						}
+
+						resultado[0] = arrayMultidimensional[i][antecessor]; // antecessor
+						resultado[1] = arrayMultidimensional[i][sucessor]; // sucessor
+						resultado[2] = arrayMultidimensional[acima][j]; // acima
+						resultado[3] = arrayMultidimensional[abaixo][j]; // abaixo
+
+					}
+				}
+			}
+		}
+		return resultado;
 	}
 
 	@Override
@@ -110,19 +211,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		String[] resultado = new String[0];
 
 		if (array.length > 0) {
-			resultado = new String[2];
-			for (int i = 0; i < array.length; i++) {
-				if (posicao == i) {
-					if (posicao > 0) {
-						resultado[0] = array[i - 1];
-						resultado[1] = array[i + 1];
-					} else {
-						resultado[0] = "";
-					}
-					if ((posicao + 1) >= array.length) {
-						resultado[1] = "";
-					}
 
+			resultado = new String[2];
+
+			for (int i = 0; i < array.length; i++) {
+
+				int antecessor = i - 1;
+				int sucessor = i + 1;
+
+				if (posicao == i) {
+					resultado[0] = array[antecessor];
+					resultado[1] = array[sucessor];
 				}
 			}
 		}
@@ -135,22 +234,19 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		String[] resultado = new String[0];
 
-		if (array.length > 0){
+		if (array.length > 0) {
 			resultado = new String[2];
 			for (int i = 0; i < array.length; i++) {
+
+				int antecessor = i - 1;
+				int sucessor = i + 1;
+
 				if (array[i].equals(valor)) {
-					if (i > 0) {
-						resultado[0] = array[i - 1];
-					} else {
-						resultado[0] = "";
-					}
-					if (i < array.length && i < array.length - 1) {
-						resultado[1] = array[i + 1];
-					} else {
-						resultado[1] = "";
-					}
+					
+					resultado[0] = array[antecessor];
+					resultado[1] = array[sucessor];
 				}
-		 	}
+			}
 		}
 
 		return resultado;
@@ -319,7 +415,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		int[] vetor = new int[3];
 		int soma = 0;
-		int aux = 0;
+		int aux = 1;
 
 		vetor[0] = 0;
 		vetor[1] = limite;
@@ -917,5 +1013,66 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 		return true;
 	}
+
+	public Integer caculaIdade (Date dataNascimento){
+
+       return Period.between(dataNascimento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+
+    }
+    
+    public boolean calculaMaioridade (Integer idade){
+
+        if(idade >= 18){
+            return true;
+        }
+
+        return false;
+    }
+
+    public BigDecimal calculaTaxa (Integer idade){
+
+        BigDecimal taxa;
+
+        if(idade < 18){
+            taxa = new BigDecimal(0.2);
+        } else if (idade >= 18 && idade < 24){
+            taxa = new BigDecimal(0.15);
+        } else if (idade >= 24 && idade < 32){
+            taxa = new BigDecimal(0.10);
+        } else if (idade >= 32 && idade < 50){
+            taxa = new BigDecimal(0.05);
+        } else {
+            taxa = new BigDecimal(0.01);
+        }
+
+        return taxa;
+    }
+
+    public BigDecimal calculaSalarioLiquido (BigDecimal salarioBruto, BigDecimal taxa, Integer idade){
+
+        BigDecimal salarioLiquido;
+
+        salarioLiquido = (salarioBruto.subtract(salarioBruto.multiply(taxa)));
+
+        return salarioLiquido;
+    }
+
+    public Date converteStringParaData (String dataNascimento) throws ParseException{
+
+        Date dataFormatada;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+        dataFormatada = sdf.parse(dataNascimento);
+
+        return dataFormatada; 
+    }
+
+    public BigDecimal converteStringParaBigDecimal (String salario){
+
+        BigDecimal salarioFormatado = new BigDecimal(salario); 
+
+        return salarioFormatado;
+
+    }
 
 }
