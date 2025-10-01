@@ -68,8 +68,36 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public String[] arrayMultidimensionalPorPosicoes(String[][] arrayMultidimensional, int coluna, int linha) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String[] resultado = new String[0];
+
+		if (arrayMultidimensional.length > 0) {
+			resultado = new String[4];
+
+			for (int i = 0; i < arrayMultidimensional.length; i++) {
+				for (int j = 0; j < arrayMultidimensional[i].length; j++) {
+
+					int antecessor = j - 1;
+					int sucessor = j + 1;
+					int acima = i - 1;
+					int abaixo = i + 1;
+
+					if (linha == i && coluna == j) {
+
+						if (j < 0) {
+							resultado[0] = "";
+						}
+
+						resultado[0] = arrayMultidimensional[i][antecessor]; // antecessor
+						resultado[1] = arrayMultidimensional[i][sucessor]; // sucessor
+						resultado[2] = arrayMultidimensional[acima][j]; // acima
+						resultado[3] = arrayMultidimensional[abaixo][j]; // abaixo
+
+					}
+				}
+			}
+		}
+		return resultado;
 	}
 
 	@Override
@@ -110,19 +138,17 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		String[] resultado = new String[0];
 
 		if (array.length > 0) {
-			resultado = new String[2];
-			for (int i = 0; i < array.length; i++) {
-				if (posicao == i) {
-					if (posicao > 0) {
-						resultado[0] = array[i - 1];
-						resultado[1] = array[i + 1];
-					} else {
-						resultado[0] = "";
-					}
-					if ((posicao + 1) >= array.length) {
-						resultado[1] = "";
-					}
 
+			resultado = new String[2];
+
+			for (int i = 0; i < array.length; i++) {
+
+				int antecessor = i - 1;
+				int sucessor = i + 1;
+
+				if (posicao == i) {
+					resultado[0] = array[antecessor];
+					resultado[1] = array[sucessor];
 				}
 			}
 		}
@@ -135,22 +161,19 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		String[] resultado = new String[0];
 
-		if (array.length > 0){
+		if (array.length > 0) {
 			resultado = new String[2];
 			for (int i = 0; i < array.length; i++) {
+
+				int antecessor = i - 1;
+				int sucessor = i + 1;
+
 				if (array[i].equals(valor)) {
-					if (i > 0) {
-						resultado[0] = array[i - 1];
-					} else {
-						resultado[0] = "";
-					}
-					if (i < array.length && i < array.length - 1) {
-						resultado[1] = array[i + 1];
-					} else {
-						resultado[1] = "";
-					}
+					
+					resultado[0] = array[antecessor];
+					resultado[1] = array[sucessor];
 				}
-		 	}
+			}
 		}
 
 		return resultado;
