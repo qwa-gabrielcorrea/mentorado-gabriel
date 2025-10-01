@@ -32,16 +32,15 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	public Funcionario conversaoArrayParaPessoa(String[] array) {
 		
 		Funcionario employee = new Funcionario();
-		ClassesAuxiliares auxiliar = new ClassesAuxiliares();
 
 		try {
 
-			Date dataNascimento = auxiliar.converteStringParaData(array[2]);
-			int idade = auxiliar.caculaIdade(dataNascimento);
-			boolean maioridade = auxiliar.calculaMaioridade(idade);
-			BigDecimal salario = auxiliar.converteStringParaBigDecimal(array[7]);
-			BigDecimal taxa = auxiliar.calculaTaxa(idade);
-			BigDecimal salarioLiquido = auxiliar.calculaSalarioLiquido(salario, taxa, idade);
+			Date dataNascimento = converteStringParaData(array[2]);
+			int idade = caculaIdade(dataNascimento);
+			boolean maioridade = calculaMaioridade(idade);
+			BigDecimal salario = converteStringParaBigDecimal(array[7]);
+			BigDecimal taxa = calculaTaxa(idade);
+			BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
 
 			employee.setNome(array[0]);
 			employee.setSobrenome(array[1]);
