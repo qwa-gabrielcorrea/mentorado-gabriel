@@ -1062,7 +1062,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
         Date dataFormatada;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         dataFormatada = sdf.parse(dataNascimento);
 
         return dataFormatada; 
