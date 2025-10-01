@@ -1053,7 +1053,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
         BigDecimal salarioLiquido;
 
-        salarioLiquido = (salarioBruto - (salarioBruto.multiply(taxa)));
+        salarioLiquido = (salarioBruto.subtract(salarioBruto.multiply(taxa)));
 
         return salarioLiquido;
     }
