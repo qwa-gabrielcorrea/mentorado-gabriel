@@ -37,10 +37,11 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	@Override
 	public List<Funcionario> conversaoArrayMultidimensionalParaPessoa(String[][] arrayMultidimensional) {
 		
-		Funcionario employee = new Funcionario();
 		List<Funcionario> employeeList = new ArrayList<>();
 
 		for (int i = 0; i < arrayMultidimensional.length; i++) {
+
+			Funcionario employee = new Funcionario();
 
 			try {
 
@@ -1021,7 +1022,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
         BigDecimal salarioLiquido;
 
-        salarioLiquido = salarioBruto.multiply(taxa);
+        salarioLiquido = (salarioBruto - (salarioBruto.multiply(taxa)));
 
         return salarioLiquido;
     }
