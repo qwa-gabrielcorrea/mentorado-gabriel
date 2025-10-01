@@ -30,8 +30,39 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public Funcionario conversaoArrayParaPessoa(String[] array) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Funcionario employee = new Funcionario();
+		ClassesAuxiliares auxiliar = new ClassesAuxiliares();
+
+		try {
+
+			Date dataNascimento = auxiliar.converteStringParaData(array[2]);
+			int idade = auxiliar.caculaIdade(dataNascimento);
+			boolean maioridade = auxiliar.calculaMaioridade(idade);
+			BigDecimal salario = auxiliar.converteStringParaBigDecimal(array[7]);
+			BigDecimal taxa = auxiliar.calculaTaxa(idade);
+			BigDecimal salarioLiquido = auxiliar.calculaSalarioLiquido(salario, taxa, idade);
+
+			employee.setNome(array[0]);
+			employee.setSobrenome(array[1]);
+			employee.setDataNascimento(dataNascimento);
+			employee.setIdade(idade);
+			employee.setSexo(array[3]);
+			employee.setProfissao(array[4]);
+			employee.setCpfCnpj(array[5]);
+			employee.setEscolaridade(array[6]);
+			employee.setSalario(salario);
+			employee.setMaiorIdade(maioridade);
+			employee.setTaxa(taxa);
+			employee.setSalarioLiquido(salarioLiquido);
+
+		} catch (ParseException e) {
+			e.getMessage();
+		}
+
+		System.out.println(employee);
+
+		return employee;
 	}
 
 	@Override
