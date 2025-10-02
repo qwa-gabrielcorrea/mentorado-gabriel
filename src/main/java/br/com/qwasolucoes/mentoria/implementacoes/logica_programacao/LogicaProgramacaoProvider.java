@@ -18,8 +18,64 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<Funcionario> conversaoStringParaPessoa(List<String> lista) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Funcionario> employeeList = new ArrayList<>();
+		Funcionario employee = new Funcionario();
+
+		try {
+
+			for (int i = 0; i <= lista.size(); i++) {
+
+				if (lista.get(i) != null) {
+
+					Date dataNascimento = converteStringParaData(lista.get(2));
+					int idade = caculaIdade(dataNascimento);
+					boolean maioridade = calculaMaioridade(idade);
+					BigDecimal salario = converteStringParaBigDecimal(lista.get(7));
+					BigDecimal taxa = calculaTaxa(idade);
+					BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
+
+					employee.setNome(lista.get(0));
+					employee.setSobrenome(lista.get(1));
+					employee.setDataNascimento(dataNascimento);
+					employee.setIdade(idade);
+					employee.setSexo(lista.get(3));
+					employee.setProfissao(lista.get(4));
+					employee.setCpfCnpj(lista.get(5));
+					employee.setEscolaridade(lista.get(6));
+					employee.setSalario(salario);
+					employee.setMaiorIdade(maioridade);
+					employee.setTaxa(taxa);
+					employee.setSalarioLiquido(salarioLiquido);
+
+				}
+
+			}
+
+		} catch (ParseException e) {
+			e.getMessage();
+		}
+
+		char[] nome = new char[20];
+		String employeeName = employee.getNome();
+		char[] sobrenome = new char[20];
+		String employeeSobrenome = employee.getSobrenome();
+
+		employeeName.getChars(0, employeeName.length(), nome, 0);
+
+		for (int i = 0; i <= employeeName.length(); i++){
+			nome[i] = ' ';
+		}
+		
+		System.out.println(nome);
+		System.out.println(nome.length);
+
+		for (Funcionario employeeString : employeeList){
+			// employeeString = nome + sobrenome;
+			employeeList.add(employeeString);
+		}
+
+		return employeeList;
 	}
 
 	@Override
@@ -144,7 +200,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		String[] resultado = new String[0];
 
-		if (arrayMultidimensional.length > 0) {
+		if (arrayMultidimensional.length > 0 && linha <= arrayMultidimensional.length) {
 			resultado = new String[4];
 
 			for (int i = 0; i < arrayMultidimensional.length; i++) {
@@ -156,10 +212,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 					int abaixo = i + 1;
 
 					if (linha == i && coluna == j) {
-
-						if (j < 0) {
-							resultado[0] = "";
-						}
 
 						resultado[0] = arrayMultidimensional[i][antecessor]; // antecessor
 						resultado[1] = arrayMultidimensional[i][sucessor]; // sucessor
