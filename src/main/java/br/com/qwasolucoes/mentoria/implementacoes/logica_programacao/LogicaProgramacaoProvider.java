@@ -213,10 +213,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 					if (linha == i && coluna == j) {
 
-						if (j < 0) {
-							resultado[0] = "";
-						}
-
 						resultado[0] = arrayMultidimensional[i][antecessor]; // antecessor
 						resultado[1] = arrayMultidimensional[i][sucessor]; // sucessor
 						resultado[2] = arrayMultidimensional[acima][j]; // acima
