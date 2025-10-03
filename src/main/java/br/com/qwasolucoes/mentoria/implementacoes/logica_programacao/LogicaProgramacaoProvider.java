@@ -283,7 +283,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		
 		String[] resultado = new String[0];
 
-		if (arrayMultidimensional.length > 0 && linha <= arrayMultidimensional.length) {
+		if (arrayMultidimensional.length > 0 && linha <= arrayMultidimensional.length  && coluna <= arrayMultidimensional.length) {
 			resultado = new String[4];
 
 			for (int i = 0; i < arrayMultidimensional.length; i++) {
