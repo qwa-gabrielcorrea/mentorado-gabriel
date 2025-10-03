@@ -80,8 +80,117 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 	@Override
 	public List<String> conversaoPessoaParaString(List<Funcionario> pessoas) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		StringBuilder employee = new StringBuilder();
+		List<String> employeeStringList = new ArrayList<>();
+
+		for (Funcionario pessoa : pessoas) {
+
+			// -------------------------------------- NOME -------------------------------------- //
+			employee.append(pessoa.getNome());
+
+			while (employee.length() < 19) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 19) {
+				employee.delete(19, employee.length());
+			}
+
+			// -------------------------------------- SOBRENOME -------------------------------------- //
+			employee.append(pessoa.getSobrenome());
+
+			while (employee.length() < 39) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 39) {
+				employee.delete(39, employee.length());
+			}
+			
+			// -------------------------------------- NASCIMENTO -------------------------------------- //
+			String dataFmt = "";
+			
+			try {
+				dataFmt = formataData(pessoa.getDataNascimento());
+			} catch (ParseException e){
+				e.getMessage();
+			}
+			employee.append(dataFmt);
+
+			while (employee.length() < 47) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 47) {
+				employee.delete(47, employee.length());
+			}
+
+			// -------------------------------------- SEXO -------------------------------------- //
+			employee.append(pessoa.getSexo());
+
+			while (employee.length() < 48) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 48) {
+				employee.delete(48, employee.length());
+			}
+
+			// -------------------------------------- PROFISSÃO -------------------------------------- //
+			employee.append(pessoa.getProfissao());
+
+			while (employee.length() < 88) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 88) {
+				employee.delete(88, employee.length());
+			}
+
+			// -------------------------------------- CPF/CNPJ -------------------------------------- //
+			employee.append(pessoa.getCpfCnpj());
+
+			while (employee.length() < 102) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 102) {
+				employee.delete(102, employee.length());
+			}
+
+			// -------------------------------------- ESCOLARIDADE -------------------------------------- //
+			employee.append(pessoa.getEscolaridade());
+
+			while (employee.length() < 142) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 142) {
+				employee.delete(142, employee.length());
+			}
+
+			// -------------------------------------- SALARIO -------------------------------------- //
+			employee.append(pessoa.getSalario());
+
+			while (employee.length() < 152) {
+				employee.append("*");
+			}
+
+			if (employee.length() > 152) {
+				employee.delete(152, employee.length());
+			}			
+
+			employeeStringList.add(employee.toString());
+
+		}
+
+		for (String func : employeeStringList){
+			System.out.println(func);
+		}
+
+		return employeeStringList;
+
 	}
 
 	@Override
@@ -1124,6 +1233,15 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
         BigDecimal salarioFormatado = new BigDecimal(salario); 
 
         return salarioFormatado;
+
+    }
+
+	public String formataData (Date dataNascimento) throws ParseException{
+
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+        String dataFormatada = sdf.format(dataNascimento);
+
+        return dataFormatada;
 
     }
 
