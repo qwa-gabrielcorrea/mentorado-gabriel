@@ -20,59 +20,39 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 	public List<Funcionario> conversaoStringParaPessoa(List<String> lista) {
 		
 		List<Funcionario> employeeList = new ArrayList<>();
-		Funcionario employee = new Funcionario();
 
-		try {
+		for (String dado : lista) {
+			
+			Funcionario employee = new Funcionario();
 
-			for (int i = 0; i <= lista.size(); i++) {
+			Date dataNasc = null;
 
-				if (lista.get(i) != null) {
-
-					Date dataNascimento = converteStringParaData(lista.get(2));
-					int idade = caculaIdade(dataNascimento);
-					boolean maioridade = calculaMaioridade(idade);
-					BigDecimal salario = converteStringParaBigDecimal(lista.get(7));
-					BigDecimal taxa = calculaTaxa(idade);
-					BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
-
-					employee.setNome(lista.get(0));
-					employee.setSobrenome(lista.get(1));
-					employee.setDataNascimento(dataNascimento);
-					employee.setIdade(idade);
-					employee.setSexo(lista.get(3));
-					employee.setProfissao(lista.get(4));
-					employee.setCpfCnpj(lista.get(5));
-					employee.setEscolaridade(lista.get(6));
-					employee.setSalario(salario);
-					employee.setMaiorIdade(maioridade);
-					employee.setTaxa(taxa);
-					employee.setSalarioLiquido(salarioLiquido);
-
-				}
-
+			try {
+				dataNasc = converteStringParaData(dado.substring(39, 47).trim());
+			} catch (ParseException e) {
+				e.getMessage();
 			}
 
-		} catch (ParseException e) {
-			e.getMessage();
-		}
+			BigDecimal salario = converteStringParaBigDecimal(dado.substring(142, dado.length()).trim());
+			int idade = caculaIdade(dataNasc);
+			BigDecimal taxa = calculaTaxa(idade);
+			BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
+			boolean maioridade = calculaMaioridade(idade);
 
-		char[] nome = new char[20];
-		String employeeName = employee.getNome();
-		char[] sobrenome = new char[20];
-		String employeeSobrenome = employee.getSobrenome();
+			employee.setNome(dado.substring(0, 19).trim());
+			employee.setSobrenome(dado.substring(19, 39).trim());
+			employee.setDataNascimento(dataNasc);
+			employee.setSexo(dado.substring(47, 48).trim());
+			employee.setProfissao(dado.substring(48, 88).trim());
+			employee.setCpfCnpj(dado.substring(88, 102).trim());
+			employee.setEscolaridade(dado.substring(102, 142).trim());
+			employee.setSalario(salario);
+			employee.setIdade(idade);
+			employee.setTaxa(taxa);
+			employee.setSalarioLiquido(salarioLiquido);
+			employee.setMaiorIdade(maioridade);
 
-		employeeName.getChars(0, employeeName.length(), nome, 0);
-
-		for (int i = 0; i <= employeeName.length(); i++){
-			nome[i] = ' ';
-		}
-		
-		System.out.println(nome);
-		System.out.println(nome.length);
-
-		for (Funcionario employeeString : employeeList){
-			// employeeString = nome + sobrenome;
-			employeeList.add(employeeString);
+			employeeList.add(employee);
 		}
 
 		return employeeList;
@@ -90,7 +70,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(pessoa.getNome());
 
 			while (employee.length() < 19) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 19) {
@@ -101,7 +81,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(pessoa.getSobrenome());
 
 			while (employee.length() < 39) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 39) {
@@ -119,7 +99,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(dataFmt);
 
 			while (employee.length() < 47) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 47) {
@@ -130,7 +110,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(pessoa.getSexo());
 
 			while (employee.length() < 48) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 48) {
@@ -141,7 +121,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(pessoa.getProfissao());
 
 			while (employee.length() < 88) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 88) {
@@ -152,7 +132,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(pessoa.getCpfCnpj());
 
 			while (employee.length() < 102) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 102) {
@@ -163,7 +143,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(pessoa.getEscolaridade());
 
 			while (employee.length() < 142) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 142) {
@@ -174,7 +154,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			employee.append(pessoa.getSalario());
 
 			while (employee.length() < 152) {
-				employee.append("*");
+				employee.append(" ");
 			}
 
 			if (employee.length() > 152) {
@@ -183,10 +163,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 			employeeStringList.add(employee.toString());
 
-		}
-
-		for (String func : employeeStringList){
-			System.out.println(func);
 		}
 
 		return employeeStringList;
@@ -223,8 +199,6 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		} catch (ParseException e) {
 			e.getMessage();
 		}
-
-		System.out.println(employee);
 
 		return employee;
 	}
