@@ -19,7 +19,15 @@ public class RecursaoProvider implements Recursao{
 	@Override
 	public int recursaoFibonacci(int valor, int limite) {
 		 
-		return 0;
+		int auxiliar = valor;
+
+        if (valor >= 2) {
+            while (valor <= limite) {
+                auxiliar = recursaoFibonacci((valor - 1), limite) + recursaoFibonacci((valor - 2), limite);
+            }
+        }
+
+        return auxiliar;
 	}
 	
 	public int iterativoFibonacci(int valor) {
