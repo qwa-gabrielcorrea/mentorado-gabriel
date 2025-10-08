@@ -24,7 +24,21 @@ public class RecursaoProvider implements Recursao{
 	
 	public int iterativoFibonacci(int valor) {
 		 
-		return 0;
+		int antecessor = 0;
+        int preAntecessor;
+        int atual = 1;
+
+        if (valor == 0 || valor == 1) {
+            return valor;
+        } else {
+            for (int i = 2; i <= valor; i++) {
+                preAntecessor = antecessor; 
+                antecessor = atual;
+                atual = preAntecessor + antecessor;
+            }
+        }
+
+        return atual;
 	}
 
 }
