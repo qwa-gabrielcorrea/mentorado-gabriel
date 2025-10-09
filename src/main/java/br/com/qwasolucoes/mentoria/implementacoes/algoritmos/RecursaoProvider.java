@@ -36,14 +36,17 @@ public class RecursaoProvider implements Recursao{
         int penultimo;
         int atual = 1;
 
-        if (valor == 0 || valor == 1) {
-            return valor;
-        } else {
-            for (int i = 2; i <= valor; i++) {
-                penultimo = ultimo; 
-                ultimo = atual;
-                atual = penultimo + ultimo;
+        for (int i = 0; i <= valor; i++) {
+
+            if (valor == 0 || valor == 1) {
+                return valor;
             }
+            penultimo = ultimo;
+            ultimo = atual;
+            atual = penultimo + ultimo;
+
+            System.out.println(atual);
+
         }
 
         return atual;
