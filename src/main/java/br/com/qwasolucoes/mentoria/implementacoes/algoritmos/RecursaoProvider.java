@@ -6,14 +6,30 @@ public class RecursaoProvider implements Recursao{
 
 	@Override
 	public int recursao(int valor, int limite) {
-		 
-		return 0;
+		
+		if (valor == 0) {
+			return valor; 
+		}
+		
+		if (valor >= limite){
+			return limite;
+		}
+
+        int aux = valor + 1;
+
+        return recursao(aux, limite);
 	}
 
 	@Override
 	public int recursaoSoma(int valor, int limite) {
 		 
-		return 0;
+		if (valor >= limite){
+            return limite;
+        }
+
+        int n = valor + valor - 1;
+
+        return recursao(n, limite);
 	}
 
 	@Override
