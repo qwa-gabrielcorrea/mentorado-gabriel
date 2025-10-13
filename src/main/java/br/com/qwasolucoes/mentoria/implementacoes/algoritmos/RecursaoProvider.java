@@ -34,35 +34,33 @@ public class RecursaoProvider implements Recursao{
 
 	@Override
 	public int recursaoFibonacci(int valor, int limite) {
-
-		int numAtual = valor;
-        
-        if (valor == 0 || valor == 1) {
-            return valor;
+		
+        if (valor > limite) {
+            return 0;
         }
 
-        if (numAtual >= limite){
-            return valor;
-        }
-
-        numAtual = (valor - 1) + (valor -2);
-
-        return recursaoFibonacci(numAtual, limite);
+        return valor + recursaoFibonacci(valor + 1, limite - 1);
 	}
 	
 	public int iterativoFibonacci(int valor) {
 
 		int numAtual = 0; 
         int ultimo = 1; 
-        int penultimo = 0;
+        int penultimo; 
 
-        for (int i = 0; i <= valor; i++){
-            numAtual = ultimo + penultimo;
-            penultimo = ultimo; 
-            ultimo = numAtual;
+        if (valor <= 0) {
+            return 0;
+        } else if (valor == 1){
+            return numAtual;
         }
 
-        return numAtual;
+        for (int i = 2; i < valor; i ++){
+            penultimo = numAtual + ultimo;
+            numAtual = ultimo; 
+            ultimo = penultimo;
+        }
+
+        return ultimo;
 	}
 
 }
