@@ -25,7 +25,28 @@ public class OrdenacaoProvider implements Ordenacao {
 	@Override
 	public int[] bubbleSort(int[] elementos) {
 		 
-		return null;
+		int aux = elementos.length;
+        boolean troca;
+
+        for (int i = 0; i < aux - 1; i++) {
+            troca = false;
+            for (int j = 0; j < aux - 1; j++) {
+
+                if (elementos[j] > elementos[j + 1]) {
+
+                    int var = elementos[j];
+                    elementos[j] = elementos[j + 1];
+                    elementos[j + 1] = var;
+                    troca = true;
+                }
+            }
+
+            if (!troca) {
+                break;
+            }
+        }
+
+        return elementos;
 	}
 
 	@Override
