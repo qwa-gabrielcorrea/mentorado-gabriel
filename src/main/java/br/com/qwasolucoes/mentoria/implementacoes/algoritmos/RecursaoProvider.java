@@ -7,29 +7,22 @@ public class RecursaoProvider implements Recursao{
 	@Override
 	public int recursao(int valor, int limite) {
 		
-		if (valor == 0) {
-			return valor; 
-		}
-		
-		if (valor >= limite){
-			return limite;
-		}
-
-        int aux = valor + 1;
-
-        return recursao(aux, limite);
+		if (valor == limite){
+            return valor;
+        }
+        
+        return recursao(valor + 1, limite);
 	}
 
 	@Override
 	public int recursaoSoma(int valor, int limite) {
-		 
-		if (valor >= limite){
-            return limite;
+
+        int resultado = valor;
+        if (valor >= limite){
+            return resultado;
         }
-
-        int n = valor + valor - 1;
-
-        return recursao(n, limite);
+        
+        return recursaoSoma(resultado + valor, limite); 
 	}
 
 	@Override
@@ -39,7 +32,7 @@ public class RecursaoProvider implements Recursao{
             return 0;
         }
 
-        return valor + recursaoFibonacci(valor + 1, limite - 1);
+        return valor + recursaoFibonacci(valor + 1, limite);
 	}
 	
 	public int iterativoFibonacci(int valor) {
