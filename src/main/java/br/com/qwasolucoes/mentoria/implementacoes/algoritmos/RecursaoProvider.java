@@ -7,22 +7,21 @@ public class RecursaoProvider implements Recursao{
 	@Override
 	public int recursao(int valor, int limite) {
 		
-		if (valor == limite){
+        if (valor == limite){
             return valor;
         }
         
-        return recursao(valor + 1, limite);
+        return recursao(valor, limite - 1);
 	}
 
 	@Override
 	public int recursaoSoma(int valor, int limite) {
 
-        int resultado = valor;
-        if (valor >= limite){
-            return resultado;
+        if (limite == valor){
+            return valor;
         }
         
-        return recursaoSoma(resultado + valor, limite); 
+        return recursaoSoma(valor, limite - 1) + limite;
 	}
 
 	@Override
