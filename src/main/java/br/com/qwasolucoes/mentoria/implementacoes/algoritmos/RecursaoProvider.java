@@ -6,25 +6,51 @@ public class RecursaoProvider implements Recursao{
 
 	@Override
 	public int recursao(int valor, int limite) {
-		 
-		return 0;
+		
+        if (valor == limite){
+            return valor;
+        }
+        
+        return recursao(valor, limite - 1);
 	}
 
 	@Override
 	public int recursaoSoma(int valor, int limite) {
-		 
-		return 0;
+
+        if (limite == valor){
+            return valor;
+        }
+        
+        return recursaoSoma(valor, limite - 1) + limite;
 	}
 
 	@Override
 	public int recursaoFibonacci(int valor, int limite) {
-		 
-		return 0;
+		
+        if (valor > limite) {
+            return 1;
+        }
+
+        return valor + recursaoFibonacci(valor + 1, limite);
 	}
 	
 	public int iterativoFibonacci(int valor) {
-		 
-		return 0;
+
+		int numAtual = 0; 
+        int ultimo = 1; 
+        int penultimo; 
+
+        if (valor <= 1) {
+            return valor;
+        }
+
+        for (int i = 2; i < valor; i ++){
+            penultimo = numAtual + ultimo;
+            numAtual = ultimo; 
+            ultimo = penultimo;
+        }
+
+        return ultimo;
 	}
 
 }
