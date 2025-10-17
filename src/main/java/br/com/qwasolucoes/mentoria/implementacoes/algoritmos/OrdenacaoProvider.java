@@ -6,8 +6,10 @@ public class OrdenacaoProvider implements Ordenacao {
 
 	@Override
 	public int[] ordenar(int[] elementos) {
+
+		bubbleSort(elementos);
 		 
-		return null;
+		return elementos;
 	}
 
 	@Override
