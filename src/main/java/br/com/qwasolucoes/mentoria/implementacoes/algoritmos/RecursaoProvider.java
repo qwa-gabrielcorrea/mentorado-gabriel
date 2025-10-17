@@ -28,7 +28,7 @@ public class RecursaoProvider implements Recursao{
 	public int recursaoFibonacci(int valor, int limite) {
 		
         if (valor > limite) {
-            return 1;
+            return valor;
         }
 
         return valor + recursaoFibonacci(valor + 1, limite);
@@ -36,21 +36,28 @@ public class RecursaoProvider implements Recursao{
 	
 	public int iterativoFibonacci(int valor) {
 
-		int numAtual = 0; 
-        int ultimo = 1; 
-        int penultimo; 
-
-        if (valor <= 1) {
-            return valor;
+		if (valor <= 0) {
+            return 0;
+        }
+        if (valor == 1) {
+            return 1;
         }
 
-        for (int i = 2; i < valor; i ++){
-            penultimo = numAtual + ultimo;
-            numAtual = ultimo; 
-            ultimo = penultimo;
+        int posicao = 2;
+        int numAtual;
+        int anterior = 1;
+        int penultimo = 0;
+
+        while (posicao < valor) {
+
+            numAtual = anterior + penultimo;
+            penultimo = anterior;
+            anterior = numAtual;
+            posicao++;
         }
 
-        return ultimo;
+        return anterior;
+
 	}
 
 }
