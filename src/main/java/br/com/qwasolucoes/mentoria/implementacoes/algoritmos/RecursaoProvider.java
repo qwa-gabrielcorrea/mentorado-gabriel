@@ -6,12 +6,12 @@ public class RecursaoProvider implements Recursao{
 
 	@Override
 	public int recursao(int valor, int limite) {
-		
-        if (valor == limite){
+
+        if (valor >= limite) {
             return valor;
         }
-        
-        return recursao(valor, limite - 1);
+
+        return limite + recursaoSoma(valor, limite - 1);
 	}
 
 	@Override
