@@ -46,7 +46,7 @@ public class RecursaoProvider implements Recursao{
         int posicao = 2;
         int numAtual;
         int anterior = 1;
-        int penultimo = 0;
+        int penultimo = 1;
 
         while (posicao < valor) {
 
