@@ -6,22 +6,22 @@ public class RecursaoProvider implements Recursao{
 
 	@Override
 	public int recursao(int valor, int limite) {
-		
-        if (valor == limite){
+
+        if (valor >= limite) {
             return valor;
         }
-        
-        return recursao(valor, limite - 1);
+
+        return limite + recursaoSoma(valor, limite - 1);
 	}
 
 	@Override
 	public int recursaoSoma(int valor, int limite) {
 
-        if (limite == valor){
+        if (valor >= limite) {
             return valor;
         }
         
-        return recursaoSoma(valor, limite - 1) + limite;
+        return valor + recursaoSoma(valor + 1, limite);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class RecursaoProvider implements Recursao{
         int posicao = 2;
         int numAtual;
         int anterior = 1;
-        int penultimo = 0;
+        int penultimo = 1;
 
         while (posicao < valor) {
 
