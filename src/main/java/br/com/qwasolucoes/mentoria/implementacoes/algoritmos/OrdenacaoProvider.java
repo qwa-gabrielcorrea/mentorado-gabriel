@@ -25,7 +25,27 @@ public class OrdenacaoProvider implements Ordenacao {
 	@Override
 	public int[] mergesort(int[] elementos) {
 		 
-		return null;
+		int tamArray = elementos.length;
+        int mediano = tamArray / 2;
+        int[] pRight = new int[mediano];
+        int[] pLeft = new int[tamArray - mediano];
+
+        if (elementos.length > 0) {
+
+            for (int i = 0; i < mediano; i++) {
+                pLeft[i] = elementos[i];
+            }
+
+            for (int i = mediano; i < tamArray; i++) {
+                pRight[i - mediano] = elementos[i];
+            }
+        }
+
+        mergesort(pLeft);
+        mergesort(pRight);
+        particaoMergesort(elementos, pLeft, pRight);
+
+        return elementos;
 	}
 
 	@Override
@@ -88,6 +108,40 @@ public class OrdenacaoProvider implements Ordenacao {
 
         if(pLeft < finalArray) {
             particaoQuicksort(elementos, pLeft, finalArray);
+        }
+
+    }
+
+	public static void particaoMergesort(int[] elementos, int[] leftArray, int[] rightArray) {
+
+        int pLeft = leftArray.length;
+        int pRight = rightArray.length;
+
+        int i = 0;
+        int j = 0;
+        int k = 0;
+
+        while (i < pLeft && j < pRight) {
+            if (leftArray[i] <= rightArray[j]) {
+                elementos[k] = leftArray[i];
+                i++;
+            } else {
+                elementos[k] = rightArray[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < pLeft) {
+            elementos[k] = leftArray[i];
+            i++;
+            k++;
+        }
+
+        while (j < pRight) {
+            elementos[k] = rightArray[j];
+            j++;
+            k++;
         }
 
     }
