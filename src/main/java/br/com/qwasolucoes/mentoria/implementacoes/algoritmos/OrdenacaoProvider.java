@@ -15,7 +15,9 @@ public class OrdenacaoProvider implements Ordenacao {
 	@Override
 	public int[] quicksort(int[] elementos) {
 		 
-		particaoQuicksort(elementos, 0, elementos.length - 1);
+		if (elementos.length > 0) {
+            particaoQuicksort(elementos, 0, elementos.length - 1);
+        }
         
         return elementos;
 	}
