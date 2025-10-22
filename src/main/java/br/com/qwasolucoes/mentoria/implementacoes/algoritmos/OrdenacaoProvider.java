@@ -25,25 +25,11 @@ public class OrdenacaoProvider implements Ordenacao {
 	@Override
 	public int[] mergesort(int[] elementos) {
 		 
-		int tamArray = elementos.length;
-        int mediano = tamArray / 2;
-        int[] pRight = new int[mediano];
-        int[] pLeft = new int[tamArray - mediano];
-
-        if (elementos.length > 0) {
-
-            for (int i = 0; i < mediano; i++) {
-                pLeft[i] = elementos[i];
-            }
-
-            for (int i = mediano; i < tamArray; i++) {
-                pRight[i - mediano] = elementos[i];
-            }
+		if (elementos == null || elementos.length <= 1){
+            return elementos;
         }
 
-        mergesort(pLeft);
-        mergesort(pRight);
-        particaoMergesort(elementos, pLeft, pRight);
+        mergesortAuxiliar(elementos, 0, elementos.length -1);
 
         return elementos;
 	}
@@ -112,38 +98,41 @@ public class OrdenacaoProvider implements Ordenacao {
 
     }
 
-	public static void particaoMergesort(int[] elementos, int[] leftArray, int[] rightArray) {
+    public static void mergesortAuxiliar(int[] arrayAux, int inicio, int fim){
 
-        int pLeft = leftArray.length;
-        int pRight = rightArray.length;
+        if(inicio < fim){
+            int meio = (inicio + fim) / 2;
+            mergesortAuxiliar(arrayAux, inicio, meio);
+            mergesortAuxiliar(arrayAux, meio + 1, fim);
+            merge(arrayAux, inicio, meio, fim);
+        }
+    }
 
-        int i = 0;
-        int j = 0;
-        int k = 0;
+    public static void merge(int[] arrayAux, int inicio, int meio, int fim){
+        int[] arrayTemporario = new int[fim - inicio + 1];
+        int i = inicio; 
+        int j = meio + 1; 
+        int k = 0; 
 
-        while (i < pLeft && j < pRight) {
-            if (leftArray[i] <= rightArray[j]) {
-                elementos[k] = leftArray[i];
-                i++;
-            } else {
-                elementos[k] = rightArray[j];
-                j++;
+        while (i <= meio && j <= fim){
+            if (arrayAux[i] <= arrayAux[j]){
+                arrayTemporario[k++] = arrayAux [i++];
+            } else{
+                arrayTemporario[k++] = arrayAux [j++];
             }
-            k++;
         }
 
-        while (i < pLeft) {
-            elementos[k] = leftArray[i];
-            i++;
-            k++;
+        while(i <= meio){
+            arrayTemporario[k++] = arrayAux [i++];
         }
 
-        while (j < pRight) {
-            elementos[k] = rightArray[j];
-            j++;
-            k++;
+        while(j <= fim){
+            arrayTemporario[k++] = arrayAux [j++];
         }
 
+        for(i = 0; i < arrayTemporario.length; i++){
+            arrayAux[inicio + i] = arrayTemporario[i];
+        }
     }
 
 }
