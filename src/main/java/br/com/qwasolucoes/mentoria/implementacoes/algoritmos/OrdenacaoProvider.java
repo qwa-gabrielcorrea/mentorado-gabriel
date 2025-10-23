@@ -64,7 +64,24 @@ public class OrdenacaoProvider implements Ordenacao {
 	@Override
 	public int[] particaoPositivosNegativos(int[] valores) {
 		 
-		return null;
+        int[] arrayOrdenado = new int[valores.length];
+        int posicao = 0;
+
+        for(int i = 0; i < valores.length; i ++){
+            if (valores[i] % 2 == 0){
+                arrayOrdenado[posicao] = valores[i];
+                posicao ++;
+            }
+        }
+
+        for(int i = 0; i < valores.length; i ++){
+            if (valores[i] % 2 != 0){
+                arrayOrdenado[posicao] = valores[i];
+                posicao ++;
+            }
+        }
+
+        return arrayOrdenado;
 	}
 
 	public static void particaoQuicksort(int[] elementos, int inicioArray, int finalArray){
