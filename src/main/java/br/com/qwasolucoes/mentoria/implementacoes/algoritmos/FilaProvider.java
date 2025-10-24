@@ -13,9 +13,9 @@ public class FilaProvider implements Fila {
 	@Override
 	public void remover() {
 
-        if (this.lista.isEmpty()) {
-            throw new EmptyStackException();
-        }
+        // if (this.lista.isEmpty()) {
+        //     throw new EmptyStackException();
+        // }
 
         this.lista.remove(this.lista.get(0));		 
 		
