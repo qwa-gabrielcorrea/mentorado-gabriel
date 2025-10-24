@@ -20,9 +20,9 @@ public class PilhaProvider implements Pilha {
 	@Override
 	public Object desempilhar() {
 		 
-		if (this.lista.isEmpty()) {
-            throw new EmptyStackException();
-        }
+		// if (this.lista.isEmpty()) {
+        //     throw new EmptyStackException();
+        // }
 
         return this.lista.remove(this.lista.size() - 1);
 	}
