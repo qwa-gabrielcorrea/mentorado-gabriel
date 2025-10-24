@@ -17,11 +17,11 @@ public class RecursaoProvider implements Recursao{
 	@Override
 	public int recursaoSoma(int valor, int limite) {
 
-        if (valor >= limite) {
+        if (limite == 0) {
             return valor;
         }
-        
-        return valor + recursaoSoma(valor + 1, limite);
+
+        return valor + recursaoSoma(valor + 1, limite - 1);
 	}
 
 	@Override
