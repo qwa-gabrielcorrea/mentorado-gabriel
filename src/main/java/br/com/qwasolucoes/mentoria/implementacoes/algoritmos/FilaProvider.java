@@ -13,9 +13,9 @@ public class FilaProvider implements Fila {
 	@Override
 	public void remover() {
 
-        if (this.lista.isEmpty()) {
-            throw new EmptyStackException();
-        }
+        // if (this.lista.isEmpty()) {
+        //     throw new EmptyStackException();
+        // }
 
         this.lista.remove(this.lista.get(0));		 
 		
@@ -31,9 +31,14 @@ public class FilaProvider implements Fila {
 	@Override
 	public List todos() {
 
-        if (this.lista.isEmpty()) {
-            throw new EmptyStackException();
-        }
+        // if (this.lista.isEmpty()) {
+        //     throw new EmptyStackException();
+        // }
+		
+
+		// SE ESTOURAR NOVAMENTE O ERRO "FilaProviderTest.testTamanho:133 » EmptyStack"
+		// REMOVER O EMPTYSTACK DO MÉTODO ABAIXO!!!!
+		// 24/10/25 - ENCERRAMENTO DO EXPEDIENTE
 
         return lista;
 	}
