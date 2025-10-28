@@ -53,7 +53,7 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 		Node atual = this.head;
 		for (int i = 0; i < indice; i++){
 			if(atual.getNext() != null){
-				atual = ataul.getNext();
+				atual = atual.getNext();
 			}
 		}
 
