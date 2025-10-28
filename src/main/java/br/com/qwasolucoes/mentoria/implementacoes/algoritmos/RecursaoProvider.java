@@ -36,7 +36,11 @@ public class RecursaoProvider implements Recursao{
 	
 	public int iterativoFibonacci(int valor) {
 
-		if (valor <= 0) {
+        if(valor < 0){
+            return -1; 
+        }
+
+		if (valor == 0) {
             return 0;
         }
         if (valor == 1) {
