@@ -19,6 +19,10 @@ public class PilhaProvider implements Pilha {
 
 	@Override
 	public Object desempilhar() {
+
+		if (this.lista.size() < 1){
+			return null; 
+		}
 		 
 		// if (this.lista.isEmpty()) {
         //     throw new EmptyStackException();
