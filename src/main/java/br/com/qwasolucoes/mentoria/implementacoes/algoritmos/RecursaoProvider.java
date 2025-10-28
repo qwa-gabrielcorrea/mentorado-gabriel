@@ -11,6 +11,10 @@ public class RecursaoProvider implements Recursao{
             return valor;
         }
 
+        if (valor <= 0){
+            valor = 1;
+        }
+
         return recursao(valor + 1, limite - 1);
 	}
 
