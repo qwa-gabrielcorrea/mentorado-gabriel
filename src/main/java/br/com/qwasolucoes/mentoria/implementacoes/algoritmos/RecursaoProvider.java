@@ -11,7 +11,7 @@ public class RecursaoProvider implements Recursao{
             return valor;
         }
 
-        return recursao(valor + 1, limite - 1);
+        return recursao(valor - 1, limite - 1);
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class RecursaoProvider implements Recursao{
             return valor;
         }
 
-        return valor + recursaoSoma(valor + 1, limite - 1);
+        return valor + recursaoSoma(valor - 1, limite - 1);
 	}
 
 	@Override
@@ -36,7 +36,11 @@ public class RecursaoProvider implements Recursao{
 	
 	public int iterativoFibonacci(int valor) {
 
-		if (valor <= 0) {
+        if(valor < 0){
+            return -1; 
+        }
+
+		if (valor == 0) {
             return 0;
         }
         if (valor == 1) {
