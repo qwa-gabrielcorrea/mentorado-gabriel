@@ -21,6 +21,10 @@ public class RecursaoProvider implements Recursao{
             return valor;
         }
 
+        if (valor <= 0){
+            valor = 1;
+        }
+
         return valor + recursaoSoma(valor + 1, limite - 1);
 	}
 
