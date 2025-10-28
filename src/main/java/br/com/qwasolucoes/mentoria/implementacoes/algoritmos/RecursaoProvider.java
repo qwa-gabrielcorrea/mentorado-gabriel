@@ -39,6 +39,14 @@ public class RecursaoProvider implements Recursao{
             return valor;
         }
 
+        if (limite <= 0) {
+            return 0;
+        }
+
+        if (valor == 1) {
+            return valor;
+        }
+
         return valor + recursaoFibonacci(valor + 1, limite);
 	}
 	
