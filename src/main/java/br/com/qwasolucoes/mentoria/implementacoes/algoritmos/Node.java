@@ -3,10 +3,11 @@ package br.com.qwasolucoes.mentoria.implementacoes.algoritmos;
 public class Node {
 
     private Object value; 
-    private Object next;
+    private Node next;
 
-    public Node(Node novoNo){
+    public Node(Object value){
         this.value = value;
+        this.next = null;
     }
 
     public Object getValue() {

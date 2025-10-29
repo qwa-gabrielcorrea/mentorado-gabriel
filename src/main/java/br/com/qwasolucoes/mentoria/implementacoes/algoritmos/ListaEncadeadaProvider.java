@@ -15,11 +15,24 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 		this.tamanho = 0; 
 	}
 
-	List<Object> listaEncadeada = new ArrayList<>();
-
-
 	@Override
 	public void remover() {
+
+		if(this.head == null) return;
+
+		if(this.head == this.tail){
+			this.head == null; 
+			this.tail == null; 
+		} else {
+			Node atual = this.head;
+			while (atual.getNext() != this.tail) {
+				atual = atual.getNext();
+			}
+			atual.setNext(null);
+			this.tail = atual;
+		}
+
+		this.tamanho--;
 
 	}
 
@@ -37,12 +50,19 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 		}
 
 		this.tamanho ++;
-		listaEncadeada.add(novoNo);
 
 	}
 
 	@Override
-	public List todos() {
+	public List<Object> todos() {
+
+		List<Object> listaEncadeada = new ArrayList<>();
+		Node atual = this.head;
+
+		while(atual != null){
+			listaEncadeada.add(atual.getValue());
+			atual = atual.getNext();
+		}
 
 		return listaEncadeada;
 	}
@@ -57,7 +77,7 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 			}
 		}
 
-		return atual;
+		return atual.getValue();
 	}
 
 }
