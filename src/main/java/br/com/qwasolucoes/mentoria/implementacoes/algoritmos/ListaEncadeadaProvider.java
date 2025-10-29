@@ -3,13 +3,15 @@ package br.com.qwasolucoes.mentoria.implementacoes.algoritmos;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Node;
+
 import br.com.qwasolucoes.mentoria.interfaces.algoritmos.ListaEncadeada;
 
 public class ListaEncadeadaProvider implements ListaEncadeada {
 
 	private int tamanho; 
-	private Node head;
-	private Node tail;
+	private NodeObj head;
+	private NodeObj tail;
 
 	public ListaEncadeadaProvider(){
 		this.tamanho = 0; 
@@ -21,10 +23,10 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 		if(this.head == null) return;
 
 		if(this.head == this.tail){
-			this.head == null; 
-			this.tail == null; 
+			this.head.equals(null); 
+			this.tail.equals(null); 
 		} else {
-			Node atual = this.head;
+			NodeObj atual = this.head;
 			while (atual.getNext() != this.tail) {
 				atual = atual.getNext();
 			}
@@ -39,7 +41,7 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 	@Override
 	public void adicionar(Object elemento) {
 
-		Node novoNo = new Node(elemento);
+		NodeObj novoNo = new NodeObj(elemento);
 
 		if(this.head == null && this.tail == null){
 			this.head = novoNo;
@@ -57,7 +59,7 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 	public List<Object> todos() {
 
 		List<Object> listaEncadeada = new ArrayList<>();
-		Node atual = this.head;
+		NodeObj atual = this.head;
 
 		while(atual != null){
 			listaEncadeada.add(atual.getValue());
@@ -70,7 +72,7 @@ public class ListaEncadeadaProvider implements ListaEncadeada {
 	@Override
 	public Object obter(int indice) {
 
-		Node atual = this.head;
+		NodeObj atual = this.head;
 		for (int i = 0; i < indice; i++){
 			if(atual.getNext() != null){
 				atual = atual.getNext();

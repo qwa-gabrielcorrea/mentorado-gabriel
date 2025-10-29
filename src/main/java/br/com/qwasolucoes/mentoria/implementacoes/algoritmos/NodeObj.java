@@ -1,11 +1,11 @@
 package br.com.qwasolucoes.mentoria.implementacoes.algoritmos;
 
-public class Node {
+public class NodeObj {
 
-    private Object value; 
-    private Node next;
+	private Object value; 
+    private NodeObj next;
 
-    public Node(Object value){
+    public NodeObj(Object value){
         this.value = value;
         this.next = null;
     }
@@ -18,12 +18,11 @@ public class Node {
         this.value = value;
     }
 
-    public Object getNext() {
+    public NodeObj getNext() {
         return next;
     }
     
-    public void setNext(Object next) {
+    public void setNext(NodeObj next) {
         this.next = next;
     }
-    
 }
