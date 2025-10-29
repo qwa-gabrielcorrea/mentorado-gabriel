@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.qwasolucoes.mentoria.interfaces.algoritmos.Fila;
 
-public class FilaProvider implements Fila {
+public class FilaProvider implements Fila<Object> {
 
     List<Object> lista = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class FilaProvider implements Fila {
 	}
 
 	@Override
-	public List todos() {
+	public List<Object> todos() {
 
         // if (this.lista.isEmpty()) {
         //     throw new EmptyStackException();

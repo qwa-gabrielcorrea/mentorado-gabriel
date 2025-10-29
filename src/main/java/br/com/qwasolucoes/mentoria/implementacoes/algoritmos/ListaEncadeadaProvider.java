@@ -7,7 +7,7 @@ import org.w3c.dom.Node;
 
 import br.com.qwasolucoes.mentoria.interfaces.algoritmos.ListaEncadeada;
 
-public class ListaEncadeadaProvider implements ListaEncadeada {
+public class ListaEncadeadaProvider implements ListaEncadeada<Object> {
 
 	private int tamanho; 
 	private NodeObj head;
