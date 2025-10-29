@@ -13,12 +13,15 @@ public class Node {
     public Object getValue() {
         return value;
     }
+
     public void setValue(Object value) {
         this.value = value;
     }
+
     public Object getNext() {
         return next;
     }
+    
     public void setNext(Object next) {
         this.next = next;
     }
