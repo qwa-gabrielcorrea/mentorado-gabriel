@@ -21,7 +21,7 @@ public class PilhaProvider implements Pilha {
 	public Object desempilhar() {
 
 		if (this.lista.size() < 1){
-			return null; 
+			throw new IllegalStateException();
 		}
 		 
 		// if (this.lista.isEmpty()) {
