@@ -12,6 +12,7 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 	@Override
 	public void inserir(int elemento) {
 		 
+		adicionaRecursivo(raiz, elemento);
 		
 	}
 
@@ -87,6 +88,19 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 			ordenado(atual.getNext(), lista);
 		}
 		
+	}
+
+	private NodeObj adicionaRecursivo (NodeObj atual, int valor){
+
+		if (atual == null){
+			return new NodeObj(valor);
+		}
+
+		if (valor < atual.getValue()) {
+			atual.getPrevious() = adicionaRecursivo(atual.getPrevious, valor);
+		} else if (valor > atual.getValue()){
+			atual.getNext() = adicionaRecursivo(atual.getNext, valor);
+		}
 	}
 
 }
