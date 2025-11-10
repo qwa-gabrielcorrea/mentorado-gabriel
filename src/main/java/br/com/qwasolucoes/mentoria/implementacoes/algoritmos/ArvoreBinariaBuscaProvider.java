@@ -4,6 +4,8 @@ import br.com.qwasolucoes.mentoria.interfaces.algoritmos.ArvoreBinariaBusca;
 
 public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 
+	private NodeObj raiz;
+
 	@Override
 	public void inserir(int elemento) {
 		 
@@ -30,14 +32,34 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 
 	@Override
 	public int primeiro() {
-		 
-		return 0;
+
+		if (raiz == null){
+			return -1;
+		}
+
+		NodeObj atual = raiz; 
+		
+		while(atual.getPrevious() != null){
+			atual = atual.getPrevious();
+		}
+
+		return atual.getValue();
 	}
 
 	@Override
 	public int ultimo() {
 
-		return 0;
+		if (raiz == null){
+			return -1;
+		}
+
+		NodeObj atual = raiz;
+
+		while(atual.getNext() != null){
+			atual = atual.getNext();
+		}
+
+		return atual.getValue();
 	}
 
 }
