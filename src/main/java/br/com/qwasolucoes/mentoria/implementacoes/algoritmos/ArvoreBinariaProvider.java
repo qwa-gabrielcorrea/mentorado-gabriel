@@ -16,7 +16,11 @@ public class ArvoreBinariaProvider implements ArvoreBinaria {
 	@Override
 	public int[] todosOrdenado() {
 
-		return null;
+		List<Integer> lista = new ArrayList<>();
+
+		ordenado(raiz, lista);
+
+		return converteListaEmArray(lista);
 	}
 
 	@Override
@@ -57,6 +61,16 @@ public class ArvoreBinariaProvider implements ArvoreBinaria {
 		}
 
 		return vetor;
+	}
+
+	private void ordenado(NodeObj atual, List<Integer> lista){
+
+		if (atual != null){
+			ordenado(atual.getPrevious(), lista);
+			lista.add(atual.getValue());
+			ordenado(atual.getNext(), lista);
+		}
+		
 	}
 
 }
