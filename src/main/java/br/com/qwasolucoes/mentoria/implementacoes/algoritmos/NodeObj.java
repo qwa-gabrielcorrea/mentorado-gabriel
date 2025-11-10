@@ -9,6 +9,7 @@ public class NodeObj {
     public NodeObj(Object value){
         this.value = value;
         this.next = null;
+        this.previous = null;
     }
 
     public Object getValue() {
@@ -31,7 +32,7 @@ public class NodeObj {
         return previous;
     }
     
-    public void setPrevious(NodeObj next) {
+    public void setPrevious(NodeObj previous) {
         this.previous = previous;
     }
 }

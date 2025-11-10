@@ -19,7 +19,7 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 	@Override
 	public int[] todosOrdenado() {
 		 
-		List<Integer> lista = new ArrayList<>();
+		List<Object> lista = new ArrayList<>();
 
 		ordenado(raiz, lista);
 
@@ -51,7 +51,7 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 			atual = atual.getPrevious();
 		}
 
-		return atual.getValue();
+		return (int) atual.getValue();
 	}
 
 	@Override
@@ -67,24 +67,24 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 			atual = atual.getNext();
 		}
 
-		return atual.getValue();
+		return (int) atual.getValue();
 	}
 
-	private int[] converteListaEmArray (List<Integer> lista) {
+	private int[] converteListaEmArray (List<Object> lista) {
 		int[] vetor = new int[lista.size()];
 
 		for (int i = 0; i < lista.size(); i++){
-			vetor[i]~= lista.get(i);
+			vetor[i]= (int) lista.get(i);
 		}
 
 		return vetor;
 	}
 
-	private void ordenado(NodeObj atual, List<Integer> lista){
+	private void ordenado(NodeObj atual, List<Object> lista){
 
 		if (atual != null){
 			ordenado(atual.getPrevious(), lista);
-			lista.add(atual.getValue());
+			lista.add( atual.getValue());
 			ordenado(atual.getNext(), lista);
 		}
 		
@@ -96,11 +96,13 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 			return new NodeObj(valor);
 		}
 
-		if (valor < atual.getValue()) {
-			atual.getPrevious() = adicionaRecursivo(atual.getPrevious, valor);
-		} else if (valor > atual.getValue()){
-			atual.getNext() = adicionaRecursivo(atual.getNext, valor);
+		if (valor < (int) atual.getValue()) {
+			atual.setPrevious(adicionaRecursivo(atual.getPrevious(), valor));
+		} else if (valor > (int) atual.getValue()){
+			atual.setNext(adicionaRecursivo(atual.getNext(), valor));
 		}
+		
+		return atual;
 	}
 
 }
