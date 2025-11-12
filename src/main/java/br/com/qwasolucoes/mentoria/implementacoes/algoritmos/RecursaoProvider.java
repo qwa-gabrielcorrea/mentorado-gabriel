@@ -8,7 +8,7 @@ public class RecursaoProvider implements Recursao{
 	public int recursao(int valor, int limite) {
 
         if (limite <= 1) {
-            return valor;
+            return 1;
         }
 
         if (valor <= 0){
