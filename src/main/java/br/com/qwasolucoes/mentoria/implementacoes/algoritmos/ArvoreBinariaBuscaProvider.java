@@ -12,7 +12,7 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 	@Override
 	public void inserir(int elemento) {
 		 
-		adicionaRecursivo(raiz, elemento);
+		raiz = adicionaRecursivo(raiz, elemento);
 		
 	}
 
@@ -28,14 +28,20 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 
 	@Override
 	public int[] preOrdem() {
-		 
-		return null;
+		
+		List <Object> lista = new ArrayList<>();
+		preOrdemRecursivo(raiz, lista);
+
+		return converteListaEmArray(lista);
 	}
 
 	@Override
 	public int[] posOrdem() {
+
+		List<Object> lista = new ArrayList<>();
+		posOrdemRecursivo(raiz, lista);
 		 
-		return null;
+		return converteListaEmArray(lista);
 	}
 
 	@Override
@@ -103,6 +109,24 @@ public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 		}
 		
 		return atual;
+	}
+
+	private void preOrdemRecursivo(NodeObj atual, List<Object> lista){
+
+		if (atual != null){
+			lista.add(atual.getValue());
+			preOrdemRecursivo(atual.getPrevious(), lista);
+			preOrdemRecursivo(atual.getNext(), lista);
+		}
+	}
+
+	private void posOrdemRecursivo(NodeObj atual, List<Object> lista){
+
+		if (atual != null){
+			posOrdemRecursivo(atual.getPrevious(), lista);
+			posOrdemRecursivo(atual.getNext(), lista);
+			lista.add(atual.getValue());
+		}
 	}
 
 }
