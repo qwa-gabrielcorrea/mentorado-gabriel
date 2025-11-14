@@ -4,10 +4,12 @@ public class NodeObj {
 
 	private Object value; 
     private NodeObj next;
+    private NodeObj previous;
 
     public NodeObj(Object value){
         this.value = value;
         this.next = null;
+        this.previous = null;
     }
 
     public Object getValue() {
@@ -24,5 +26,13 @@ public class NodeObj {
     
     public void setNext(NodeObj next) {
         this.next = next;
+    }
+
+    public NodeObj getPrevious() {
+        return previous;
+    }
+    
+    public void setPrevious(NodeObj previous) {
+        this.previous = previous;
     }
 }

@@ -1,30 +1,96 @@
 package br.com.qwasolucoes.mentoria.implementacoes.algoritmos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.qwasolucoes.mentoria.interfaces.algoritmos.ArvoreBinaria;
 
 public class ArvoreBinariaProvider implements ArvoreBinaria {
+	
+	private NodeObj raiz;
 
 	@Override
 	public void adicionar(int elemento) {
+
+		raiz = adicionaRecursivo(raiz, elemento);
 
 	}
 
 	@Override
 	public int[] todosOrdenado() {
+		 
+		List<Object> lista = new ArrayList<>();
 
-		return null;
+		ordenado(raiz, lista);
+
+		return converteListaEmArray(lista);
 	}
 
 	@Override
 	public int primeiro() {
 
-		return 0;
+		if (raiz == null){
+			return -1;
+		}
+
+		NodeObj atual = raiz; 
+
+		while(atual.getPrevious() != null){
+			atual = atual.getPrevious();
+		}
+
+		return (int) atual.getValue();
 	}
 
 	@Override
 	public int ultimo() {
 
-		return 0;
+		if (raiz == null){
+			return -1;
+		}
+
+		NodeObj atual = raiz;
+
+		while(atual.getNext() != null){
+			atual = atual.getNext();
+		}
+
+		return (int) atual.getValue();
+	}
+
+	private int[] converteListaEmArray (List<Object> lista) {
+		int[] vetor = new int[lista.size()];
+
+		for (int i = 0; i < lista.size(); i++){
+			vetor[i]= (int) lista.get(i);
+		}
+
+		return vetor;
+	}
+
+	private void ordenado(NodeObj atual, List<Object> lista){
+
+		if (atual != null){
+			ordenado(atual.getPrevious(), lista);
+			lista.add( atual.getValue());
+			ordenado(atual.getNext(), lista);
+		}
+		
+	}
+	
+	private NodeObj adicionaRecursivo (NodeObj atual, int valor){
+
+		if (atual == null){
+			return new NodeObj(valor);
+		}
+
+		if (valor < (int) atual.getValue()) {
+			atual.setPrevious(adicionaRecursivo(atual.getPrevious(), valor));
+		} else if (valor > (int) atual.getValue()){
+			atual.setNext(adicionaRecursivo(atual.getNext(), valor));
+		}
+		
+		return atual;
 	}
 
 }

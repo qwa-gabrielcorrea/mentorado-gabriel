@@ -1,43 +1,132 @@
 package br.com.qwasolucoes.mentoria.implementacoes.algoritmos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.qwasolucoes.mentoria.interfaces.algoritmos.ArvoreBinariaBusca;
 
 public class ArvoreBinariaBuscaProvider implements ArvoreBinariaBusca {
 
+	private NodeObj raiz;
+
 	@Override
 	public void inserir(int elemento) {
 		 
+		raiz = adicionaRecursivo(raiz, elemento);
 		
 	}
 
 	@Override
 	public int[] todosOrdenado() {
 		 
-		return null;
+		List<Object> lista = new ArrayList<>();
+
+		ordenado(raiz, lista);
+
+		return converteListaEmArray(lista);
 	}
 
 	@Override
 	public int[] preOrdem() {
-		 
-		return null;
+		
+		List <Object> lista = new ArrayList<>();
+		preOrdemRecursivo(raiz, lista);
+
+		return converteListaEmArray(lista);
 	}
 
 	@Override
 	public int[] posOrdem() {
+
+		List<Object> lista = new ArrayList<>();
+		posOrdemRecursivo(raiz, lista);
 		 
-		return null;
+		return converteListaEmArray(lista);
 	}
 
 	@Override
 	public int primeiro() {
-		 
-		return 0;
+
+		if (raiz == null){
+			return -1;
+		}
+
+		NodeObj atual = raiz; 
+
+		while(atual.getPrevious() != null){
+			atual = atual.getPrevious();
+		}
+
+		return (int) atual.getValue();
 	}
 
 	@Override
 	public int ultimo() {
 
-		return 0;
+		if (raiz == null){
+			return -1;
+		}
+
+		NodeObj atual = raiz;
+
+		while(atual.getNext() != null){
+			atual = atual.getNext();
+		}
+
+		return (int) atual.getValue();
+	}
+
+	private int[] converteListaEmArray (List<Object> lista) {
+		int[] vetor = new int[lista.size()];
+
+		for (int i = 0; i < lista.size(); i++){
+			vetor[i]= (int) lista.get(i);
+		}
+
+		return vetor;
+	}
+
+	private void ordenado(NodeObj atual, List<Object> lista){
+
+		if (atual != null){
+			ordenado(atual.getPrevious(), lista);
+			lista.add( atual.getValue());
+			ordenado(atual.getNext(), lista);
+		}
+		
+	}
+
+	private NodeObj adicionaRecursivo (NodeObj atual, int valor){
+
+		if (atual == null){
+			return new NodeObj(valor);
+		}
+
+		if (valor < (int) atual.getValue()) {
+			atual.setPrevious(adicionaRecursivo(atual.getPrevious(), valor));
+		} else if (valor > (int) atual.getValue()){
+			atual.setNext(adicionaRecursivo(atual.getNext(), valor));
+		}
+		
+		return atual;
+	}
+
+	private void preOrdemRecursivo(NodeObj atual, List<Object> lista){
+
+		if (atual != null){
+			lista.add(atual.getValue());
+			preOrdemRecursivo(atual.getPrevious(), lista);
+			preOrdemRecursivo(atual.getNext(), lista);
+		}
+	}
+
+	private void posOrdemRecursivo(NodeObj atual, List<Object> lista){
+
+		if (atual != null){
+			posOrdemRecursivo(atual.getPrevious(), lista);
+			posOrdemRecursivo(atual.getNext(), lista);
+			lista.add(atual.getValue());
+		}
 	}
 
 }
