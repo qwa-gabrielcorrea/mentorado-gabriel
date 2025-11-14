@@ -8,10 +8,14 @@ public class RecursaoProvider implements Recursao {
     public int recursao(int valor, int limite) {
 
         if (valor >= limite) {
-            return 0;
+            return -1;
         }
 
-        return 1 + recursao(valor + 1, limite);
+        if ((valor + 1) == limite){
+            return valor;
+        }
+
+        return recursao(valor + 1, limite);
     }
 
     @Override
