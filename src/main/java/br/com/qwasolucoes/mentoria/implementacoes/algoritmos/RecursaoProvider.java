@@ -7,14 +7,14 @@ public class RecursaoProvider implements Recursao {
     @Override
     public int recursao(int valor, int limite) {
 
-        if (valor >= limite) {
-            return -1;
-        }
-
-        if ((valor + 1) == limite){
+    	if ((valor + 1) == limite){
             return valor;
         }
 
+        if (valor >= limite) {
+            return -1;
+        }
+        
         return recursao(valor + 1, limite);
     }
 
