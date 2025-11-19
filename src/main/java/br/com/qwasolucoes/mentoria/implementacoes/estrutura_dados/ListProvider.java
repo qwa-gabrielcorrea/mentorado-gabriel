@@ -113,14 +113,20 @@ public class ListProvider implements EstruturaDadosList {
 
 	@Override
 	public String nomePrimeiraPessoa(List<Funcionario> pessoas) {
-
-		return null;
+		
+		String nome = pessoas.get(0).getNome();
+		
+		return nome;
 	}
 
 	@Override
 	public String nomeUltimaPessoa(List<Funcionario> pessoas) {
+		
+		int posicaoAux = pessoas.size() - 1;
+		
+		String nome = pessoas.get(posicaoAux).getNome();
 
-		return null;
+		return nome;
 	}
 
 	@Override
