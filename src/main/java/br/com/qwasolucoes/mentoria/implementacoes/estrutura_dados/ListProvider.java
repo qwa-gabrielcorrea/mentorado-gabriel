@@ -108,25 +108,27 @@ public class ListProvider implements EstruturaDadosList {
 	@Override
 	public BigDecimal menorTaxa(List<Funcionario> pessoas) {
 
-		return null;
+		BigDecimal fee = null; 
+		
+		for (Funcionario func : pessoas) {
+			if (fee == null || fee.compareTo(func.getTaxa()) > 0);
+		}
+		
+		return fee;
 	}
 
 	@Override
 	public String nomePrimeiraPessoa(List<Funcionario> pessoas) {
-		
-		String nome = pessoas.get(0).getNome();
-		
-		return nome;
+				
+		return pessoas.get(0).getNome();
 	}
 
 	@Override
 	public String nomeUltimaPessoa(List<Funcionario> pessoas) {
 		
 		int posicaoAux = pessoas.size() - 1;
-		
-		String nome = pessoas.get(posicaoAux).getNome();
 
-		return nome;
+		return pessoas.get(posicaoAux).getNome();
 	}
 
 	@Override
