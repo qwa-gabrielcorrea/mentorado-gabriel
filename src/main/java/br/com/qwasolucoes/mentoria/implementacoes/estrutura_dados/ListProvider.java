@@ -2,6 +2,7 @@ package br.com.qwasolucoes.mentoria.implementacoes.estrutura_dados;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import br.com.qwasolucoes.mentoria.interfaces.estrutura_dados.EstruturaDadosList;
@@ -167,13 +168,31 @@ public class ListProvider implements EstruturaDadosList {
 
 	@Override
 	public Integer quantidadePessoasSexoMasculino(List<Funcionario> pessoas) {
+		
+		Integer quantity = 0; 
+		for (Funcionario func : pessoas) {
+			
+			String gender = func.getSexo();
+			
+			if (gender.equals("Masculino") || gender.equals("M")) {
+				quantity++;
+			}
+		}
 
-		return null;
+		return quantity;
 	}
 
 	@Override
 	public List<BigDecimal> maioresSalariosPeloValor(List<Funcionario> pessoas, BigDecimal valor) {
+		
+		List<BigDecimal> higherSalaries = new ArrayList <>();
+		
+		for (Funcionario func : pessoas) {
+			higherSalaries.add(func.getSalario());
+		}
+		
+		Collections.sort(higherSalaries, Collections.reverseOrder());
 
-		return null;
+		return higherSalaries;
 	}
 }
