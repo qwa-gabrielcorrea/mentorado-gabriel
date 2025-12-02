@@ -12,21 +12,31 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<String> nomesUnicosOrdenados(List<String> nomes) {
 		
-		TreeSet<String> ordenaNome = new TreeSet<>();
+		TreeSet<String> ordenaNomes = new TreeSet<>();
 		
 		for(String nome : nomes) {
-			ordenaNome.add(nome);	
+			ordenaNomes.add(nome);	
 		}
 
-		return ordenaNome;
+		return ordenaNomes;
 	}
 
 	@Override
 	public Set<String> valoresPositivosNegativos(int[] valores) {
 		
+		TreeSet<Integer> ordenaNumeros = new TreeSet<>();
+				
+		for (Integer valor : valores) {
+			if (valor >= -9 && valor <= 9) {
+				ordenaNumeros.add(valor);
+			}
+		}
 		
+		TreeSet<String> resultado = new TreeSet<>();
+		
+		resultado.add(ordenaNumeros.last().toString());
 
-		return null;
+		return resultado;
 	}
 
 	@Override
