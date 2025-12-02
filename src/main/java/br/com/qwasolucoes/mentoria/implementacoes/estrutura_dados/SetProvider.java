@@ -12,7 +12,7 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<String> nomesUnicosOrdenados(List<String> nomes) {
 		
-		TreeSet<String> ordenaNomes = new TreeSet<>();
+		Set<String> ordenaNomes = new TreeSet<>();
 		
 		for(String nome : nomes) {
 			ordenaNomes.add(nome);	
@@ -24,7 +24,7 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<String> valoresPositivosNegativos(int[] valores) {
 		
-		TreeSet<Integer> ordenaNumeros = new TreeSet<>();
+		Set<Integer> ordenaNumeros = new TreeSet<>();
 				
 		for (Integer valor : valores) {
 			if (valor >= -9 && valor <= 9) {
@@ -32,7 +32,7 @@ public class SetProvider implements EstruturaDadosSet {
 			}
 		}
 		
-		TreeSet<String> resultado = new TreeSet<>();
+		Set<String> resultado = new TreeSet<>();
 		
 		resultado.add(ordenaNumeros.last().toString());
 
@@ -42,7 +42,7 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<Integer> valoresDuplicadosOrdenados(List<Integer> valores1, List<Integer> valores2) {
 
-		TreeSet<Integer> resultado = new TreeSet<>();
+		Set<Integer> resultado = new TreeSet<>();
 		
 		for(Integer valor1 : valores1) {
 			for (Integer valor2 :  valores2) {
@@ -57,52 +57,77 @@ public class SetProvider implements EstruturaDadosSet {
 
 	@Override
 	public Set<Integer> valoresDiferentesOrdenados(List<Integer> valores1, List<Integer> valores2) {
-
-		return null;
+		
+		Set<Integer> resultado = new TreeSet<>(valores1);
+		resultado.retainAll(valores2);
+		
+		return resultado;
 	}
 
 	@Override
 	public Set<Integer> valoresDuplicadosDaPrimeiraListaOrdenados(List<Integer> valores1, List<Integer> valores2) {
-
-		return null;
+		
+		Set<Integer> resultado = new TreeSet<>(valores1);
+		resultado.removeAll(valores2);
+		
+		return resultado;
 	}
 
 	@Override
 	public Set<Integer> valoresDiferentesDaSegundaListaOrdenados(List<Integer> valores1, List<Integer> valores2) {
 
-		return null;
+		Set<Integer> resultado = new TreeSet<>(valores2);
+		resultado.removeAll(valores1);
+		
+		return resultado;
 	}
 
 	@Override
 	public Set<Funcionario> pessoasUnicasOrdenados(List<Funcionario> pessoas) {
-
-		return null;
+				
+		return new TreeSet<Funcionario>(pessoas);
 	}
 
 	@Override
 	public Set<Funcionario> pessoasDuplicadosOrdenados(List<Funcionario> pessoas1, List<Funcionario> pessoas2) {
-
-		return null;
+		
+		Set<Funcionario> resultado = new TreeSet<>(pessoas1);
+		
+		resultado.addAll(pessoas2);
+		
+		return resultado;
 	}
 
 	@Override
 	public Set<Funcionario> pessoasDiferentesOrdenados(List<Funcionario> pessoas1, List<Funcionario> pessoas2) {
+		
+		Set<Funcionario> resultado = new TreeSet<>(pessoas1);
+		
+		resultado.removeAll(pessoas2);
 
-		return null;
+		return resultado;
 	}
 
 	@Override
 	public Set<Funcionario> pessoasDuplicadosDaPrimeiraListaOrdenados(List<Funcionario> pessoas1,
 			List<Funcionario> pessoas2) {
+		
+		Set<Funcionario> resultado = new TreeSet<>(pessoas1);
+		
+		resultado.retainAll(pessoas2);
 
-		return null;
+		return resultado;
 	}
 
 	@Override
 	public Set<Funcionario> pessoasDiferentesDaSegundaListaOrdenados(List<Funcionario> pessoas1,
 			List<Funcionario> pessoas2) {
 
-		return null;
+		Set<Funcionario> resultado = new TreeSet<>(pessoas2);
+		
+		resultado.retainAll(pessoas1);
+
+		return resultado;
 	}
 
 }

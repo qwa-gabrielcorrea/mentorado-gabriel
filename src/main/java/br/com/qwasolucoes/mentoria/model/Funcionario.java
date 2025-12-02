@@ -2,10 +2,28 @@ package br.com.qwasolucoes.mentoria.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 public class Funcionario {
 
 	private String nome;
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cpfCnpj);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Funcionario other = (Funcionario) obj;
+		return Objects.equals(cpfCnpj, other.cpfCnpj);
+	}
 
 	private String sobrenome;
 
