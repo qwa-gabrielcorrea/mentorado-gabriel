@@ -42,7 +42,17 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<Integer> valoresDuplicadosOrdenados(List<Integer> valores1, List<Integer> valores2) {
 
-		return null;
+		TreeSet<Integer> resultado = new TreeSet<>();
+		
+		for(Integer valor1 : valores1) {
+			for (Integer valor2 :  valores2) {
+				if(valor1 == valor2) {
+					resultado.add(valor1);
+				}
+			}
+		}
+		
+		return resultado;
 	}
 
 	@Override
