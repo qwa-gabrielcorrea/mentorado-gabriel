@@ -148,8 +148,21 @@ public class ListProvider implements EstruturaDadosList {
 
 	@Override
 	public String maiorNomeCompleto(List<Funcionario> pessoas) {
+		
+		String name = null;
+		StringBuilder fullName = new StringBuilder();
+		
+		for (Funcionario func : pessoas) {
+			
+			fullName.append(func.getNome());
+			fullName.append(func.getSobrenome());
+			
+			if(name == null || fullName.length() > name.length() ) {
+				name = fullName.toString();
+			}
+		}
 
-		return null;
+		return name;
 	}
 
 	@Override
