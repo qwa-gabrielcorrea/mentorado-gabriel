@@ -34,7 +34,7 @@ public class SetProvider implements EstruturaDadosSet {
 		
 		Set<String> resultado = new TreeSet<>();
 		
-		resultado.add(ordenaNumeros.last().toString());
+		resultado.add(((TreeSet<Integer>) ordenaNumeros).last().toString());
 
 		return resultado;
 	}
