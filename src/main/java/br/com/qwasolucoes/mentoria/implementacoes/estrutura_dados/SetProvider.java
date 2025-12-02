@@ -46,7 +46,7 @@ public class SetProvider implements EstruturaDadosSet {
 		
 		for(Integer valor1 : valores1) {
 			for (Integer valor2 :  valores2) {
-				if(valor1 == valor2) {
+				if(valor1.equals(valor2)) {
 					resultado.add(valor1);
 				}
 			}
