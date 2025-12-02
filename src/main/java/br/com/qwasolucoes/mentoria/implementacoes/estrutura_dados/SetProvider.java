@@ -2,6 +2,7 @@ package br.com.qwasolucoes.mentoria.implementacoes.estrutura_dados;
 
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import br.com.qwasolucoes.mentoria.interfaces.estrutura_dados.EstruturaDadosSet;
 import br.com.qwasolucoes.mentoria.model.Funcionario;
@@ -10,12 +11,20 @@ public class SetProvider implements EstruturaDadosSet {
 
 	@Override
 	public Set<String> nomesUnicosOrdenados(List<String> nomes) {
+		
+		TreeSet<String> ordenaNome = new TreeSet<>();
+		
+		for(String nome : nomes) {
+			ordenaNome.add(nome);	
+		}
 
-		return null;
+		return ordenaNome;
 	}
 
 	@Override
 	public Set<String> valoresPositivosNegativos(int[] valores) {
+		
+		
 
 		return null;
 	}
