@@ -103,7 +103,7 @@ public class SetProvider implements EstruturaDadosSet {
 		
 		Set<Funcionario> resultado = new TreeSet<>(pessoas1);
 		
-		resultado.removeAll(pessoas2);
+		resultado.retainAll(pessoas2);
 
 		return resultado;
 	}
@@ -114,7 +114,7 @@ public class SetProvider implements EstruturaDadosSet {
 		
 		Set<Funcionario> resultado = new TreeSet<>(pessoas1);
 		
-		resultado.retainAll(pessoas2);
+		resultado.removeAll(pessoas2);
 
 		return resultado;
 	}
@@ -125,7 +125,7 @@ public class SetProvider implements EstruturaDadosSet {
 
 		Set<Funcionario> resultado = new TreeSet<>(pessoas2);
 		
-		resultado.retainAll(pessoas1);
+		resultado.removeAll(pessoas1);
 
 		return resultado;
 	}
