@@ -2,6 +2,7 @@ package br.com.qwasolucoes.mentoria.implementacoes.estrutura_dados;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import br.com.qwasolucoes.mentoria.interfaces.estrutura_dados.EstruturaDadosMap;
 import br.com.qwasolucoes.mentoria.model.ContatoFuncionario;
@@ -11,8 +12,21 @@ public class MapProvider implements EstruturaDadosMap{
 
 	@Override
 	public Map<String, Integer> nomeFrequencia(List<String> nomes) {
-		 
-		return null;
+		
+		Map<String, Integer> frequencia = new TreeMap<>();
+		
+		for(String nome : nomes) {
+			
+			Integer contador = frequencia.get(nome);
+			
+			if (contador == null) {
+				frequencia.put(nome, 1);
+			} else {
+				frequencia.put(nome, contador + 1);
+			}
+		}
+		
+		return frequencia;
 	}
 
 	@Override
