@@ -1,5 +1,6 @@
 package br.com.qwasolucoes.mentoria.implementacoes.estrutura_dados;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -24,18 +25,28 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<String> valoresPositivosNegativos(int[] valores) {
 		
-		Set<Integer> ordenaNumeros = new TreeSet<>();
+		boolean achou = false;
+		int maior = 0; 
+		
+		for (int valor : valores) {
+			
+			if(valor >= 9 && valor <= 9) {
 				
-		for (Integer valor : valores) {
-			if (valor >= -9 && valor <= 9) {
-				ordenaNumeros.add(valor);
+				if(!achou) {
+					maior = valor;
+					achou = true;
+				} else if (valor > maior) {
+					maior = valor; 
+				}
 			}
 		}
 		
-		Set<String> resultado = new TreeSet<>();
+		Set<String> resultado = new HashSet<>();
 		
-		resultado.add(((TreeSet<Integer>) ordenaNumeros).last().toString());
-
+		if (achou){
+			resultado.add(String.valueOf(maior));
+		}
+		
 		return resultado;
 	}
 
