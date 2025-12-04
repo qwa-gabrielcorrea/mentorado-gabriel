@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import br.com.qwasolucoes.mentoria.interfaces.estrutura_dados.EstruturaDadosMap;
 import br.com.qwasolucoes.mentoria.model.ContatoFuncionario;
@@ -56,7 +58,7 @@ public class MapProvider implements EstruturaDadosMap{
 		Map<String, Integer> frequencia = new HashMap<>();
 		
 		for (String chave : mapa.keySet()) {
-			for (String valor : mapa.keySet()) {
+			for (String valor : mapa.get(chave)) {
 				Integer contador = frequencia.get(valor);
 				
 				if (contador == null) {
@@ -173,12 +175,25 @@ public class MapProvider implements EstruturaDadosMap{
 
 	@Override
 	public Integer maiorNumeroEntreValores(Map<String, List<Integer>> map) {
+		
+		Integer resultado = null;
+		Set<Integer> valores = new TreeSet<>();
+		
+		for(String chave : map.keySet()) {
+			for (Integer valor : map.get(chave)) {
+				valores.add(valor);
+			}
+		}
+		
+		resultado = valores.size();
 		 
-		return null;
+		return resultado;
 	}
 
 	@Override
 	public String chaveMaiorNumeroEntreValores(Map<String, List<Integer>> map) {
+		
+		
 
 		return null;
 	}
