@@ -23,18 +23,21 @@ public class SetProvider implements EstruturaDadosSet {
 	public Set<String> valoresPositivosNegativos(int[] valores) {
 		
 		Set<String> resultado = new TreeSet<>();
+		Integer maior = null;
 		
 		for (int valor : valores) {
-			if(valor >= -9 && valor <= 9) {
-				resultado.add(toString());
+			int aux = valor < 0 ? -valor : valor; 
+			
+			if(aux >= 0 && aux <= 9) {
+				
+				if(maior == null || aux > maior ) {
+					maior = aux;
+				}			
 			}
+					
+		}	if(maior != null) {
+			resultado.add(String.valueOf(maior));
 		}
-		
-		for (String ultimo : resultado) {
-			while(resultado.size() >= 2) {
-				resultado.remove(ultimo);
-			}
-		}		
 				
 		return resultado;
 	}
