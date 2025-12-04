@@ -1,5 +1,7 @@
 package br.com.qwasolucoes.mentoria.implementacoes.estrutura_dados;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,31 +33,93 @@ public class MapProvider implements EstruturaDadosMap{
 
 	@Override
 	public Map<String, Integer> mapaFrequenciaValores(Map<String, String> mapa) {
-		 
-		return null;
+		
+		Map<String, Integer> frequencia = new HashMap<>();
+				
+		for (String chave : mapa.keySet()) {
+			
+			Integer contador = frequencia.get(chave);
+			
+			if (contador == null) {
+				frequencia.put(chave, 1);
+			} else {
+				frequencia.put(chave, contador + 1);
+			}
+		}
+		
+		return frequencia;
 	}
 
 	@Override
 	public Map<String, Integer> mapaFrequenciaValoresLista(Map<String, List<String>> mapa) {
+		
+		Map<String, Integer> frequencia = new HashMap<>();
+		
+		for (String chave : mapa.keySet()) {
+			for (String valor : mapa.keySet()) {
+				Integer contador = frequencia.get(valor);
+				
+				if (contador == null) {
+					frequencia.put(chave, 1);
+				} else {
+					frequencia.put(chave, contador + 1);
+				}
+			}
+		}
 		 
-		return null;
+		return frequencia;
 	}
 
 	@Override
 	public Map<String, List<String>> nomeTelefones(List<String> elemento) {
-		 
-		return null;
+		
+		Map<String, List<String>> telefones = new HashMap<>();
+		List<String> aux = new ArrayList<>();
+		
+		for (String elemnt : elemento) {
+			String[] corte = elemnt.split(";");
+
+			for (int i = 0; i <= corte.length; i++) {
+				String[] corteTelefone = corte[i].split(",");
+				for(int j = 0; j <= corteTelefone[i].length(); i++) {
+					aux.add(corteTelefone[j]);
+				}
+			}
+			telefones.put(elemnt, aux);
+		}
+		
+		return telefones;
 	}
 
 	@Override
 	public Map<Funcionario, List<ContatoFuncionario>> cpfCnpjTelefonesObjeto(List<String> elemento) {
-		 
-		return null;
+		
+		Map<Funcionario, List<ContatoFuncionario>> mapa = new HashMap<>();
+		for (String elemnt : elemento) {
+			
+			String[] corte = elemnt.split(";");
+			String cpf = corte[0];
+			String lista = corte[1];
+			String[] telList = lista.split(",");
+			
+			Funcionario func = new Funcionario();
+			List<ContatoFuncionario> numeros = new ArrayList<>();
+			func.setCpfCnpj(cpf);
+			
+			for(String telefone : telList) {
+				ContatoFuncionario contato = new ContatoFuncionario();
+				contato.setValor(telefone);
+				numeros.add(contato);
+			}
+			mapa.put(func, numeros);
+		}
+		
+		return mapa;
 	}
 
 	@Override
 	public List<String> chavesMapa(Map<String, String> mapa) {
-		 
+		
 		return null;
 	}
 
