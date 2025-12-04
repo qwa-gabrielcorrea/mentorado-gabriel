@@ -120,7 +120,9 @@ public class MapProvider implements EstruturaDadosMap{
 	@Override
 	public List<String> chavesMapa(Map<String, String> mapa) {
 		
-		return null;
+		List<String> chaves = new ArrayList<>(mapa.keySet());
+				
+		return chaves;
 	}
 
 	@Override
