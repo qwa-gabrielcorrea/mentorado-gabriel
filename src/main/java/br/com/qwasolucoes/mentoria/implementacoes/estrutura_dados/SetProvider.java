@@ -1,5 +1,6 @@
 package br.com.qwasolucoes.mentoria.implementacoes.estrutura_dados;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,40 +14,28 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<String> nomesUnicosOrdenados(List<String> nomes) {
 		
-		Set<String> ordenaNomes = new TreeSet<>();
-		
-		for(String nome : nomes) {
-			ordenaNomes.add(nome);	
-		}
+		Set<String> ordena = new TreeSet<>(nomes);
 
-		return ordenaNomes;
+		return ordena;
 	}
 
 	@Override
 	public Set<String> valoresPositivosNegativos(int[] valores) {
 		
-		boolean achou = false;
-		int maior = 0; 
+		Set<String> resultado = new TreeSet<>();
 		
 		for (int valor : valores) {
-			
-			if(valor >= 9 && valor <= 9) {
-				
-				if(!achou) {
-					maior = valor;
-					achou = true;
-				} else if (valor > maior) {
-					maior = valor; 
-				}
+			if(valor >= -9 && valor <= 9) {
+				resultado.add(toString());
 			}
 		}
 		
-		Set<String> resultado = new HashSet<>();
-		
-		if (achou){
-			resultado.add(String.valueOf(maior));
-		}
-		
+		for (String ultimo : resultado) {
+			while(resultado.size() >= 2) {
+				resultado.remove(ultimo);
+			}
+		}		
+				
 		return resultado;
 	}
 
@@ -69,8 +58,8 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<Integer> valoresDiferentesOrdenados(List<Integer> valores1, List<Integer> valores2) {
 		
-		Set<Integer> resultado = new TreeSet<>(valores1);
-		resultado.retainAll(valores2);
+		Set<Integer> resultado = new TreeSet<>(valores2);
+		resultado.retainAll(valores1);
 		
 		return resultado;
 	}
