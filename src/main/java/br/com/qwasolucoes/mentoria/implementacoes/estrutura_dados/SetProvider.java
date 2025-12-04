@@ -59,7 +59,7 @@ public class SetProvider implements EstruturaDadosSet {
 	public Set<Integer> valoresDiferentesOrdenados(List<Integer> valores1, List<Integer> valores2) {
 		
 		Set<Integer> resultado = new TreeSet<>(valores2);
-		resultado.retainAll(valores1);
+		resultado.removeAll(valores1);
 		
 		return resultado;
 	}
