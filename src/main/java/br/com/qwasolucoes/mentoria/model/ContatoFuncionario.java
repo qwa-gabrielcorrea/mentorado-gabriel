@@ -18,5 +18,13 @@ public class ContatoFuncionario {
 	public String getValor() {
 		return valor;
 	}
+
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
 	
 }
