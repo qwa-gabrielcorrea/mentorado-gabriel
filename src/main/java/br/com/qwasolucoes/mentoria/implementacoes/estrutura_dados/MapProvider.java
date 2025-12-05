@@ -8,11 +8,14 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import br.com.qwasolucoes.mentoria.implementacoes.logica_programacao.LogicaProgramacaoProvider;
 import br.com.qwasolucoes.mentoria.interfaces.estrutura_dados.EstruturaDadosMap;
 import br.com.qwasolucoes.mentoria.model.ContatoFuncionario;
 import br.com.qwasolucoes.mentoria.model.Funcionario;
 
 public class MapProvider implements EstruturaDadosMap{
+	
+	LogicaProgramacaoProvider lgp = new LogicaProgramacaoProvider ();
 
 	@Override
 	public Map<String, Integer> nomeFrequencia(List<String> nomes) {
@@ -151,12 +154,12 @@ public class MapProvider implements EstruturaDadosMap{
 		
 		for (int i = 0; i <= limite; i++) {
 			
-			if(i % 2 == 0) {
+			if(lgp.validaParOuImpar(i)) {
 				pares.add(i);
 			} else {
 				impares.add(i);
 			}
-			if(validaPrimo(i)) {
+			if(lgp.validaPrimo(i)) {
 				primos.add(i);
 			}
 			if (i %10 == 0) {
@@ -201,22 +204,8 @@ public class MapProvider implements EstruturaDadosMap{
 
 		return null;
 	}
-	
-	
-	public boolean validaPrimo (Integer valor){
 
-		if(valor < 2){
-			return false;
-		}
 
-		for (int i = 2; i * i <= valor; i++){
-			if (valor % i == 0){
-				return false;
-			}
-		}
-
-		return true;
-	}
 }
 
 
