@@ -32,10 +32,16 @@ public class SetProvider implements EstruturaDadosSet {
 				
 				if(maior == null || aux > maior ) {
 					maior = aux;
+					if(maior.equals(0)) {
+						maior = 0;
+					}
 				}			
 			}
 					
 		}	if(maior != null) {
+			resultado.add(String.valueOf(maior));
+		} else {
+			maior = 0;
 			resultado.add(String.valueOf(maior));
 		}
 				
@@ -62,7 +68,7 @@ public class SetProvider implements EstruturaDadosSet {
 	public Set<Integer> valoresDiferentesOrdenados(List<Integer> valores1, List<Integer> valores2) {
 		
 		Set<Integer> resultado = new TreeSet<>(valores2);
-		resultado.removeAll(valores1);
+		resultado.retainAll(valores1);
 		
 		return resultado;
 	}
