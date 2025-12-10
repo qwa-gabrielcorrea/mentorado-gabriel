@@ -67,8 +67,8 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<Integer> valoresDiferentesOrdenados(List<Integer> valores1, List<Integer> valores2) {
 		
-		Set<Integer> resultado = new TreeSet<>(valores2);
-		resultado.retainAll(valores1);
+		Set<Integer> resultado = new TreeSet<>(valores1);
+		resultado.retainAll(valores2);
 		
 		return resultado;
 	}
