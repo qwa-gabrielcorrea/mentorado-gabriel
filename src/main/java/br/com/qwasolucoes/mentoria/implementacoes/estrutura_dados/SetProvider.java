@@ -35,7 +35,9 @@ public class SetProvider implements EstruturaDadosSet {
 					if(maior.equals(0)) {
 						maior = 0;
 					}
-				}			
+				} else {
+					maior = 0;
+				}
 			}
 					
 		}	if(maior != null) {
