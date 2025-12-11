@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
+import br.com.qwasolucoes.mentoria.implementacoes.logica_programacao.LogicaProgramacaoProvider;
 import br.com.qwasolucoes.mentoria.interfaces.estrutura_dados.EstruturaDadosMap;
 import br.com.qwasolucoes.mentoria.model.ContatoFuncionario;
 import br.com.qwasolucoes.mentoria.model.Funcionario;
 
 public class MapProvider implements EstruturaDadosMap{
+	
+	LogicaProgramacaoProvider lgp = new LogicaProgramacaoProvider ();
 
 	@Override
 	public Map<String, Integer> nomeFrequencia(List<String> nomes) {
@@ -56,7 +61,7 @@ public class MapProvider implements EstruturaDadosMap{
 		Map<String, Integer> frequencia = new HashMap<>();
 		
 		for (String chave : mapa.keySet()) {
-			for (String valor : mapa.keySet()) {
+			for (String valor : mapa.get(chave)) {
 				Integer contador = frequencia.get(valor);
 				
 				if (contador == null) {
@@ -120,30 +125,87 @@ public class MapProvider implements EstruturaDadosMap{
 	@Override
 	public List<String> chavesMapa(Map<String, String> mapa) {
 		
-		return null;
+		List<String> chaves = new ArrayList<>(mapa.keySet());
+				
+		return chaves;
 	}
 
 	@Override
 	public List<String> valoresMapa(Map<String, String> mapa) {
+		
+		List<String> valores = new ArrayList<>();
+		
+		for(String valor : mapa.keySet()) {
+			valores.add(valor);
+		}
 		 
-		return null;
+		return valores;
 	}
 
 	@Override
 	public Map<String, List<Integer>> nomeTelefones(int limite) {
-		 
-		return null;
+	
+		Map<String, List<Integer>> mapa = new TreeMap<>();
+		
+		List<Integer> pares = new ArrayList<>();
+		List<Integer> impares = new ArrayList<>();
+		List<Integer> primos = new ArrayList<>();
+		List<Integer> multip = new ArrayList<>();
+		
+		for (int i = 0; i <= limite; i++) {
+			
+			if(lgp.validaParOuImpar(i)) {
+				pares.add(i);
+			} else {
+				impares.add(i);
+			}
+			if(lgp.validaPrimo(i)) {
+				primos.add(i);
+			}
+			if (i %10 == 0) {
+				multip.add(i);
+			}
+
+		}
+		
+		mapa.put("NUMEROS_IMPARES", pares);
+		mapa.put("NUMEROS_PARES", impares);
+		mapa.put("NUMEROS_PRIMOS", primos);
+		mapa.put("NUMEROS_MULTIPLOS_10", multip);
+		
+		return mapa;
 	}
 
 	@Override
 	public Integer maiorNumeroEntreValores(Map<String, List<Integer>> map) {
+		
+		Integer resultado = null;
+		Set<Integer> valores = new TreeSet<>();
+		
+		for(String chave : map.keySet()) {
+			for (Integer valor : map.get(chave)) {
+				valores.add(valor);
+			}
+		}
+		
+		resultado = valores.size();
 		 
-		return null;
+		return resultado;
 	}
 
 	@Override
 	public String chaveMaiorNumeroEntreValores(Map<String, List<Integer>> map) {
+		
+		String resultado = null; 
+		
+		for (String chave : map.keySet()) {
+			// TODO: IMPLEMENTAR RESTANTE DO CÓDIGO 
+		}
 
 		return null;
 	}
+
+
 }
+
+

@@ -23,18 +23,29 @@ public class SetProvider implements EstruturaDadosSet {
 	public Set<String> valoresPositivosNegativos(int[] valores) {
 		
 		Set<String> resultado = new TreeSet<>();
+		Integer maior = null;
 		
 		for (int valor : valores) {
-			if(valor >= -9 && valor <= 9) {
-				resultado.add(toString());
+			int aux = valor < 0 ? -valor : valor; 
+			
+			if(aux >= 0 && aux <= 9) {
+				
+				if(maior == null || aux > maior ) {
+					maior = aux;
+					if(maior.equals(0)) {
+						maior = 0;
+					}
+				} else {
+					maior = 0;
+				}
 			}
+					
+		}	if(maior != null) {
+			resultado.add(String.valueOf(maior));
+		} else {
+			maior = 0;
+			resultado.add(String.valueOf(maior));
 		}
-		
-		for (String ultimo : resultado) {
-			while(resultado.size() >= 2) {
-				resultado.remove(ultimo);
-			}
-		}		
 				
 		return resultado;
 	}
@@ -58,8 +69,9 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<Integer> valoresDiferentesOrdenados(List<Integer> valores1, List<Integer> valores2) {
 		
-		Set<Integer> resultado = new TreeSet<>(valores2);
-		resultado.retainAll(valores1);
+		Set<Integer> resultado = new TreeSet<>(valores1);
+		resultado.addAll(valores2);
+		resultado.removeAll(valores2);
 		
 		return resultado;
 	}
