@@ -41,9 +41,16 @@ public class RelacionamentoProvider implements Relacionamentos{
 	@Override
 	public List<String> buscarNomeSobrenomeDasPessoasPorAnorNascimento(Integer ano) {
 		
-		
+		Pessoa pessoa = new Pessoa(); 
+		String anoNasc = pessoa.getDataNascimento();
 		
 		List<String> resultado = new ArrayList<>();
+		
+		String nomeCompleto = pessoa.getNome() + " " + pessoa.getSobrenome();
+		
+		if (anoNasc.contains(ano.toString())) {
+			resultado.add(nomeCompleto);
+		}
 		
 		return resultado;
 	}
