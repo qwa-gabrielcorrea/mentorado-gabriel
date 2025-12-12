@@ -1,5 +1,9 @@
 package br.com.qwasolucoes.mentoria.implementacoes.relacionamento;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,32 @@ public class RelacionamentoProvider implements Relacionamentos{
 	@Override
 	public void iniciar() {
 		 
+		String arquivoCSV = "Pessoa.csv";
+		BufferedReader br = null; 
+		String linha = "";
+		String divisor = ",";
+		
+		try {
+			
+			br = new BufferedReader(new FileReader(arquivoCSV));
+			while ((linha = br.readLine()) != null) {
+				
+				String[] info = linha.split(divisor);
+				
+			}
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e){
+					e.printStackTrace();
+				}
+			}
+		}
 		
 	}
 
