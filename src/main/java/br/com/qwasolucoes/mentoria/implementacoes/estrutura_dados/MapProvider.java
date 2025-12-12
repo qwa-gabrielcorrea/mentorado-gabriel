@@ -197,12 +197,28 @@ public class MapProvider implements EstruturaDadosMap{
 	public String chaveMaiorNumeroEntreValores(Map<String, List<Integer>> map) {
 		
 		String resultado = null; 
+		Integer maiorValor = null;
 		
-		for (String chave : map.keySet()) {
-			// TODO: IMPLEMENTAR RESTANTE DO CÓDIGO 
+		for (Map.Entry<String, List<Integer>> mapa : map.entrySet()) {
+			
+			String chave = mapa.getKey();
+	        List<Integer> valores = mapa.getValue();
+
+	        for (Integer valor : valores) {
+
+	            if (valor == null) {
+	                continue;
+	            }
+
+	            if (maiorValor == null || valor > maiorValor) {
+	                maiorValor = valor;
+	                resultado = chave;
+	            }
+	        }
+			
 		}
 
-		return null;
+		return resultado;
 	}
 
 
