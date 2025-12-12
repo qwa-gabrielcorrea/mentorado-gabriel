@@ -60,6 +60,13 @@ public class RelacionamentoProvider implements Relacionamentos{
 		
 		List<String> resultado = new ArrayList<>();
 		
+		Pessoa pessoa = new Pessoa();
+		String nomeCompleto = pessoa.getNome() + " " + pessoa.getSobrenome();
+		
+		if (estadoCivil.equals(pessoa.getEstadoCivil())) {
+			resultado.add(nomeCompleto);
+		}
+		
 		return resultado;
 	}
 
