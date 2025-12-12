@@ -73,6 +73,8 @@ public class RelacionamentoProvider implements Relacionamentos{
 	@Override
 	public List<Pessoa> buscarPessoasPorTipoResidencia(String tipoResidencia) {
 		
+		Pessoa pessoa = new Pessoa();
+		
 		List<Pessoa> resultado = new ArrayList<>();
 		
 		return resultado;
