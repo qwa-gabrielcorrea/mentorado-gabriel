@@ -26,26 +26,17 @@ public class SetProvider implements EstruturaDadosSet {
 		Integer maior = null;
 		
 		for (int valor : valores) {
-			int aux = valor < 0 ? -valor : valor; 
-			
-			if(aux >= 0 && aux <= 9) {
-				
-				if(maior == null || aux > maior ) {
-					maior = aux;
-					if(maior.equals(0)) {
-						maior = 0;
-					}
-				} else {
-					maior = 0;
-				}
-			}
-					
-		}	if(maior != null) {
-			resultado.add(String.valueOf(maior));
-		} else {
-			maior = 0;
-			resultado.add(String.valueOf(maior));
+			if (valor >= -9 && valor <= 9) {
+
+	            if (maior == null || valor> maior) {
+	                maior = valor;
+	            }
+	        }
 		}
+		
+		if (maior != null) {
+	        resultado.add(String.valueOf(maior));
+	    }
 				
 		return resultado;
 	}
@@ -69,9 +60,17 @@ public class SetProvider implements EstruturaDadosSet {
 	@Override
 	public Set<Integer> valoresDiferentesOrdenados(List<Integer> valores1, List<Integer> valores2) {
 		
-		Set<Integer> resultado = new TreeSet<>(valores1);
-		resultado.addAll(valores2);
-		resultado.removeAll(valores2);
+		Set<Integer> resultado = new TreeSet<>();
+		Set<Integer> set1 = new HashSet<>(valores1);
+	    Set<Integer> set2 = new HashSet<>(valores2);
+
+	    resultado.addAll(set1);
+	    resultado.addAll(set2);
+	    
+	    Set<Integer> auxiliar = new HashSet<>(set1);
+	    auxiliar.retainAll(set2);
+	    
+	    resultado.removeAll(auxiliar);
 		
 		return resultado;
 	}
