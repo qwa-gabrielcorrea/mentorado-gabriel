@@ -26,26 +26,17 @@ public class SetProvider implements EstruturaDadosSet {
 		Integer maior = null;
 		
 		for (int valor : valores) {
-			int aux = valor < 0 ? -valor : valor; 
-			
-			if(aux >= 0 && aux <= 9) {
-				
-				if(maior == null || aux > maior ) {
-					maior = aux;
-					if(maior.equals(0)) {
-						maior = 0;
-					}
-				} else {
-					maior = 0;
-				}
-			}
-					
-		}	if(maior != null) {
-			resultado.add(String.valueOf(maior));
-		} else {
-			maior = 0;
-			resultado.add(String.valueOf(maior));
+			if (valor >= -9 && valor <= 9) {
+
+	            if (maior == null || valor> maior) {
+	                maior = valor;
+	            }
+	        }
 		}
+		
+		if (maior != null) {
+	        resultado.add(String.valueOf(maior));
+	    }
 				
 		return resultado;
 	}
