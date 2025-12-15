@@ -115,21 +115,21 @@ public class RelacionamentoProvider implements Relacionamentos{
 	@Override
 	public List<String> buscarCPFsDasPessoasMaioresIdade() {
 		
-//		List<String> resultado = new ArrayList<>();
-//		
-//		Pessoa pessoa = new Pessoa();
-//		
-//		LogicaProgramacaoProvider lgp = new LogicaProgramacaoProvider();
-//		
-//		Integer idade = lgp.caculaIdade(pessoa.getDataNascimento());
-//		
-//		boolean ehMaior = lgp.calculaMaioridade(idade);
-//		
-//		if (ehMaior) {
-//			resultado.add(pessoa.getCpfCnpj());
-//		}
-//		
-		return null;
+		List<String> resultado = new ArrayList<>();
+		
+		Pessoa pessoa = new Pessoa();
+		
+		LogicaProgramacaoProvider lgp = new LogicaProgramacaoProvider();
+		
+		Integer idade = lgp.caculaIdade(pessoa.getDataNascimento());
+		
+		boolean ehMaior = lgp.calculaMaioridade(idade);
+		
+		if (ehMaior) {
+			resultado.add(pessoa.getCpfCnpj());
+		}
+		
+		return resultado;
 	}
 
 	@Override
