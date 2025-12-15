@@ -463,7 +463,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -472,7 +472,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -481,7 +481,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -490,7 +490,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -499,7 +499,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -508,7 +508,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -517,7 +517,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -526,7 +526,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -535,7 +535,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -545,7 +545,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -555,7 +555,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -564,7 +564,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -573,7 +573,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -582,7 +582,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -592,7 +592,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -601,7 +601,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 }
