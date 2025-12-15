@@ -1,115 +1,51 @@
 package br.com.qwasolucoes.mentoria.implementacoes.relacionamento;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import br.com.qwasolucoes.mentoria.implementacoes.logica_programacao.LogicaProgramacaoProvider;
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
-import br.com.qwasolucoes.mentoria.modelagem_dados.Empresa;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Endereco;
-import br.com.qwasolucoes.mentoria.modelagem_dados.Escolaridade;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
-import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
-import br.com.qwasolucoes.mentoria.modelagem_dados.TipoEndereco;
 
 public class RelacionamentoProvider implements Relacionamentos{
-	
-	public Map<String, Pessoa> pessoasPorCpf; 
-	// chave: cpf linha[4] 
-	// valor: pessoa instanciada 
-	
-	public Map<String, Endereco> enderecosPorCpf;
-	// chave: cpf linha[0] 
-	// valor: endereco instanciado 
-	
-	public Map<String, Escolaridade> escolaridadePorCpf;
-	//chave: cpf linha[0]
-	//valor: escoladirade instanciada
-	
-	public Map<String, TipoEndereco> buscaTipoEndereco;
-	//chave: tipoEndereco p / r
-	//valor: endereco linha[1]
-	
-	public Map<String, Profissao> profissaoPorCodigo;
-	//chave codigo linha[0]
-	//valor: profissao instanciada
 
-	public Map<String, Empresa> empresaPorNome;
-	//chave nome empresa
-	//valor: empresa instanciada 
-	
-	public Map<String, Contato> contatoPorCpf;
-	//chave cpf linha[0]
-	//contato instanciado 
-	
-	
 	@Override
 	public void iniciar() {
 		 
-		List<String[]> pessoasCSV = lerCSV("resources/Pessoa.csv");
-		
-		for (String[] linha : pessoasCSV) {
-			
-			Pessoa pessoa = new Pessoa(); 
-			Pessoa conjuge = new Pessoa();
-			Endereco endereco = new Endereco();
-			
-			pessoa.setNome(linha[0]);
-			pessoa.setSobrenome(linha[1]);
-			pessoa.setDataNascimento(linha[2]);
-			pessoa.setSexo(linha[3]);
-			pessoa.setCpfCnpj(linha[4]);
-			pessoa.setEstadoCivil(linha[5]);
-			conjuge.setNome(linha[6]);
-			pessoa.setConjuge(conjuge);
-			
-			pessoasPorCpf.put(pessoa.getCpfCnpj(), pessoa);
-			enderecosPorCpf.put(pessoa.getCpfCnpj(), endereco);
-			
-			
-		}
-		
-		
-	}
-
-	private List<String[]> lerCSV(String caminho) {
-
-		List<String[]> linhas = new ArrayList<String[]>();
+		String arquivoCSV = "Pessoa.csv";
 		BufferedReader br = null; 
+		String linha = "";
+		String divisor = ",";
 		
 		try {
-			br = new BufferedReader (new FileReader(caminho));
-			String linha; 
 			
+			br = new BufferedReader(new FileReader(arquivoCSV));
 			while ((linha = br.readLine()) != null) {
 				
-				if(linha.trim().isEmpty()) {
-					continue;
-				}
+				String[] info = linha.split(divisor);
 				
-				String[] colunas = linha.split(",");
-				
-				linhas.add(colunas);
 			}
-		} catch(IOException e) {
-			throw new RuntimeException("Erro ao ler arquivo: " + caminho, e);
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
-			try {
-				if (br != null) {
+			if (br != null) {
+				try {
 					br.close();
+				} catch (IOException e){
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				e.getMessage();
 			}
 		}
 		
-		return linhas;
 	}
 
 	@Override
