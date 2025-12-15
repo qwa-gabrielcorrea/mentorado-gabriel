@@ -51,21 +51,21 @@ public class RelacionamentoProvider implements Relacionamentos{
 	@Override
 	public List<String> buscarCPFsDasPessoasMaioresIdade() {
 		
-		List<String> resultado = new ArrayList<>();
+//		List<String> resultado = new ArrayList<>();
+//		
+//		Pessoa pessoa = new Pessoa();
+//		
+//		LogicaProgramacaoProvider lgp = new LogicaProgramacaoProvider();
+//		
+//		Integer idade = lgp.caculaIdade(pessoa.getDataNascimento());
+//		
+//		boolean ehMaior = lgp.calculaMaioridade(idade);
+//		
+//		if (ehMaior) {
+//			resultado.add(pessoa.getCpfCnpj());
+//		}
 		
-		Pessoa pessoa = new Pessoa();
-		
-		LogicaProgramacaoProvider lgp = new LogicaProgramacaoProvider();
-		
-		Integer idade = lgp.caculaIdade(pessoa.getDataNascimento());
-		
-		boolean ehMaior = lgp.calculaMaioridade(idade);
-		
-		if (ehMaior) {
-			resultado.add(pessoa.getCpfCnpj());
-		}
-		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -399,7 +399,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -408,7 +408,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -417,7 +417,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -426,7 +426,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -435,7 +435,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -444,7 +444,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -453,7 +453,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -462,7 +462,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -471,7 +471,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -481,7 +481,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -491,7 +491,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -500,7 +500,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -509,7 +509,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -518,7 +518,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -528,7 +528,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 	@Override
@@ -537,7 +537,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		Integer resultado;
 		
 		
-		return resultado;
+		return null;
 	}
 
 }
