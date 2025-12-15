@@ -3,7 +3,7 @@ package br.com.qwasolucoes.mentoria.modelagem_dados;
 public class Profissao {
 	private String codigoProfissao;
 	private String nomeProfissao;
-	private String areaAtuação;
+	private String areaAtuacao;
 	private String salarioBase;
 
 	public String getCodigoProfissao() {
@@ -22,12 +22,12 @@ public class Profissao {
 		this.nomeProfissao = nomeProfissao;
 	}
 
-	public String getAreaAtuação() {
-		return areaAtuação;
+	public String getAreaAtuacao() {
+		return areaAtuacao;
 	}
 
-	public void setAreaAtuação(String areaAtuação) {
-		this.areaAtuação = areaAtuação;
+	public void setAreaAtucao(String areaAtuacao) {
+		this.areaAtuacao = areaAtuacao;
 	}
 
 	public String getSalarioBase() {
