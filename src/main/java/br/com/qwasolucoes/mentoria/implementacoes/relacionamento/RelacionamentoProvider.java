@@ -1,42 +1,99 @@
 package br.com.qwasolucoes.mentoria.implementacoes.relacionamento;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
-import br.com.qwasolucoes.mentoria.implementacoes.logica_programacao.LogicaProgramacaoProvider;
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Endereco;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
+import br.com.qwasolucoes.mentoria.modelagem_dados.TipoEndereco;
 
 public class RelacionamentoProvider implements Relacionamentos{
+	
+	List<Pessoa> listaPessoas = new ArrayList<>();
+	List<Endereco> listaEnderecos = new ArrayList<>();
+	List<TipoEndereco> listaTipoEndereco = new ArrayList<>();	
+	
+	
+	String csvPessoas = "Pessoa.csv";
+	String csvEnderecos = "Endereço.csv";
+		
+	List<String> todosCsv = new ArrayList<>();
 
 	@Override
 	public void iniciar() {
+		
+		
+		todosCsv.add(csvPessoas);
+		todosCsv.add(csvEnderecos);
 		 
-		String arquivoCSV = "Pessoa.csv";
 		BufferedReader br = null; 
 		String linha = "";
 		String divisor = ",";
 		
-		try {
-			
-			br = new BufferedReader(new FileReader(arquivoCSV));
-			while ((linha = br.readLine()) != null) {
+		try 
+		{
+			for(String arquivo : todosCsv) {
+				br = new BufferedReader(new FileReader(arquivo));
 				
-				String[] info = linha.split(divisor);
+				if (arquivo.equals(csvPessoas)) {
+					while ((linha = br.readLine()) != null) {
+						
+						Pessoa pessoa = new Pessoa();
+						String[] info = linha.split(divisor);
+						
+						pessoa.setNome(info[0]);
+						pessoa.setSobrenome(info[1]);
+						pessoa.setDataNascimento(info[2]);
+						pessoa.setSexo(info[3]);
+						pessoa.setCpfCnpj(info[4]);
+						pessoa.setEstadoCivil(info[5]);
+						
+						if(pessoa.getEstadoCivil().equals("CASADO")) {
+							Pessoa conjuge = new Pessoa();
+							conjuge.setNome(info[6]);
+							pessoa.setConjuge(conjuge);					
+						}
+						
+						listaPessoas.add(pessoa);
+					}
+				}
 				
+				if (arquivo.equals(csvEnderecos)) {
+					while ((linha = br.readLine()) != null) {
+						
+						Endereco endereco = new Endereco();
+						String[] info = linha.split(divisor);
+						
+						endereco.setCpfCnpj(info[0]);
+						endereco.setTipoEndereco(info[1]);
+						endereco.setPais(info[2]);
+						endereco.setRua(info[3]);
+						endereco.setNumero(info[4]);
+						endereco.setBairro(info[5]);
+						endereco.setCidade(info[6]);
+						endereco.setEstado(info[7]);
+						endereco.setCep(info[8]);
+						endereco.setComplementoCep(info[9]);
+						
+
+						listaEnderecos.add(endereco);
+					}
+				}
 			}
-		} catch(FileNotFoundException e) {
+			
+		} 
+		catch(IOException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+		}  finally {
 			if (br != null) {
 				try {
 					br.close();
@@ -45,27 +102,28 @@ public class RelacionamentoProvider implements Relacionamentos{
 				}
 			}
 		}
-		
+				
 	}
 
 	@Override
 	public List<String> buscarCPFsDasPessoasMaioresIdade() {
 		
-//		List<String> resultado = new ArrayList<>();
-//		
-//		Pessoa pessoa = new Pessoa();
-//		
-//		LogicaProgramacaoProvider lgp = new LogicaProgramacaoProvider();
-//		
-//		Integer idade = lgp.caculaIdade(pessoa.getDataNascimento());
-//		
-//		boolean ehMaior = lgp.calculaMaioridade(idade);
-//		
-//		if (ehMaior) {
-//			resultado.add(pessoa.getCpfCnpj());
-//		}
+		List<String> resultado = new ArrayList<>();
 		
-		return null;
+		Integer idade;
+		
+		for (Pessoa pessoa : listaPessoas) {
+			try {
+				idade = converteIdade(pessoa.getDataNascimento());
+				
+				if (idade >= 18) {
+					resultado.add(pessoa.getCpfCnpj());
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			} 
+		}
+		return resultado;
 	}
 
 	@Override
@@ -89,12 +147,11 @@ public class RelacionamentoProvider implements Relacionamentos{
 	public List<String> buscarNomeSobrenomeDasPessoasPorEstadoCivil(String estadoCivil) {
 		
 		List<String> resultado = new ArrayList<>();
-		
-		Pessoa pessoa = new Pessoa();
-		String nomeCompleto = pessoa.getNome() + " " + pessoa.getSobrenome();
-		
-		if (estadoCivil.equals(pessoa.getEstadoCivil())) {
-			resultado.add(nomeCompleto);
+
+		for (Pessoa pessoa : listaPessoas) {
+			if (estadoCivil.equals(pessoa.getEstadoCivil())) {
+				resultado.add(pessoa.getNome() + pessoa.getSobrenome());
+			}
 		}
 		
 		return resultado;
@@ -102,10 +159,18 @@ public class RelacionamentoProvider implements Relacionamentos{
 
 	@Override
 	public List<Pessoa> buscarPessoasPorTipoResidencia(String tipoResidencia) {
-		
-		Pessoa pessoa = new Pessoa();
-		
+
 		List<Pessoa> resultado = new ArrayList<>();
+		
+		for(Endereco endereco : listaEnderecos) {
+			if(tipoResidencia.equals(endereco.getTipoEndereco())) {
+				for(Pessoa pessoa : listaPessoas) {
+					if(endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+						resultado.add(pessoa);
+					}
+				}
+			}
+		}		
 		
 		return resultado;
 	}
@@ -539,5 +604,36 @@ public class RelacionamentoProvider implements Relacionamentos{
 		
 		return null;
 	}
+	
+	public Integer converteIdade (String dataNascimento) throws ParseException{
+		
+		if (dataNascimento == null || dataNascimento.trim().isEmpty()) {
+			return null;
+		}
+		
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false); //de acordo com o StackOverFlow, garante que as datas sejam válidas
+
+        Date dataFormatada;
+        Calendar nascimento = Calendar.getInstance();
+        Calendar hoje = Calendar.getInstance();
+        
+        try {
+        	dataFormatada = sdf.parse(dataNascimento);
+        } catch (ParseException e) {
+        	e.getMessage();
+        	return null;
+        }
+        
+        nascimento.setTime(dataFormatada);
+        
+        
+        Integer idadeConvertida = hoje.get(Calendar.YEAR) - nascimento.get(Calendar.YEAR);
+
+        if (hoje.get(Calendar.MONTH) <= nascimento.get(Calendar.MONTH)) {
+        	idadeConvertida --;
+        }
+        return idadeConvertida; 
+    }
 
 }
