@@ -2,7 +2,7 @@ package br.com.qwasolucoes.mentoria.modelagem_dados;
 
 public class Endereco {
 	private String cpfCnpj;
-	private String tipoEndereço;
+	private String tipoEndereco;
 	private String pais;
 	private String rua;
 	private String numero;
@@ -20,12 +20,12 @@ public class Endereco {
 		this.cpfCnpj = cpfCnpj;
 	}
 
-	public String getTipoEndereço() {
-		return tipoEndereço;
+	public String getTipoEndereco() {
+		return tipoEndereco;
 	}
 
-	public void setTipoEndereço(String tipoEndereço) {
-		this.tipoEndereço = tipoEndereço;
+	public void setTipoEndereco(String tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
 	}
 
 	public String getPais() {
