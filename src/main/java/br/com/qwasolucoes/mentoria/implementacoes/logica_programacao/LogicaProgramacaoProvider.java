@@ -4,10 +4,8 @@ package br.com.qwasolucoes.mentoria.implementacoes.logica_programacao;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 			}
 
 			BigDecimal salario = converteStringParaBigDecimal(dado.substring(142, dado.length()).trim());
-			int idade = caculaIdade(dataNasc);
+			int idade = calculaIdade(dataNasc);
 			BigDecimal taxa = calculaTaxa(idade);
 			BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
 			boolean maioridade = calculaMaioridade(idade);
@@ -177,7 +175,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		try {
 
 			Date dataNascimento = converteStringParaData(array[2]);
-			int idade = caculaIdade(dataNascimento);
+			int idade = calculaIdade(dataNascimento);
 			boolean maioridade = calculaMaioridade(idade);
 			BigDecimal salario = converteStringParaBigDecimal(array[7]);
 			BigDecimal taxa = calculaTaxa(idade);
@@ -216,7 +214,7 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 
 				Date dataNascimento = converteStringParaData(arrayMultidimensional[i][2]);
 				BigDecimal salario = converteStringParaBigDecimal(arrayMultidimensional[i][7]);
-				int idade = caculaIdade(dataNascimento);
+				int idade = calculaIdade(dataNascimento);
 				BigDecimal taxa = calculaTaxa(idade);
 				BigDecimal salarioLiquido = calculaSalarioLiquido(salario, taxa, idade);
 				boolean maioridade = calculaMaioridade(idade);
@@ -1150,11 +1148,23 @@ public class LogicaProgramacaoProvider implements LogicaProgramacao{
 		return true;
 	}
 
-	public Integer caculaIdade (Date dataNascimento){
+	public Integer calculaIdade(Date dataNascimento) {
+		if (dataNascimento == null) return null;
 
-       return Period.between(dataNascimento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+	    Calendar nascimento = Calendar.getInstance();
+	    nascimento.setTime(dataNascimento);
 
-    }
+	    Calendar hoje = Calendar.getInstance();
+
+	    int idade = hoje.get(Calendar.YEAR) - nascimento.get(Calendar.YEAR);
+
+	    if (hoje.get(Calendar.DAY_OF_YEAR) < nascimento.get(Calendar.DAY_OF_YEAR)) {
+	        idade--;
+	    }
+
+	    return idade;
+	}
+
     
     public boolean calculaMaioridade (Integer idade){
 
