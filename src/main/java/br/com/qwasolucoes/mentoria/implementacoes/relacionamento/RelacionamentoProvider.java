@@ -43,7 +43,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		todosCsv.add(csvEnderecos);
 		todosCsv.add(csvContatos);
 		todosCsv.add(csvProfissoes);
-		todosCsv.add(csvProfissoes);
+		todosCsv.add(csvEmpresas);
 		 
 		BufferedReader br = null; 
 		String linha = "";
@@ -137,8 +137,15 @@ public class RelacionamentoProvider implements Relacionamentos{
 						empresa.setNome(info[0]);
 						empresa.setCodigoProfissao(info[1]);
 						empresa.setCpfCnpj(info[2]);
-						empresa.setProfissao(listaProfissoes); //validar
 
+						List<Profissao> profPorEmpresa = new ArrayList<>();
+						for (Profissao profissao : listaProfissoes) {
+							if(profissao.getCodigoProfissao().equals(info[1])) {
+								profPorEmpresa.add(profissao);
+							}
+						}
+						
+						listaEmpresas.add(empresa);
 					}
 				}
 			}
@@ -182,15 +189,12 @@ public class RelacionamentoProvider implements Relacionamentos{
 	@Override
 	public List<String> buscarNomeSobrenomeDasPessoasPorAnorNascimento(Integer ano) {
 		
-		Pessoa pessoa = new Pessoa(); 
-		String anoNasc = pessoa.getDataNascimento();
-		
 		List<String> resultado = new ArrayList<>();
 		
-		String nomeCompleto = pessoa.getNome() + " " + pessoa.getSobrenome();
-		
-		if (anoNasc.contains(ano.toString())) {
-			resultado.add(nomeCompleto);
+		for(Pessoa pessoa : listaPessoas) {
+			if(pessoa.getDataNascimento().contains(ano.toString())) {
+				resultado.add(pessoa.getNome() + pessoa.getSobrenome());
+			}
 		}
 		
 		return resultado;
@@ -327,7 +331,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		
 		for(Empresa empresa : listaEmpresas) {
 			for (Profissao profissao : empresa.getProfissao()) {
-				if(valor.contains(profissao.getNomeProfissao())) {
+				if(profissao.getNomeProfissao().contains(valor) || profissao.getAreaAtuação().contains(valor) ) {
 					for (Pessoa pessoa : listaPessoas) {
 						if(pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
 							resultado.add(pessoa);
