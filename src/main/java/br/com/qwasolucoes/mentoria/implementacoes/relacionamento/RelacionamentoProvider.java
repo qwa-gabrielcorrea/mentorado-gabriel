@@ -10,22 +10,25 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Endereco;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
-import br.com.qwasolucoes.mentoria.modelagem_dados.TipoEndereco;
+import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
 public class RelacionamentoProvider implements Relacionamentos{
 	
 	List<Pessoa> listaPessoas = new ArrayList<>();
 	List<Endereco> listaEnderecos = new ArrayList<>();
 	List<Contato> listaContatos = new ArrayList<>();
+	List<Profissao> listaProfissoes = new ArrayList<>();
 	
 	
 	String csvPessoas = "Pessoa.csv";
 	String csvEnderecos = "Endere�o.csv";
 	String csvContatos = "Contato.csv";
+	String csvProfissoes = "Profissao.csv";
 		
 	List<String> todosCsv = new ArrayList<>();
 
@@ -36,6 +39,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		todosCsv.add(csvPessoas);
 		todosCsv.add(csvEnderecos);
 		todosCsv.add(csvContatos);
+		todosCsv.add(csvProfissoes);
 		 
 		BufferedReader br = null; 
 		String linha = "";
@@ -102,6 +106,21 @@ public class RelacionamentoProvider implements Relacionamentos{
 						contato.setValor(info[2]);
 						
 						listaContatos.add(contato);
+					}
+				}
+				
+				if (arquivo.equals(csvProfissoes)) {
+					while ((linha = br.readLine()) != null) {
+						
+						Profissao profissao = new Profissao();
+						String[] info = linha.split(divisor);
+						
+						profissao.setCodigoProfissao(info[0]);
+						profissao.setNomeProfissao(info[1]);
+						profissao.setAreaAtuação(info[2]);
+						profissao.setSalarioBase(info[3]);
+						
+						listaProfissoes.add(profissao);
 					}
 				}
 			}
