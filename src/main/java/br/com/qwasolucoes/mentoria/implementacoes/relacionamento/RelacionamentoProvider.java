@@ -20,11 +20,12 @@ public class RelacionamentoProvider implements Relacionamentos{
 	
 	List<Pessoa> listaPessoas = new ArrayList<>();
 	List<Endereco> listaEnderecos = new ArrayList<>();
-	List<TipoEndereco> listaTipoEndereco = new ArrayList<>();	
+	List<Contato> listaContatos = new ArrayList<>();
 	
 	
 	String csvPessoas = "Pessoa.csv";
 	String csvEnderecos = "Endere�o.csv";
+	String csvContatos = "Contato.csv";
 		
 	List<String> todosCsv = new ArrayList<>();
 
@@ -34,6 +35,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		
 		todosCsv.add(csvPessoas);
 		todosCsv.add(csvEnderecos);
+		todosCsv.add(csvContatos);
 		 
 		BufferedReader br = null; 
 		String linha = "";
@@ -86,6 +88,20 @@ public class RelacionamentoProvider implements Relacionamentos{
 						
 
 						listaEnderecos.add(endereco);
+					}
+				}
+				
+				if (arquivo.equals(csvContatos)) {
+					while ((linha = br.readLine()) != null) {
+						
+						Contato contato = new Contato();
+						String[] info = linha.split(divisor);
+						
+						contato.setCpfCnpj(info[0]);
+						contato.setTipo(info[1]);
+						contato.setValor(info[2]);
+						
+						listaContatos.add(contato);
 					}
 				}
 			}
@@ -179,6 +195,16 @@ public class RelacionamentoProvider implements Relacionamentos{
 	public List<Pessoa> buscarPessoasPorTipoContato(String tipoContato) {
 		
 		List<Pessoa> resultado = new ArrayList<>();
+		
+		for(Contato contato : listaContatos) {
+			if(tipoContato.equals(contato.getTipo())) {
+				for(Pessoa pessoa : listaPessoas) {
+					if(contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+						resultado.add(pessoa);
+					}
+				}
+			}
+		}
 		
 		return resultado;
 	}
