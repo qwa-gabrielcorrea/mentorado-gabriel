@@ -305,7 +305,18 @@ public class RelacionamentoProvider implements Relacionamentos{
 		
 		List<Pessoa> resultado = new ArrayList<>();
 		
-		
+		for(Empresa empresa : listaEmpresas) {
+			for(Profissao profissao : empresa.getProfissao()) {
+				if(nomeProfissao.equals(profissao.getNomeProfissao())) {
+					for(Pessoa pessoa : listaPessoas) {
+						if(pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+							resultado.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+				
 		return resultado;
 	}
 
