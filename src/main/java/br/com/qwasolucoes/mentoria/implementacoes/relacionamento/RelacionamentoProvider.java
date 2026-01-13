@@ -214,6 +214,16 @@ public class RelacionamentoProvider implements Relacionamentos{
 		
 		List<Pessoa> resultado = new ArrayList<>();
 		
+		for (Endereco endereco : listaEnderecos) {
+			if(bairro.equals(endereco.getBairro())) {
+				for (Pessoa pessoa : listaPessoas) {
+					if(endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+						resultado.add(pessoa);
+					}
+				}
+			}
+		}
+		
 		return resultado;
 	}
 
