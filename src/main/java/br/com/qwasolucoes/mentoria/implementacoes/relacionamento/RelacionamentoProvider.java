@@ -24,7 +24,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 	
 	
 	String csvPessoas = "Pessoa.csv";
-	String csvEnderecos = "Endereço.csv";
+	String csvEnderecos = "Endereï¿½o.csv";
 		
 	List<String> todosCsv = new ArrayList<>();
 
@@ -74,7 +74,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 						String[] info = linha.split(divisor);
 						
 						endereco.setCpfCnpj(info[0]);
-						endereco.setTipoEndereco(info[1]);
+						endereco.setTipoEndereÃ§o(info[1]);
 						endereco.setPais(info[2]);
 						endereco.setRua(info[3]);
 						endereco.setNumero(info[4]);
@@ -163,7 +163,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		List<Pessoa> resultado = new ArrayList<>();
 		
 		for(Endereco endereco : listaEnderecos) {
-			if(tipoResidencia.equals(endereco.getTipoEndereco())) {
+			if(tipoResidencia.equals(endereco.getTipoEndereÃ§o())) {
 				for(Pessoa pessoa : listaPessoas) {
 					if(endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -612,7 +612,7 @@ public class RelacionamentoProvider implements Relacionamentos{
 		}
 		
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false); //de acordo com o StackOverFlow, garante que as datas sejam válidas
+        sdf.setLenient(false); //de acordo com o StackOverFlow, garante que as datas sejam vï¿½lidas
 
         Date dataFormatada;
         Calendar nascimento = Calendar.getInstance();
