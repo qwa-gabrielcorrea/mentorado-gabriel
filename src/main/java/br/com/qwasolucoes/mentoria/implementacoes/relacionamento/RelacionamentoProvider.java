@@ -459,6 +459,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorProfissaoAreaAtuacaoEscolaridadeConcluido(String areaAtuacao) {
 
 		List<Pessoa> resultado = new ArrayList<>();
+		List<Pessoa> primeiroParam = buscarPessoasPorProfissaoNomeAreaAtuacaoContem(areaAtuacao);
+		List<Pessoa> segundoParam = buscarPessoasPorEscolaridadeConcluida();
+
+		boolean interseccao = segundoParam.retainAll(primeiroParam);
+		
+		if(interseccao) {
+			resultado.addAll(segundoParam);
+		}
+		
 
 		return resultado;
 	}
