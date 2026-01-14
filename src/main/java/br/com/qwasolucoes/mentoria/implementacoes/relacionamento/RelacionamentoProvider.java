@@ -28,11 +28,11 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Profissao> listaProfissoes = new ArrayList<>();
 	List<Empresa> listaEmpresas = new ArrayList<>();
 
-	String csvPessoas = "src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv";
-	String csvEnderecos = "src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv";
-	String csvContatos = "src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv";
-	String csvProfissoes = "src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv";
-	String csvEmpresas = "src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv";
+	String csvPessoas = "Pessoa.csv";
+	String csvEnderecos = "Endere�o.csv";
+	String csvContatos = "Contato.csv";
+	String csvProfissoes = "Profissao.csv";
+	String csvEmpresas = "Empresa.csv";
 
 	List<String> todosCsv = new ArrayList<>();
 
@@ -254,6 +254,30 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
+		for (Empresa empresa : listaEmpresas) {
+
+			boolean retornaValor = false;
+
+			for (Profissao profissao : empresa.getProfissao()) {
+
+				BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+
+				if (salario.compareTo(salarioBase) > 0) {
+					retornaValor = true;
+					break;
+				}
+			}
+			if (retornaValor) {
+				for (Pessoa pessoa : listaPessoas) {
+					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+						if (!resultado.contains(pessoa)) {
+							resultado.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+
 		return resultado;
 	}
 
@@ -262,6 +286,30 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
+		for (Empresa empresa : listaEmpresas) {
+
+			boolean retornaValor = false;
+
+			for (Profissao profissao : empresa.getProfissao()) {
+
+				BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+
+				if (salario.compareTo(salarioBase) <= 0) {
+					retornaValor = true;
+					break;
+				}
+			}
+			if (retornaValor) {
+				for (Pessoa pessoa : listaPessoas) {
+					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+						if (!resultado.contains(pessoa)) {
+							resultado.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+
 		return resultado;
 	}
 
@@ -269,6 +317,30 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorSalarioBaseEntre(BigDecimal salarioBaseInicio, BigDecimal salarioBaseFim) {
 
 		List<Pessoa> resultado = new ArrayList<>();
+
+		for (Empresa empresa : listaEmpresas) {
+
+			boolean retornaValor = false;
+
+			for (Profissao profissao : empresa.getProfissao()) {
+
+				BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+
+				if (salario.compareTo(salarioBaseInicio) < 0 && salario.compareTo(salarioBaseFim) > 0) {
+					retornaValor = true;
+					break;
+				}
+			}
+			if (retornaValor) {
+				for (Pessoa pessoa : listaPessoas) {
+					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+						if (!resultado.contains(pessoa)) {
+							resultado.add(pessoa);
+						}
+					}
+				}
+			}
+		}
 
 		return resultado;
 	}
