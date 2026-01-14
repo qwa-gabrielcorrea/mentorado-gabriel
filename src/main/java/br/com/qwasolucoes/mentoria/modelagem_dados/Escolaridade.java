@@ -1,12 +1,14 @@
 package br.com.qwasolucoes.mentoria.modelagem_dados;
 
+import java.util.List;
+
 public class Escolaridade {
 	private String cpfCnpj;
 	private String codigoInstituicao;
 	private String concluido;
 	private String dataTermino;
 	private String semestreAtual;
-	private Instituicao instituicao;
+	private List<Instituicao> instituicao;
 
 	public String getCpfCnpj() {
 		return cpfCnpj;
@@ -48,11 +50,11 @@ public class Escolaridade {
 		this.semestreAtual = semestreAtual;
 	}
 
-	public Instituicao getInstituicao() {
+	public List<Instituicao> getInstituicao() {
 		return instituicao;
 	}
 
-	public void setInstituicao(Instituicao instituicao) {
+	public void setInstituicao(List<Instituicao> instituicao) {
 		this.instituicao = instituicao;
 	}
 

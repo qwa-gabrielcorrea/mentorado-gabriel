@@ -9,14 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Empresa;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Endereco;
+import br.com.qwasolucoes.mentoria.modelagem_dados.Escolaridade;
+import br.com.qwasolucoes.mentoria.modelagem_dados.Instituicao;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
@@ -27,12 +27,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Contato> listaContatos = new ArrayList<>();
 	List<Profissao> listaProfissoes = new ArrayList<>();
 	List<Empresa> listaEmpresas = new ArrayList<>();
+	List<Escolaridade> listaEscolaridade = new ArrayList<>();
+	List<Instituicao> listaInstituicoes = new ArrayList<>();
 
 	String csvPessoas = "Pessoa.csv";
 	String csvEnderecos = "Endere�o.csv";
 	String csvContatos = "Contato.csv";
 	String csvProfissoes = "Profissao.csv";
 	String csvEmpresas = "Empresa.csv";
+	String csvEscolaridade = "Escolaridade.csv";
+	String csvInstituicao = "Instituição de Ensino.csv";
 
 	List<String> todosCsv = new ArrayList<>();
 
@@ -45,6 +49,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 			leituraCsvContatos(csvContatos);
 			leituraCsvProfissoes(csvProfissoes);
 			leituraCsvEmpresas(csvEmpresas);
+			leituraCsvEscolaridade(csvEscolaridade);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -349,6 +354,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEscolaridadeConcluida() {
 
 		List<Pessoa> resultado = new ArrayList<>();
+		
+		for(Escolaridade escolaridade : listaEscolaridade) {
+			if(escolaridade.getConcluido().equals("Sim")) {
+				
+				for(Pessoa pessoa : listaPessoas) {
+					if(escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+						resultado.add(pessoa);
+					}
+				}
+			}
+		}		
 
 		return resultado;
 	}
@@ -796,5 +812,36 @@ public class RelacionamentoProvider implements Relacionamentos {
 			listaEmpresas.add(empresa);
 		}
 		br.close();
+	}
+	
+
+
+	private void leituraCsvEscolaridade(String arquivo) throws IOException {
+		BufferedReader br = abrirCsv(arquivo);
+		String linha;
+
+		while ((linha = br.readLine()) != null) {
+			String[] info = linha.split(",");
+
+			Escolaridade escolaridade = new Escolaridade();
+			escolaridade.setCpfCnpj(info[0]);
+			escolaridade.setCodigoInstituicao(info[1]);
+			escolaridade.setConcluido(info[2]);
+			escolaridade.setDataTermino(info[3]);
+			escolaridade.setSemestreAtual(info[4]);
+			
+			List<Instituicao> escolaPorInstituicao = new ArrayList<>();
+			for (Instituicao instituicao : listaInstituicoes) {
+				if(instituicao.getCodigo().equals(info[1])) {
+					escolaPorInstituicao.add(instituicao);
+				}
+			}
+			
+			escolaridade.setInstituicao(escolaPorInstituicao);
+			listaEscolaridade.add(escolaridade);
+
+		}
+		br.close();
+		
 	}
 }
