@@ -354,17 +354,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEscolaridadeConcluida() {
 
 		List<Pessoa> resultado = new ArrayList<>();
-		
-		for(Escolaridade escolaridade : listaEscolaridade) {
-			if(escolaridade.getConcluido().equals("Sim")) {
-				
-				for(Pessoa pessoa : listaPessoas) {
-					if(escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			if (escolaridade.getConcluido().equals("Sim")) {
+
+				for (Pessoa pessoa : listaPessoas) {
+					if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
 						resultado.add(pessoa);
 					}
 				}
 			}
-		}		
+		}
 
 		return resultado;
 	}
@@ -373,6 +373,31 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEscolaridadeAreaAtuacao(String areaAtuacao) {
 
 		List<Pessoa> resultado = new ArrayList<>();
+
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			String cpfEscolaridade = escolaridade.getCpfCnpj();
+
+			for (Instituicao instituicao : escolaridade.getInstituicao()) {
+				String codigoInstituicao = instituicao.getCodigo();
+
+				for (Instituicao instituicoes : listaInstituicoes) {
+					if (instituicoes.getCodigo().equals(codigoInstituicao)) {
+						boolean contem = instituicoes.getAreaAtuacao().equals(areaAtuacao);
+						if (contem) {
+							for (Pessoa pessoa : listaPessoas) {
+								if (pessoa.getCpfCnpj().equals(cpfEscolaridade)) {
+									if (!resultado.contains(pessoa)) {
+										resultado.add(pessoa);
+									}
+									break;
+								}
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
 
 		return resultado;
 	}
@@ -813,8 +838,6 @@ public class RelacionamentoProvider implements Relacionamentos {
 		}
 		br.close();
 	}
-	
-
 
 	private void leituraCsvEscolaridade(String arquivo) throws IOException {
 		BufferedReader br = abrirCsv(arquivo);
@@ -829,19 +852,19 @@ public class RelacionamentoProvider implements Relacionamentos {
 			escolaridade.setConcluido(info[2]);
 			escolaridade.setDataTermino(info[3]);
 			escolaridade.setSemestreAtual(info[4]);
-			
+
 			List<Instituicao> escolaPorInstituicao = new ArrayList<>();
 			for (Instituicao instituicao : listaInstituicoes) {
-				if(instituicao.getCodigo().equals(info[1])) {
+				if (instituicao.getCodigo().equals(info[1])) {
 					escolaPorInstituicao.add(instituicao);
 				}
 			}
-			
+
 			escolaridade.setInstituicao(escolaPorInstituicao);
 			listaEscolaridade.add(escolaridade);
 
 		}
 		br.close();
-		
+
 	}
 }
