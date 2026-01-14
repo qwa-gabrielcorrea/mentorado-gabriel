@@ -406,6 +406,22 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEscolaridadeAnoTermino(Integer ano) {
 
 		List<Pessoa> resultado = new ArrayList<>();
+		
+		for(Escolaridade escolaridade : listaEscolaridade) {
+			
+			int limiteInicio = 6;
+			int limiteFim = 10; 
+			String cortaData = escolaridade.getDataTermino().substring(limiteInicio, limiteFim);
+			int anoConvertido = Integer.parseInt(cortaData);
+			
+			if(ano == anoConvertido) {
+				for(Pessoa pessoa : listaPessoas) {
+					if(pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
+						resultado.add(pessoa);
+					}
+				}
+			}
+		}
 
 		return resultado;
 	}
