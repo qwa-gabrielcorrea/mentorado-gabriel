@@ -661,8 +661,23 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacaoEnderecoPorEstadoEBairro(String areaAtuacao, String estado,
 			String bairro) {
-
+		
+		List<Contato> primeiroParam = buscarContatoPorProfissaoAreaAtuacao(areaAtuacao);
 		List<Contato> resultado = new ArrayList<>();
+		
+		for(Contato contato : listaContatos) {
+			for (Pessoa pessoa : listaPessoas) {
+				if(contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+					for(Endereco endereco : pessoa.getEnderecos()) {
+						if(endereco.getEstado().equals(estado) && endereco.getBairro().equals(bairro)) {
+							resultado.add(contato);
+						}
+					}
+				}
+			}
+		}
+		
+		resultado.retainAll(primeiroParam);
 
 		return resultado;
 	}
