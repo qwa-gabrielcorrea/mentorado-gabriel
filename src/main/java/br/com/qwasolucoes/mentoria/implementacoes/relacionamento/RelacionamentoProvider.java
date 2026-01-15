@@ -3,6 +3,7 @@ package br.com.qwasolucoes.mentoria.implementacoes.relacionamento;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,15 +29,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Profissao> listaProfissoes = new ArrayList<>();
 	List<Empresa> listaEmpresas = new ArrayList<>();
 	List<Escolaridade> listaEscolaridade = new ArrayList<>();
-	List<Instituicao> listaInstituicoes = new ArrayList<>();
-
-	String csvPessoas = "Pessoa.csv";
-	String csvEnderecos = "Endere�o.csv";
-	String csvContatos = "Contato.csv";
-	String csvProfissoes = "Profissao.csv";
-	String csvEmpresas = "Empresa.csv";
-	String csvEscolaridade = "Escolaridade.csv";
-	String csvInstituicao = "Instituição de Ensino.csv";
+	List<Instituicao> listaInstituicoes = new ArrayList<>();	
+	
+	String csvPessoas =      "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Pessoa.csv";
+	String csvEnderecos =    "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Endere�o.csv";
+	String csvContatos =     "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Contato.csv";
+	String csvProfissoes =   "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Profissao.csv";
+	String csvEmpresas =     "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Empresa.csv";
+	String csvEscolaridade = "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Escolaridade.csv";
+	String csvInstituicao =  "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Instituição de Ensino.csv";
 
 	List<String> todosCsv = new ArrayList<>();
 
@@ -44,6 +45,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public void iniciar() {
 
 		try {
+
+//			InputStream ipts = getClass().getClassLoader().getResourceAsStream(csvPessoas);
+			
 			leituraCsvPessoas(csvPessoas);
 			leituraCsvEnderecos(csvEnderecos);
 			leituraCsvContatos(csvContatos);
