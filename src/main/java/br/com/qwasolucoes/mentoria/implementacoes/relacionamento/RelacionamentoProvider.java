@@ -3,7 +3,6 @@ package br.com.qwasolucoes.mentoria.implementacoes.relacionamento;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,15 +28,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Profissao> listaProfissoes = new ArrayList<>();
 	List<Empresa> listaEmpresas = new ArrayList<>();
 	List<Escolaridade> listaEscolaridade = new ArrayList<>();
-	List<Instituicao> listaInstituicoes = new ArrayList<>();	
-	
-	String csvPessoas =      "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Pessoa.csv";
-	String csvEnderecos =    "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Endere�o.csv";
-	String csvContatos =     "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Contato.csv";
-	String csvProfissoes =   "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Profissao.csv";
-	String csvEmpresas =     "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Empresa.csv";
-	String csvEscolaridade = "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Escolaridade.csv";
-	String csvInstituicao =  "\\main\\resources\\br\\com\\qwasolucoes\\mentoria\\modelagem_dados\\Instituição de Ensino.csv";
+	List<Instituicao> listaInstituicoes = new ArrayList<>();
+
+	String csvPessoas = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv";
+	String csvEnderecos = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv";
+	String csvContatos = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv";
+	String csvProfissoes = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv";
+	String csvEmpresas = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv";
+	String csvEscolaridade = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv";
+	String csvInstituicao = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv";
 
 	List<String> todosCsv = new ArrayList<>();
 
@@ -46,8 +45,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		try {
 
-//			InputStream ipts = getClass().getClassLoader().getResourceAsStream(csvPessoas);
-			
+//			InputStream ipts = getClass().getResourceAsStream(csvPessoas);
+
 			leituraCsvPessoas(csvPessoas);
 			leituraCsvEnderecos(csvEnderecos);
 			leituraCsvContatos(csvContatos);
@@ -379,30 +378,18 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-//		for (Escolaridade escolaridade : listaEscolaridade) {
-//			String cpfEscolaridade = escolaridade.getCpfCnpj();
-//
-//			for (Instituicao instituicao : escolaridade.getInstituicao()) {
-//				String codigoInstituicao = instituicao.getCodigo();
-//
-//				for (Instituicao instituicoes : listaInstituicoes) {
-//					if (instituicoes.getCodigo().equals(codigoInstituicao)) {
-//						boolean contem = instituicoes.getAreaAtuacao().equals(areaAtuacao);
-//						if (contem) {
-//							for (Pessoa pessoa : listaPessoas) {
-//								if (pessoa.getCpfCnpj().equals(cpfEscolaridade)) {
-//									if (!resultado.contains(pessoa)) {
-//										resultado.add(pessoa);
-//									}
-//									break;
-//								}
-//							}
-//						}
-//						break;
-//					}
-//				}
-//			}
-//		}
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (instituicao.getCodigo().equals(escolaridade.getCodigoInstituicao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (instituicao.getAreaAtuacao().equals(areaAtuacao)
+								&& escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+							resultado.add(pessoa);
+						}
+					}
+				}
+			}
+		}
 
 		return resultado;
 	}
@@ -430,27 +417,19 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEscolaridadeQuantidadeSemestre(Integer semestre) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-//
-//		for (Escolaridade escolaridade : listaEscolaridade) {
-//			String cpfEscolaridade = escolaridade.getCpfCnpj();
-//
-//			for (Instituicao instituicao : escolaridade.getInstituicao()) {
-//				String codigoInstituicao = instituicao.getCodigo();
-//
-//				for (Instituicao instituicoes : listaInstituicoes) {
-//
-//					int qtdeSemestres = Integer.parseInt(instituicao.getQuantidadeSemestre());
-//
-//					if (instituicoes.getCodigo().equals(codigoInstituicao) && qtdeSemestres == semestre) {
-//						for (Pessoa pessoa : listaPessoas) {
-//							if (pessoa.getCpfCnpj().equals(cpfEscolaridade)) {
-//								resultado.add(pessoa);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
+
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					Integer qtdeSemestre = Integer.parseInt(instituicao.getQuantidadeSemestre());
+					for (Pessoa pessoa : listaPessoas) {
+						if (qtdeSemestre.equals(semestre) && escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+							resultado.add(pessoa);
+						}
+					}
+				}
+			}
+		}
 
 		return resultado;
 	}
@@ -497,25 +476,36 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEstadoCivilProfissaoAreaAtuacaoEscolaridadePorAreaAtuacao(String estadoCivil,
 			String areaAtuacaoProfissao, String areaAtuacaoEscolaridade) {
 
-//		List<Pessoa> primeiroParam = buscarPessoasPorProfissaoNomeAreaAtuacaoContem(areaAtuacaoProfissao);
-//		List<Pessoa> segundoParam = new ArrayList<>();
-
-//		for (Pessoa pessoa : listaPessoas) {
-//			if (pessoa.getEstadoCivil().equals(estadoCivil)) {
-//				for (Escolaridade escolaridade : listaEscolaridade) {
-//					if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-//						for (Instituicao instituicao : listaInstituicoes) {
-//							if (instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
-//								segundoParam.add(pessoa);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-
 		List<Pessoa> resultado = new ArrayList<>();
-//		resultado.retainAll(primeiroParam);
+		List<Pessoa> primeiroParam = new ArrayList<>();
+
+		for (Pessoa pessoa : listaPessoas) {
+			if (pessoa.getEstadoCivil().equals(estadoCivil)) {
+				for (Profissao profissao : listaProfissoes) {
+					for (Empresa empresa : listaEmpresas) {
+						if (empresa.getCodigoProfissao().equals(profissao.getCodigoProfissao())
+								&& pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+							primeiroParam.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())
+								&& instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
+							resultado.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+
+		resultado.retainAll(primeiroParam);
 
 		return resultado;
 	}
@@ -605,8 +595,6 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<String> resultado = new ArrayList<>();
 
-		// VERIFICAR O MOTIVO DO PARÂMETRO SER UMA LISTA
-
 		for (Pessoa pessoa : listaPessoas) {
 			for (String estado : estadoCivil) {
 				if (pessoa.getEstadoCivil().equals(estado)) {
@@ -693,6 +681,42 @@ public class RelacionamentoProvider implements Relacionamentos {
 			List<String> estados, String bairro) {
 
 		List<Contato> resultado = new ArrayList<>();
+		List<Contato> primeiroParam = new ArrayList<>();
+
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+							for (Contato contato : listaContatos) {
+								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())
+										&& profissao.getAreaAtuação().equals(areaAtuacao)) {
+									primeiroParam.add(contato);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		for (Endereco endereco : listaEnderecos) {
+			for (Pessoa pessoa : listaPessoas) {
+				if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+					for (String estado : estados) {
+						if (endereco.getEstado().equals(estado) && endereco.getBairro().equals(bairro)) {
+							for (Contato contato : listaContatos) {
+								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+									resultado.add(contato);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		resultado.retainAll(primeiroParam);
 
 		return resultado;
 	}
@@ -732,6 +756,55 @@ public class RelacionamentoProvider implements Relacionamentos {
 			Integer anoNasicmento, String areaAtuacaoProfissao, String areaAtuacaoEscolaridade) {
 
 		List<String> resultado = new ArrayList<>();
+		List<String> primeiroParam = new ArrayList<>();
+		List<String> segundoParam = new ArrayList<>();
+
+		for (Contato contato : listaContatos) {
+			for (Pessoa pessoa : listaPessoas) {
+				if (separaAnoData(pessoa.getDataNascimento()).equals(anoNasicmento)
+						&& contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+					primeiroParam.add(contato.getValor());
+				}
+			}
+		}
+
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+							for (Contato contato : listaContatos) {
+								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())
+										&& profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
+									segundoParam.add(contato.getValor());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		segundoParam.retainAll(primeiroParam);
+
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (instituicao.getCodigo().equals(escolaridade.getCodigoInstituicao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
+							for (Contato contato : listaContatos) {
+								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())
+										&& instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
+									resultado.add(contato.getValor());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		resultado.retainAll(segundoParam);
 
 		return resultado;
 	}
@@ -740,8 +813,6 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomeInstituicaoPorPorAreaAtuacao(String areaAtuacaoProfissao) {
 
 		List<String> resultado = new ArrayList<>();
-
-		// POTENCIAL ERRO INTERPRETATIVO / VERIFICAR
 
 		for (Instituicao instituicao : listaInstituicoes) {
 			for (Profissao profissao : listaProfissoes) {
@@ -760,6 +831,18 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<String> resultado = new ArrayList<>();
 
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(profissao.getAreaAtuação())) {
+							resultado.add(pessoa.getNome());
+						}
+					}
+				}
+			}
+		}
+
 		return resultado;
 	}
 
@@ -768,23 +851,60 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<String> resultado = new ArrayList<>();
 
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
+							resultado.add(pessoa.getNome());
+						}
+					}
+				}
+			}
+		}
+
 		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorProfissaoPorAreaAtuacao(String areaAtuacaoProfissao) {
 
-		Integer resultado;
+		Integer resultado = 0;
 
-		return null;
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+							resultado++;
+						}
+					}
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadePorAreaAtuacao(String areaAtuacaoEscolaridade) {
 
-		Integer resultado;
+		Integer resultado = 0;
 
-		return null;
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())
+								&& instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
+							resultado++;
+						}
+					}
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
@@ -803,10 +923,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalDasPessoasPorEstadoCivil(String estadoCivil) {
 
 		Integer resultado = 0;
-		
-		for(Pessoa pessoa : listaPessoas) {
-			if(pessoa.getEstadoCivil().equals(estadoCivil)) {
-				resultado ++;
+
+		for (Pessoa pessoa : listaPessoas) {
+			if (pessoa.getEstadoCivil().equals(estadoCivil)) {
+				resultado++;
 			}
 		}
 
@@ -816,22 +936,30 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorBairro(String bairro) {
 
-		Integer resultado;
+		Integer resultado = 0;
 
-		return null;
+		for (Endereco endereco : listaEnderecos) {
+			for (Pessoa pessoa : listaPessoas) {
+				if (pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().equals(bairro)) {
+					resultado++;
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorProfissao(String nomeProfissao) {
 
-		//VERIFICAR - EXCESSO DE PARÂMETROS PARA UMA VERIFICAÇÃO, CONFIRMAR QUAIS PARÂMETROS SÃO NECESSÁRIOS PARA O EXERCÍCIO
-		
 		Integer resultado = 0;
 
-		for(Pessoa pessoa : listaPessoas) {
-			for(Profissao profissao : listaProfissoes) {
-				for(Empresa empresa : listaEmpresas) {
-					if(profissao.getNomeProfissao().equals(nomeProfissao) && pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+		for (Pessoa pessoa : listaPessoas) {
+			for (Profissao profissao : listaProfissoes) {
+				for (Empresa empresa : listaEmpresas) {
+					if (profissao.getNomeProfissao().equals(nomeProfissao)
+							&& pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
+							&& profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 						resultado++;
 					}
 				}
@@ -844,51 +972,203 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorSalarioBaseMaiorIgual(BigDecimal salarioBase) {
 
-		Integer resultado;
+		Integer resultado = 0;
 
-		return null;
+		for (Empresa empresa : listaEmpresas) {
+
+			boolean retornaValor = false;
+			for (Profissao profissao : listaProfissoes) {
+
+				BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+
+				if (salario.compareTo(salarioBase) >= 0) {
+					retornaValor = true;
+					break;
+				}
+			}
+			if (retornaValor) {
+				for (Pessoa pessoa : listaPessoas) {
+					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+						resultado++;
+					}
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadeAreaAtuacao(String areaAtuacao) {
 
-		Integer resultado;
+		Integer resultado = 0;
 
-		return null;
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())
+								&& instituicao.getAreaAtuacao().equals(areaAtuacao)) {
+							resultado++;
+						}
+					}
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadeQuantidadeSemestre(Integer semestre) {
 
-		Integer resultado;
+		Integer resultado = 0;
 
-		return null;
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					for (Pessoa pessoa : listaPessoas) {
+						Integer qtdeSemestre = Integer.parseInt(instituicao.getQuantidadeSemestre());
+						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj()) && qtdeSemestre.equals(semestre)) {
+							resultado++;
+						}
+					}
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorProfissaoAreaAtuacaoEscolaridadePorSemestre(String areaAtuacao,
 			Integer semestre) {
 
-		Integer resultado;
+		Integer resultado = 0;
+		List<Pessoa> primeiroParam = new ArrayList<>();
+		List<Pessoa> segundoParam = new ArrayList<>();
 
-		return null;
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
+								&& profissao.getAreaAtuação().equals(areaAtuacao)) {
+							primeiroParam.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().endsWith(instituicao.getCodigo())) {
+					for (Pessoa pessoa : listaPessoas) {
+						Integer semestreAtual = Integer.parseInt(escolaridade.getSemestreAtual());
+						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj()) && semestreAtual.equals(semestre)) {
+							segundoParam.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+
+		segundoParam.retainAll(primeiroParam);
+
+		for (Pessoa pessoa : segundoParam) {
+			resultado++;
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalEmailPorPessoaAnoNascimentoProfissaoAreaAtuacaoEscolaridadePorAreaAtuacao(
 			Integer anoNasicmento, String areaAtuacaoProfissao, String areaAtuacaoEscolaridade) {
 
-		Integer resultado;
+		Integer resultado = 0;
+		List<String> primeiroParam = new ArrayList<>();
+		List<String> segundoParam = new ArrayList<>();
+		List<String> terceiroParam = new ArrayList<>();
 
-		return null;
+		for (Pessoa pessoa : listaPessoas) {
+			if (separaAnoData(pessoa.getDataNascimento()).equals(anoNasicmento)) {
+				for (Contato contato : listaContatos) {
+					if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+						primeiroParam.add(contato.getValor());
+					}
+				}
+			}
+		}
+
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
+								&& profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
+							for (Contato contato : listaContatos) {
+								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+									segundoParam.add(contato.getValor());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		segundoParam.retainAll(primeiroParam);
+
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Instituicao instituicao : listaInstituicoes) {
+				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())
+								&& instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
+							for (Contato contato : listaContatos) {
+								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+									terceiroParam.add(contato.getValor());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		terceiroParam.retainAll(segundoParam);
+
+		for (String contato : terceiroParam) {
+			resultado++;
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalConjugeDasPessoasMaioresIdadeEEstadoCivil(String estadoCivil) {
 
-		Integer resultado;
+		Integer resultado = 0;
+		Integer idade;
 
-		return null;
+		try {
+
+			for (Pessoa pessoa : listaPessoas) {
+				if (pessoa.getEstadoCivil().equals(estadoCivil)) {
+					idade = converteIdade(pessoa.getDataNascimento());
+					if (idade >= 18 && pessoa.getConjuge() != null) {
+						resultado++;
+					}
+				}
+			}
+
+		} catch (ParseException e) {
+			e.getMessage();
+		}
+
+		return resultado;
 	}
 
 	@Override
@@ -908,18 +1188,56 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadeNaoConcluida() {
 
-		Integer resultado;
+		Integer resultado = 0;
 
-		return null;
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			for (Pessoa pessoa : listaPessoas) {
+				if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+					if (escolaridade.getConcluido().contains("S")) {
+						resultado++;
+					}
+				}
+			}
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorBairroPorProfissaoPorAreaAtuacao(String bairro,
 			String areaAtuacaoProfissao) {
 
-		Integer resultado;
+		Integer resultado = 0;
+		List<Pessoa> primeiroParam = new ArrayList<>();
+		List<Pessoa> segundoParam = new ArrayList<>();
+		
+		for(Endereco endereco : listaEnderecos) {
+			for(Pessoa pessoa : listaPessoas) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().equals(bairro)) {
+					primeiroParam.add(pessoa);
+				}
+			}
+		}
+		
+		for(Profissao profissao : listaProfissoes) {
+			for(Empresa empresa : listaEmpresas) {
+				if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for(Pessoa pessoa : listaPessoas) {
+						if(pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
+							segundoParam.add(pessoa);
+						}
+					}
+				}
+			}
+		}
+		
+		segundoParam.retainAll(primeiroParam);
+		
+		for(Pessoa pessoa : listaPessoas) {
+			resultado++;
+		}
 
-		return null;
+		return resultado;
 	}
 
 	@Override
