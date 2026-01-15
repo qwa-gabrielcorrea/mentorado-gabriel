@@ -898,9 +898,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalContatoPorTiposContato(List<String> tipoContato) {
 
-		Integer resultado;
+		Integer resultado = 0;
+		
+		for(Contato contato : listaContatos) {
+			for(String tipo : tipoContato) {
+				if(contato.getTipo().equals(tipo)) {
+					resultado++;
+				}
+			}
+		}
 
-		return null;
+		return resultado;
 	}
 
 	public Integer converteIdade(String dataNascimento) throws ParseException {
