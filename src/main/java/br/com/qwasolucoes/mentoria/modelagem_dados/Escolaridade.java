@@ -70,6 +70,7 @@ public class Escolaridade {
 	        this.instituicao = java.util.Arrays.asList(instituicao);
 	    }
 	}
+	
 
 	@Override
 	public int hashCode() {
