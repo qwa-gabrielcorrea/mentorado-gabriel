@@ -472,7 +472,23 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorProfissaoAreaAtuacaoEscolaridadePorSemestre(String areaAtuacao,
 			Integer semestre) {
 
-		List<Pessoa> resultado = new ArrayList<>();
+		List<Pessoa> primeiroParam = buscarPessoasPorProfissaoNomeAreaAtuacaoContem(areaAtuacao);
+		List<Pessoa> segundoParam = new ArrayList<>();
+		
+		for (Escolaridade escolaridade : listaEscolaridade) {
+			Integer semestreAtual = Integer.parseInt(escolaridade.getSemestreAtual());
+			if(semestreAtual == semestre) {
+				for (Pessoa pessoa : listaPessoas) {
+					if(pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
+						segundoParam.add(pessoa);
+					}
+				}
+			}
+		}
+		
+		List<Pessoa> resultado = new ArrayList<>(segundoParam);
+		
+		resultado.retainAll(primeiroParam);
 
 		return resultado;
 	}
