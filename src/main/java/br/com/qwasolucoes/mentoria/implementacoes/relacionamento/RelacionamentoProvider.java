@@ -736,6 +736,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomeInstituicaoPorPorAreaAtuacao(String areaAtuacaoProfissao) {
 
 		List<String> resultado = new ArrayList<>();
+		
+		// POTENCIAL ERRO INTERPRETATIVO / VERIFICAR
+		
+		for(Instituicao instituicao : listaInstituicoes) {
+			for(Profissao profissao : listaProfissoes) {
+				if(profissao.getAreaAtuação().equals(areaAtuacaoProfissao) && profissao.getAreaAtuação().equals(instituicao.getAreaAtuacao())) {
+					resultado.add(instituicao.getNome());
+				}
+			}
+		}
 
 		return resultado;
 	}
