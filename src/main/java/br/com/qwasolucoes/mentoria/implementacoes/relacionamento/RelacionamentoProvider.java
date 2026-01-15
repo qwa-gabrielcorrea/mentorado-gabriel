@@ -87,7 +87,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 		List<String> resultado = new ArrayList<>();
 
 		for (Pessoa pessoa : listaPessoas) {
-			if (pessoa.getDataNascimento().contains(ano.toString())) {
+			
+			if (separaAnoData(pessoa.getDataNascimento()) == ano) {
 				resultado.add(pessoa.getNome() + pessoa.getSobrenome());
 			}
 		}
@@ -409,12 +410,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 
-			int limiteInicio = 6;
-			int limiteFim = 10;
-			String cortaData = escolaridade.getDataTermino().substring(limiteInicio, limiteFim);
-			int anoConvertido = Integer.parseInt(cortaData);
-
-			if (ano == anoConvertido) {
+			if (ano == separaAnoData(escolaridade.getDataTermino())) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -566,6 +562,19 @@ public class RelacionamentoProvider implements Relacionamentos {
 			String sexo, Integer anoNascimentoConjunge) {
 
 		List<Endereco> resultado = new ArrayList<>();
+		
+		for(Endereco endereco : listaEnderecos) {
+			if(endereco.getCidade().equals(cidade)) {
+				for(Pessoa pessoa : listaPessoas) {
+					if(endereco.getCpfCnpj().equals(pessoa.getCpfCnpj()) && pessoa.getSexo().equals(sexo)) {
+						Pessoa conjunge = pessoa.getConjuge();
+						if(separaAnoData(conjunge.getDataNascimento()).equals(anoNascimentoConjunge)) {
+							resultado.add(endereco);							
+						}
+					}
+				}
+			}
+		}
 
 		return resultado;
 	}
@@ -846,9 +855,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 			pessoa.setEstadoCivil(info[5]);
 
 			if ("CASADO".equals(pessoa.getEstadoCivil())) {
-				Pessoa conjuge = new Pessoa();
-				conjuge.setNome(info[6]);
-				pessoa.setConjuge(conjuge);
+				Pessoa conjunge = new Pessoa();
+				conjunge.setNome(info[6]);
+				pessoa.setConjuge(conjunge);
 			}
 			
 			List<Endereco> enderecoPorPessoa = new ArrayList<>();
@@ -978,5 +987,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 		}
 		br.close();
 
+	}
+	
+	public Integer separaAnoData (String dataCompleta) {
+		
+		int limiteInicio = 6; 
+		int limiteFim = 10;
+		String cortaData = dataCompleta.substring(limiteInicio, limiteFim);
+		
+		return Integer.parseInt(cortaData);
 	}
 }
