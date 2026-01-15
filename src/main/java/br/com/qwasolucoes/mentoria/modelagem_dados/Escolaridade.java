@@ -62,6 +62,14 @@ public class Escolaridade {
 	public void setInstituicao(List<Instituicao> instituicao) {
 		this.instituicao = instituicao;
 	}
+	
+	public void setInstituicao(Instituicao instituicao) {
+	    if (instituicao == null) {
+	        this.instituicao = null;
+	    } else {
+	        this.instituicao = java.util.Arrays.asList(instituicao);
+	    }
+	}
 
 	@Override
 	public int hashCode() {
