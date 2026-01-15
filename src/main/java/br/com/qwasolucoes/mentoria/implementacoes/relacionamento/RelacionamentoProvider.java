@@ -798,9 +798,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalDasPessoasPorEstadoCivil(String estadoCivil) {
 
-		Integer resultado;
+		Integer resultado = 0;
+		
+		for(Pessoa pessoa : listaPessoas) {
+			if(pessoa.getEstadoCivil().equals(estadoCivil)) {
+				resultado ++;
+			}
+		}
 
-		return null;
+		return resultado;
 	}
 
 	@Override
