@@ -642,6 +642,18 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacao(String areaAtuacao) {
 
 		List<Contato> resultado = new ArrayList<>();
+		
+		for(Profissao profissao : listaProfissoes) {
+			for(Empresa empresa : listaEmpresas) {
+				if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())){
+					for(Contato contato : listaContatos) {
+						if(contato.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+							resultado.add(contato);
+						}
+					}
+				}
+			}
+		}
 
 		return resultado;
 	}
