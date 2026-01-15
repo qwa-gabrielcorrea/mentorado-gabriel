@@ -583,6 +583,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomeDoConjungeDasPessoasMaioresIdadeEEstadoCivil(String estadoCivil) {
 
 		List<String> resultado = new ArrayList<>();
+		List<String> primeiroParam = buscarCPFsDasPessoasMaioresIdade();
+		
+		for (Pessoa pessoa : listaPessoas) {
+			if(pessoa.getEstadoCivil().equals(estadoCivil)) {
+				Pessoa conjunge = pessoa.getConjuge();
+				resultado.add(conjunge.getNome());
+			}
+		}
+		
+		resultado.retainAll(primeiroParam);
 
 		return resultado;
 	}
