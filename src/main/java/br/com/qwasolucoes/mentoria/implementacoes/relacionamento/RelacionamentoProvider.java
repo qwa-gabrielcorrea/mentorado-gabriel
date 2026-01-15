@@ -462,7 +462,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		List<Pessoa> segundoParam = buscarPessoasPorEscolaridadeConcluida();
 
 		List<Pessoa> resultado = new ArrayList<>(segundoParam);
-		 
+
 		resultado.retainAll(primeiroParam);
 
 		return resultado;
@@ -474,20 +474,20 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> primeiroParam = buscarPessoasPorProfissaoNomeAreaAtuacaoContem(areaAtuacao);
 		List<Pessoa> segundoParam = new ArrayList<>();
-		
+
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			Integer semestreAtual = Integer.parseInt(escolaridade.getSemestreAtual());
-			if(semestreAtual == semestre) {
+			if (semestreAtual == semestre) {
 				for (Pessoa pessoa : listaPessoas) {
-					if(pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
+					if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
 						segundoParam.add(pessoa);
 					}
 				}
 			}
 		}
-		
+
 		List<Pessoa> resultado = new ArrayList<>(segundoParam);
-		
+
 		resultado.retainAll(primeiroParam);
 
 		return resultado;
@@ -497,7 +497,25 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEstadoCivilProfissaoAreaAtuacaoEscolaridadePorAreaAtuacao(String estadoCivil,
 			String areaAtuacaoProfissao, String areaAtuacaoEscolaridade) {
 
-		List<Pessoa> resultado = new ArrayList<>();
+		List<Pessoa> primeiroParam = buscarPessoasPorProfissaoNomeAreaAtuacaoContem(areaAtuacaoProfissao);
+		List<Pessoa> segundoParam = new ArrayList<>();
+
+		for (Pessoa pessoa : listaPessoas) {
+			if (pessoa.getEstadoCivil().equals(estadoCivil)) {
+				for (Escolaridade escolaridade : listaEscolaridade) {
+					if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+						for (Instituicao instituicao : listaInstituicoes) {
+							if (instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
+								segundoParam.add(pessoa);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		List<Pessoa> resultado = new ArrayList<>(segundoParam);
+		resultado.retainAll(primeiroParam);
 
 		return resultado;
 	}
