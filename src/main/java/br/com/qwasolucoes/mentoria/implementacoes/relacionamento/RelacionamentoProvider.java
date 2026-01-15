@@ -375,30 +375,30 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Escolaridade escolaridade : listaEscolaridade) {
-			String cpfEscolaridade = escolaridade.getCpfCnpj();
-
-			for (Instituicao instituicao : escolaridade.getInstituicao()) {
-				String codigoInstituicao = instituicao.getCodigo();
-
-				for (Instituicao instituicoes : listaInstituicoes) {
-					if (instituicoes.getCodigo().equals(codigoInstituicao)) {
-						boolean contem = instituicoes.getAreaAtuacao().equals(areaAtuacao);
-						if (contem) {
-							for (Pessoa pessoa : listaPessoas) {
-								if (pessoa.getCpfCnpj().equals(cpfEscolaridade)) {
-									if (!resultado.contains(pessoa)) {
-										resultado.add(pessoa);
-									}
-									break;
-								}
-							}
-						}
-						break;
-					}
-				}
-			}
-		}
+//		for (Escolaridade escolaridade : listaEscolaridade) {
+//			String cpfEscolaridade = escolaridade.getCpfCnpj();
+//
+//			for (Instituicao instituicao : escolaridade.getInstituicao()) {
+//				String codigoInstituicao = instituicao.getCodigo();
+//
+//				for (Instituicao instituicoes : listaInstituicoes) {
+//					if (instituicoes.getCodigo().equals(codigoInstituicao)) {
+//						boolean contem = instituicoes.getAreaAtuacao().equals(areaAtuacao);
+//						if (contem) {
+//							for (Pessoa pessoa : listaPessoas) {
+//								if (pessoa.getCpfCnpj().equals(cpfEscolaridade)) {
+//									if (!resultado.contains(pessoa)) {
+//										resultado.add(pessoa);
+//									}
+//									break;
+//								}
+//							}
+//						}
+//						break;
+//					}
+//				}
+//			}
+//		}
 
 		return resultado;
 	}
@@ -426,27 +426,27 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEscolaridadeQuantidadeSemestre(Integer semestre) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-
-		for (Escolaridade escolaridade : listaEscolaridade) {
-			String cpfEscolaridade = escolaridade.getCpfCnpj();
-
-			for (Instituicao instituicao : escolaridade.getInstituicao()) {
-				String codigoInstituicao = instituicao.getCodigo();
-
-				for (Instituicao instituicoes : listaInstituicoes) {
-
-					int qtdeSemestres = Integer.parseInt(instituicao.getQuantidadeSemestre());
-
-					if (instituicoes.getCodigo().equals(codigoInstituicao) && qtdeSemestres == semestre) {
-						for (Pessoa pessoa : listaPessoas) {
-							if (pessoa.getCpfCnpj().equals(cpfEscolaridade)) {
-								resultado.add(pessoa);
-							}
-						}
-					}
-				}
-			}
-		}
+//
+//		for (Escolaridade escolaridade : listaEscolaridade) {
+//			String cpfEscolaridade = escolaridade.getCpfCnpj();
+//
+//			for (Instituicao instituicao : escolaridade.getInstituicao()) {
+//				String codigoInstituicao = instituicao.getCodigo();
+//
+//				for (Instituicao instituicoes : listaInstituicoes) {
+//
+//					int qtdeSemestres = Integer.parseInt(instituicao.getQuantidadeSemestre());
+//
+//					if (instituicoes.getCodigo().equals(codigoInstituicao) && qtdeSemestres == semestre) {
+//						for (Pessoa pessoa : listaPessoas) {
+//							if (pessoa.getCpfCnpj().equals(cpfEscolaridade)) {
+//								resultado.add(pessoa);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 
 		return resultado;
 	}
@@ -493,25 +493,25 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEstadoCivilProfissaoAreaAtuacaoEscolaridadePorAreaAtuacao(String estadoCivil,
 			String areaAtuacaoProfissao, String areaAtuacaoEscolaridade) {
 
-		List<Pessoa> primeiroParam = buscarPessoasPorProfissaoNomeAreaAtuacaoContem(areaAtuacaoProfissao);
-		List<Pessoa> segundoParam = new ArrayList<>();
+//		List<Pessoa> primeiroParam = buscarPessoasPorProfissaoNomeAreaAtuacaoContem(areaAtuacaoProfissao);
+//		List<Pessoa> segundoParam = new ArrayList<>();
 
-		for (Pessoa pessoa : listaPessoas) {
-			if (pessoa.getEstadoCivil().equals(estadoCivil)) {
-				for (Escolaridade escolaridade : listaEscolaridade) {
-					if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-						for (Instituicao instituicao : listaInstituicoes) {
-							if (instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
-								segundoParam.add(pessoa);
-							}
-						}
-					}
-				}
-			}
-		}
+//		for (Pessoa pessoa : listaPessoas) {
+//			if (pessoa.getEstadoCivil().equals(estadoCivil)) {
+//				for (Escolaridade escolaridade : listaEscolaridade) {
+//					if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+//						for (Instituicao instituicao : listaInstituicoes) {
+//							if (instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
+//								segundoParam.add(pessoa);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 
-		List<Pessoa> resultado = new ArrayList<>(segundoParam);
-		resultado.retainAll(primeiroParam);
+		List<Pessoa> resultado = new ArrayList<>();
+//		resultado.retainAll(primeiroParam);
 
 		return resultado;
 	}
