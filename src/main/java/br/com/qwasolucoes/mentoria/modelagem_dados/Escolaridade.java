@@ -1,6 +1,7 @@
 package br.com.qwasolucoes.mentoria.modelagem_dados;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Escolaridade {
 	private String cpfCnpj;
@@ -56,6 +57,23 @@ public class Escolaridade {
 
 	public void setInstituicao(List<Instituicao> instituicao) {
 		this.instituicao = instituicao;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigoInstituicao, cpfCnpj);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Escolaridade other = (Escolaridade) obj;
+		return Objects.equals(codigoInstituicao, other.codigoInstituicao) && Objects.equals(cpfCnpj, other.cpfCnpj);
 	}
 
 }

@@ -1,6 +1,7 @@
 package br.com.qwasolucoes.mentoria.modelagem_dados;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Pessoa {
 
@@ -102,6 +103,23 @@ public class Pessoa {
 
 	public void setEstadoCivil(String estadoCivil) {
 		this.estadoCivil = estadoCivil;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cpfCnpj);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pessoa other = (Pessoa) obj;
+		return Objects.equals(cpfCnpj, other.cpfCnpj);
 	}
 
 }
