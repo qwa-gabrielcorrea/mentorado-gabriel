@@ -685,6 +685,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacaoEnderecoPorEstadosEBairro(String areaAtuacao,
 			List<String> estados, String bairro) {
+		
+		
 
 		List<Contato> resultado = new ArrayList<>();
 
@@ -695,6 +697,12 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorTipoContato(String tipoContato) {
 
 		List<Contato> resultado = new ArrayList<>();
+		
+		for(Contato contato : listaContatos) {
+			if(contato.getTipo().equals(tipoContato)) {
+				resultado.add(contato);
+			}
+		}
 
 		return resultado;
 	}
@@ -703,6 +711,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorTiposContato(List<String> tipoContato) {
 
 		List<Contato> resultado = new ArrayList<>();
+		
+		for(Contato contato : listaContatos) {
+			for(String tipo : tipoContato) {
+				if(contato.getTipo().equals(tipo)) {
+					resultado.add(contato);
+				}
+			}
+		}
 
 		return resultado;
 	}
