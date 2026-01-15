@@ -61,7 +61,7 @@ public class Escolaridade {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigoInstituicao, cpfCnpj);
+		return Objects.hash(codigoInstituicao, concluido, cpfCnpj, dataTermino, instituicao, semestreAtual);
 	}
 
 	@Override
@@ -73,7 +73,9 @@ public class Escolaridade {
 		if (getClass() != obj.getClass())
 			return false;
 		Escolaridade other = (Escolaridade) obj;
-		return Objects.equals(codigoInstituicao, other.codigoInstituicao) && Objects.equals(cpfCnpj, other.cpfCnpj);
+		return Objects.equals(codigoInstituicao, other.codigoInstituicao) && Objects.equals(concluido, other.concluido)
+				&& Objects.equals(cpfCnpj, other.cpfCnpj) && Objects.equals(dataTermino, other.dataTermino)
+				&& Objects.equals(instituicao, other.instituicao) && Objects.equals(semestreAtual, other.semestreAtual);
 	}
 
 }

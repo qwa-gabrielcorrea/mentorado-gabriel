@@ -52,7 +52,7 @@ public class Instituicao {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigo);
+		return Objects.hash(areaAtuacao, codigo, formacoes, nome, quantidadeSemestre);
 	}
 
 	@Override
@@ -64,7 +64,9 @@ public class Instituicao {
 		if (getClass() != obj.getClass())
 			return false;
 		Instituicao other = (Instituicao) obj;
-		return Objects.equals(codigo, other.codigo);
+		return Objects.equals(areaAtuacao, other.areaAtuacao) && Objects.equals(codigo, other.codigo)
+				&& Objects.equals(formacoes, other.formacoes) && Objects.equals(nome, other.nome)
+				&& Objects.equals(quantidadeSemestre, other.quantidadeSemestre);
 	}
 
 }

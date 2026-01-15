@@ -524,6 +524,25 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Endereco> buscarEnderecoDasPessoasMaioresIdadeEEstadoCivil(String estadoCivil) {
 
 		List<Endereco> resultado = new ArrayList<>();
+		List<Pessoa> listaCpfs = new ArrayList<>();
+		List<String> primeiroParam = buscarCPFsDasPessoasMaioresIdade();
+		
+		for (String cpf : primeiroParam) {
+			for (Pessoa pessoa : listaPessoas) {
+				if(pessoa.getCpfCnpj().equals(cpf)) {
+					listaCpfs.add(pessoa);
+				}
+			}
+		}
+		
+		for(Pessoa pessoa : listaCpfs) {
+			if(pessoa.getEstadoCivil().equals(estadoCivil)) {
+				for (Endereco endereco : pessoa.getEnderecos()) {
+					resultado.add(endereco);
+				}
+			}
+		}
+		
 
 		return resultado;
 	}
@@ -825,6 +844,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 				conjuge.setNome(info[6]);
 				pessoa.setConjuge(conjuge);
 			}
+			
+			List<Endereco> enderecoPorPessoa = new ArrayList<>();
+			
+			for(Endereco endereco : listaEnderecos) {
+				if(pessoa.getCpfCnpj().equals(info[4])) {
+					enderecoPorPessoa.add(endereco);
+				}
+			}
+			
+			pessoa.setEnderecos(enderecoPorPessoa);
+
 
 			listaPessoas.add(pessoa);
 		}

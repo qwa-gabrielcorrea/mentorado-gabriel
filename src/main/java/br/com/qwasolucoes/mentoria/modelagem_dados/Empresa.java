@@ -44,7 +44,7 @@ public class Empresa {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigoProfissao, cpfCnpj);
+		return Objects.hash(codigoProfissao, cpfCnpj, nome, profissao);
 	}
 
 	@Override
@@ -56,7 +56,8 @@ public class Empresa {
 		if (getClass() != obj.getClass())
 			return false;
 		Empresa other = (Empresa) obj;
-		return Objects.equals(codigoProfissao, other.codigoProfissao) && Objects.equals(cpfCnpj, other.cpfCnpj);
+		return Objects.equals(codigoProfissao, other.codigoProfissao) && Objects.equals(cpfCnpj, other.cpfCnpj)
+				&& Objects.equals(nome, other.nome) && Objects.equals(profissao, other.profissao);
 	}
 
 }

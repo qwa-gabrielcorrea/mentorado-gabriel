@@ -107,7 +107,8 @@ public class Pessoa {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpfCnpj);
+		return Objects.hash(conjuge, contatos, cpfCnpj, dataNascimento, empresa, enderecos, escolaridade, estadoCivil,
+				nome, sexo, sobrenome);
 	}
 
 	@Override
@@ -119,7 +120,12 @@ public class Pessoa {
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		return Objects.equals(cpfCnpj, other.cpfCnpj);
+		return Objects.equals(conjuge, other.conjuge) && Objects.equals(contatos, other.contatos)
+				&& Objects.equals(cpfCnpj, other.cpfCnpj) && Objects.equals(dataNascimento, other.dataNascimento)
+				&& Objects.equals(empresa, other.empresa) && Objects.equals(enderecos, other.enderecos)
+				&& Objects.equals(escolaridade, other.escolaridade) && Objects.equals(estadoCivil, other.estadoCivil)
+				&& Objects.equals(nome, other.nome) && Objects.equals(sexo, other.sexo)
+				&& Objects.equals(sobrenome, other.sobrenome);
 	}
 
 }
