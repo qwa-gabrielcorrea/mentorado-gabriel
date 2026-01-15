@@ -1,5 +1,7 @@
 package br.com.qwasolucoes.mentoria.modelagem_dados;
 
+import java.util.Objects;
+
 public class Endereco {
 	private String cpfCnpj;
 	private String tipoEndereço;
@@ -90,6 +92,27 @@ public class Endereco {
 
 	public void setComplementoCep(String complementoCep) {
 		this.complementoCep = complementoCep;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bairro, cep, cidade, complementoCep, cpfCnpj, estado, numero, pais, rua, tipoEndereço);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Endereco other = (Endereco) obj;
+		return Objects.equals(bairro, other.bairro) && Objects.equals(cep, other.cep)
+				&& Objects.equals(cidade, other.cidade) && Objects.equals(complementoCep, other.complementoCep)
+				&& Objects.equals(cpfCnpj, other.cpfCnpj) && Objects.equals(estado, other.estado)
+				&& Objects.equals(numero, other.numero) && Objects.equals(pais, other.pais)
+				&& Objects.equals(rua, other.rua) && Objects.equals(tipoEndereço, other.tipoEndereço);
 	}
 
 }

@@ -1,12 +1,15 @@
 package br.com.qwasolucoes.mentoria.modelagem_dados;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Escolaridade {
 	private String cpfCnpj;
 	private String codigoInstituicao;
 	private String concluido;
 	private String dataTermino;
 	private String semestreAtual;
-	private Instituicao instituicao;
+	private List<Instituicao> instituicao;
 
 	public String getCpfCnpj() {
 		return cpfCnpj;
@@ -49,11 +52,43 @@ public class Escolaridade {
 	}
 
 	public Instituicao getInstituicao() {
-		return instituicao;
+	    if (instituicao == null || instituicao.isEmpty()) {
+	        return null;
+	    }
+	    return instituicao.get(0);
 	}
 
-	public void setInstituicao(Instituicao instituicao) {
+
+	public void setInstituicao(List<Instituicao> instituicao) {
 		this.instituicao = instituicao;
+	}
+	
+	public void setInstituicao(Instituicao instituicao) {
+	    if (instituicao == null) {
+	        this.instituicao = null;
+	    } else {
+	        this.instituicao = java.util.Arrays.asList(instituicao);
+	    }
+	}
+	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigoInstituicao, concluido, cpfCnpj, dataTermino, instituicao, semestreAtual);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Escolaridade other = (Escolaridade) obj;
+		return Objects.equals(codigoInstituicao, other.codigoInstituicao) && Objects.equals(concluido, other.concluido)
+				&& Objects.equals(cpfCnpj, other.cpfCnpj) && Objects.equals(dataTermino, other.dataTermino)
+				&& Objects.equals(instituicao, other.instituicao) && Objects.equals(semestreAtual, other.semestreAtual);
 	}
 
 }
