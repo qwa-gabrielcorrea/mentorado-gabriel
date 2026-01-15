@@ -601,6 +601,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomeDoConjungeDasPessoasPorEstadoCivil(List<String> estadoCivil) {
 
 		List<String> resultado = new ArrayList<>();
+		
+		for(Pessoa pessoa : listaPessoas) {
+			for(String estado : estadoCivil) {
+				if(pessoa.getEstadoCivil().equals(estado)) {
+					Pessoa conjunge = pessoa.getConjuge();
+					resultado.add(conjunge.getNome());
+				}
+			}
+		}
 
 		return resultado;
 	}
@@ -609,7 +618,23 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomeDoConjungeMaioresDeIdadeDasPessoasPorEstadoCivil(String estadoCivil) {
 
 		List<String> resultado = new ArrayList<>();
-
+		Integer idade; 
+		
+		for (Pessoa pessoa : listaPessoas) {
+			if(pessoa.getEstadoCivil().equals(estadoCivil)) {
+				Pessoa conjunge = pessoa.getConjuge();
+				try {
+					idade = converteIdade(conjunge.getDataNascimento());	
+					
+					if(idade >- 18) {
+						resultado.add(conjunge.getNome());						
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+				
 		return resultado;
 	}
 
