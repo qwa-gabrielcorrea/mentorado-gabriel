@@ -51,9 +51,13 @@ public class Escolaridade {
 		this.semestreAtual = semestreAtual;
 	}
 
-	public List<Instituicao> getInstituicao() {
-		return instituicao;
+	public Instituicao getInstituicao() {
+	    if (instituicao == null || instituicao.isEmpty()) {
+	        return null;
+	    }
+	    return instituicao.get(0);
 	}
+
 
 	public void setInstituicao(List<Instituicao> instituicao) {
 		this.instituicao = instituicao;
