@@ -873,9 +873,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalContatosPorTipoContato(String tipoContato) {
 
-		Integer resultado;
+		Integer resultado = 0;
+		
+		for(Contato contato : listaContatos) {
+			if(contato.getTipo().equals(tipoContato)) {
+				resultado++;
+			}
+		}
 
-		return null;
+		return resultado;
 	}
 
 	@Override
