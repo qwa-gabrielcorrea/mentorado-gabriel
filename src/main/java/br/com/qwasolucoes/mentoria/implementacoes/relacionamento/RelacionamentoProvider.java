@@ -647,7 +647,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 			for(Empresa empresa : listaEmpresas) {
 				if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())){
 					for(Contato contato : listaContatos) {
-						if(contato.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+						if(contato.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getAreaAtuação().equals(areaAtuacao)) {
 							resultado.add(contato);
 						}
 					}
