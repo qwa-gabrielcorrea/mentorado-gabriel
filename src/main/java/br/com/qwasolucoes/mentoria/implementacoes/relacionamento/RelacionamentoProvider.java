@@ -551,6 +551,12 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Endereco> buscarEnderecoPorTipoEndereco(String tipoEndereco) {
 
 		List<Endereco> resultado = new ArrayList<>();
+		
+		for(Endereco endereco : listaEnderecos) {
+			if(endereco.getTipoEndereço().equals(tipoEndereco)) {
+				resultado.add(endereco);
+			}
+		}
 
 		return resultado;
 	}
