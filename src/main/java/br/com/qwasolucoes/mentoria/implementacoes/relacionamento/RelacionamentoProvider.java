@@ -602,6 +602,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<String> resultado = new ArrayList<>();
 		
+		// VERIFICAR O MOTIVO DO PARÂMETRO SER UMA LISTA 
+		
 		for(Pessoa pessoa : listaPessoas) {
 			for(String estado : estadoCivil) {
 				if(pessoa.getEstadoCivil().equals(estado)) {
@@ -785,9 +787,13 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasMaioresIdade() {
 
-		Integer resultado;
+		Integer resultado = 0;
+		
+		for(String qtde : buscarCPFsDasPessoasMaioresIdade()) {
+			resultado ++;
+		}
 
-		return null;
+		return resultado;
 	}
 
 	@Override
