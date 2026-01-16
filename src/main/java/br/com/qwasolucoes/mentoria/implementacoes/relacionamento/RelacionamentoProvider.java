@@ -21,6 +21,7 @@ import br.com.qwasolucoes.mentoria.modelagem_dados.Instituicao;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
+
 public class RelacionamentoProvider implements Relacionamentos {
 
 	List<Pessoa> listaPessoas = new ArrayList<>();
@@ -31,41 +32,33 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Escolaridade> listaEscolaridade = new ArrayList<>();
 	List<Instituicao> listaInstituicoes = new ArrayList<>();
 
-	String csvPessoas      = "Pessoa.csv";
-	String csvEnderecos    = "Endere�o.csv";
-	String csvContatos     = "Contato.csv";
-	String csvProfissoes   = "Profissao.csv";
-	String csvEmpresas     = "Empresa.csv";
-	String csvEscolaridade = "Escolaridade.csv";
-	String csvInstituicao  = "Instituição de Ensino.csv";
-
-	List<String> todosCsv = new ArrayList<>();
-
 	@Override
 	public void iniciar() {
 
 		try {
 
-			leituraCsvPessoas(csvPessoas);
-			leituraCsvEnderecos(csvEnderecos);
-			leituraCsvContatos(csvContatos);
-			leituraCsvProfissoes(csvProfissoes);
-			leituraCsvEmpresas(csvEmpresas);
-			leituraCsvEscolaridade(csvEscolaridade);
+			leituraCsvPessoas("src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
+			leituraCsvEnderecos("src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv");
+			leituraCsvContatos("src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
+			leituraCsvProfissoes("src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
+			leituraCsvEmpresas("src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
+			leituraCsvEscolaridade("src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
+			leituraCsvInstituicao("src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private BufferedReader abrirCsv(String arquivo) throws IOException {
+	public BufferedReader abrirCsv(String arquivo) throws IOException {
 
-		InputStream input = getClass().getResourceAsStream(arquivo);
-		
-		if(input == null) {
+		InputStream input = getClass().getClassLoader().getResourceAsStream(arquivo);
+
+		if (input == null) {
 			throw new IOException("Infelizmente, deu ruim nesse arquivo: " + arquivo);
 		}
-		
+
 		return new BufferedReader(new InputStreamReader(input));
 	}
 
@@ -1216,30 +1209,31 @@ public class RelacionamentoProvider implements Relacionamentos {
 		Integer resultado = 0;
 		List<Pessoa> primeiroParam = new ArrayList<>();
 		List<Pessoa> segundoParam = new ArrayList<>();
-		
-		for(Endereco endereco : listaEnderecos) {
-			for(Pessoa pessoa : listaPessoas) {
-				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().equals(bairro)) {
+
+		for (Endereco endereco : listaEnderecos) {
+			for (Pessoa pessoa : listaPessoas) {
+				if (pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().equals(bairro)) {
 					primeiroParam.add(pessoa);
 				}
 			}
 		}
-		
-		for(Profissao profissao : listaProfissoes) {
-			for(Empresa empresa : listaEmpresas) {
-				if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-					for(Pessoa pessoa : listaPessoas) {
-						if(pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
+
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					for (Pessoa pessoa : listaPessoas) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
+								&& profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
 							segundoParam.add(pessoa);
 						}
 					}
 				}
 			}
 		}
-		
+
 		segundoParam.retainAll(primeiroParam);
-		
-		for(Pessoa pessoa : listaPessoas) {
+
+		for (Pessoa pessoa : listaPessoas) {
 			resultado++;
 		}
 
@@ -1292,7 +1286,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		return idadeConvertida;
 	}
 
-	private void leituraCsvPessoas(String arquivo) throws IOException {
+	public void leituraCsvPessoas(String arquivo) throws IOException {
 		BufferedReader br = abrirCsv(arquivo);
 		String linha;
 
@@ -1328,7 +1322,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		br.close();
 	}
 
-	private void leituraCsvEnderecos(String arquivo) throws IOException {
+	public void leituraCsvEnderecos(String arquivo) throws IOException {
 		BufferedReader br = abrirCsv(arquivo);
 		String linha;
 
@@ -1352,7 +1346,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		br.close();
 	}
 
-	private void leituraCsvContatos(String arquivo) throws IOException {
+	public void leituraCsvContatos(String arquivo) throws IOException {
 		BufferedReader br = abrirCsv(arquivo);
 		String linha;
 
@@ -1369,7 +1363,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		br.close();
 	}
 
-	private void leituraCsvProfissoes(String arquivo) throws IOException {
+	public void leituraCsvProfissoes(String arquivo) throws IOException {
 		BufferedReader br = abrirCsv(arquivo);
 		String linha;
 
@@ -1387,7 +1381,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		br.close();
 	}
 
-	private void leituraCsvEmpresas(String arquivo) throws IOException {
+	public void leituraCsvEmpresas(String arquivo) throws IOException {
 		BufferedReader br = abrirCsv(arquivo);
 		String linha;
 
@@ -1412,7 +1406,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		br.close();
 	}
 
-	private void leituraCsvEscolaridade(String arquivo) throws IOException {
+	public void leituraCsvEscolaridade(String arquivo) throws IOException {
 		BufferedReader br = abrirCsv(arquivo);
 		String linha;
 
@@ -1439,6 +1433,28 @@ public class RelacionamentoProvider implements Relacionamentos {
 		}
 		br.close();
 
+	}
+
+	public void leituraCsvInstituicao(String arquivo) throws IOException {
+
+		BufferedReader br = abrirCsv(arquivo);
+		String linha; 
+		
+		while ((linha = br.readLine()) != null) {
+			
+			String[] info = linha.split(",");
+			Instituicao instituicao = new Instituicao();
+			
+			instituicao.setCodigo(info[0]);
+			instituicao.setNome(info[1]);
+			instituicao.setAreaAtuacao(info[2]);
+			instituicao.setQuantidadeSemestre(info[3]);
+			
+			listaInstituicoes.add(instituicao);
+			
+			br.close();
+		}
+		
 	}
 
 	public Integer separaAnoData(String dataCompleta) {
