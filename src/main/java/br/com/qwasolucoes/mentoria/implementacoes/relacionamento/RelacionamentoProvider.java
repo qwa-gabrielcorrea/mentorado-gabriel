@@ -1,8 +1,9 @@
 package br.com.qwasolucoes.mentoria.implementacoes.relacionamento;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,13 +31,13 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Escolaridade> listaEscolaridade = new ArrayList<>();
 	List<Instituicao> listaInstituicoes = new ArrayList<>();
 
-	String csvPessoas = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv";
-	String csvEnderecos = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv";
-	String csvContatos = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv";
-	String csvProfissoes = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv";
-	String csvEmpresas = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv";
-	String csvEscolaridade = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv";
-	String csvInstituicao = "/resources/br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv";
+	String csvPessoas      = "Pessoa.csv";
+	String csvEnderecos    = "Endere�o.csv";
+	String csvContatos     = "Contato.csv";
+	String csvProfissoes   = "Profissao.csv";
+	String csvEmpresas     = "Empresa.csv";
+	String csvEscolaridade = "Escolaridade.csv";
+	String csvInstituicao  = "Instituição de Ensino.csv";
 
 	List<String> todosCsv = new ArrayList<>();
 
@@ -44,8 +45,6 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public void iniciar() {
 
 		try {
-
-//			InputStream ipts = getClass().getResourceAsStream(csvPessoas);
 
 			leituraCsvPessoas(csvPessoas);
 			leituraCsvEnderecos(csvEnderecos);
@@ -60,7 +59,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 	}
 
 	private BufferedReader abrirCsv(String arquivo) throws IOException {
-		return new BufferedReader(new FileReader(arquivo));
+
+		InputStream input = getClass().getResourceAsStream(arquivo);
+		
+		if(input == null) {
+			throw new IOException("Infelizmente, deu ruim nesse arquivo: " + arquivo);
+		}
+		
+		return new BufferedReader(new InputStreamReader(input));
 	}
 
 	@Override
