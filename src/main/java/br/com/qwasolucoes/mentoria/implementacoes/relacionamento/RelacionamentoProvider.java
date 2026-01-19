@@ -36,7 +36,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		
 		try {
 
-			leituraCsvEnderecos("/br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv");
+			leituraCsvEnderecos("/br/com/qwasolucoes/mentoria/modelagem_dados/Endereço.csv");
 			leituraCsvPessoas("/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
 			leituraCsvContatos("/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
 			leituraCsvProfissoes("/br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
