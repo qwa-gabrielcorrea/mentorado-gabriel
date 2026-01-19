@@ -21,7 +21,6 @@ import br.com.qwasolucoes.mentoria.modelagem_dados.Instituicao;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
-
 public class RelacionamentoProvider implements Relacionamentos {
 
 	List<Pessoa> listaPessoas = new ArrayList<>();
@@ -32,19 +31,29 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Escolaridade> listaEscolaridade = new ArrayList<>();
 	List<Instituicao> listaInstituicoes = new ArrayList<>();
 
+	public static void main(String[] args) {
+
+		RelacionamentoProvider iniciaClasse = new RelacionamentoProvider();
+		iniciaClasse.iniciar();
+
+		String classpath = System.getProperty("java.class.path");
+		System.out.println(classpath);
+
+	}
+
 	@Override
 	public void iniciar() {
 
 		try {
 
-			leituraCsvPessoas("../br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
-			leituraCsvEnderecos("../br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv");
-			leituraCsvContatos("../br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
-			leituraCsvProfissoes("../br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
-			leituraCsvEmpresas("../br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
-			leituraCsvEscolaridade("../br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
-			leituraCsvInstituicao("../br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
-			
+			leituraCsvPessoas("br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
+			leituraCsvEnderecos("br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv");
+			leituraCsvContatos("br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
+			leituraCsvProfissoes("br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
+			leituraCsvEmpresas("br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
+			leituraCsvEscolaridade("br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
+			leituraCsvInstituicao("br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -1438,23 +1447,23 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public void leituraCsvInstituicao(String arquivo) throws IOException {
 
 		BufferedReader br = abrirCsv(arquivo);
-		String linha; 
-		
+		String linha;
+
 		while ((linha = br.readLine()) != null) {
-			
+
 			String[] info = linha.split(",");
 			Instituicao instituicao = new Instituicao();
-			
+
 			instituicao.setCodigo(info[0]);
 			instituicao.setNome(info[1]);
 			instituicao.setAreaAtuacao(info[2]);
 			instituicao.setQuantidadeSemestre(info[3]);
-			
+
 			listaInstituicoes.add(instituicao);
-			
+
 			br.close();
 		}
-		
+
 	}
 
 	public Integer separaAnoData(String dataCompleta) {
