@@ -22,10 +22,6 @@ import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
 public class RelacionamentoProvider implements Relacionamentos {
-		
-	public RelacionamentoProvider() {
-		iniciar();
-	}
 
 	List<Pessoa> listaPessoas = new ArrayList<>();
 	List<Endereco> listaEnderecos = new ArrayList<>();
@@ -34,6 +30,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 	List<Empresa> listaEmpresas = new ArrayList<>();
 	List<Escolaridade> listaEscolaridade = new ArrayList<>();
 	List<Instituicao> listaInstituicoes = new ArrayList<>();
+
+	public static void main(String[] args) {
+
+		RelacionamentoProvider iniciaClasse = new RelacionamentoProvider();
+		iniciaClasse.iniciar();
+
+		String classpath = System.getProperty("java.class.path");
+		System.out.println(classpath);
+
+	}
 
 	@Override
 	public void iniciar() {
