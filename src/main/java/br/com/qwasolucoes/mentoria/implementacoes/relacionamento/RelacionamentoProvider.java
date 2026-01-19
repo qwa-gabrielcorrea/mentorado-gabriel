@@ -36,13 +36,13 @@ public class RelacionamentoProvider implements Relacionamentos {
 		
 		try {
 
-			leituraCsvEnderecos("br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv");
-			leituraCsvPessoas("br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
-			leituraCsvContatos("br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
-			leituraCsvProfissoes("br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
-			leituraCsvEmpresas("br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
-			leituraCsvEscolaridade("br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
-			leituraCsvInstituicao("br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
+			leituraCsvEnderecos("/br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv");
+			leituraCsvPessoas("/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
+			leituraCsvContatos("/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
+			leituraCsvProfissoes("/br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
+			leituraCsvEmpresas("/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
+			leituraCsvEscolaridade("/br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
+			leituraCsvInstituicao("/br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -1451,8 +1451,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 			listaInstituicoes.add(instituicao);
 
-			br.close();
 		}
+		
+		br.close();
 
 	}
 
