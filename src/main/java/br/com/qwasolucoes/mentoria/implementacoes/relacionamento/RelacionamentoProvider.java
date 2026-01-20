@@ -1180,6 +1180,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		Integer resultado = 0;
 		Integer idade;
+		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		try {
 
@@ -1187,13 +1188,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 				if (pessoa.getEstadoCivil().equals(estadoCivil)) {
 					idade = converteIdade(pessoa.getDataNascimento());
 					if (idade >= 18 && pessoa.getConjuge() != null) {
-						resultado++;
+						listaAuxiliar.add(pessoa);
 					}
 				}
 			}
 
 		} catch (ParseException e) {
 			e.getMessage();
+		}
+		
+		for(Pessoa pessoa : listaAuxiliar) {
+			resultado++;
 		}
 
 		return resultado;
