@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
 public class RelacionamentoProvider implements Relacionamentos {
 	
+	private static final String CAMINHO_BASE = "/br/com/qwasolucoes/mentoria/modelagem_dados/";
+	
 	List<Pessoa> listaPessoas = new ArrayList<>();
 	List<Endereco> listaEnderecos = new ArrayList<>();
 	List<Contato> listaContatos = new ArrayList<>();
@@ -35,31 +38,31 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public void iniciar() {
 		
 		try {
-
-			leituraCsvEnderecos("/br/com/qwasolucoes/mentoria/modelagem_dados/Endereço.csv");
-			leituraCsvPessoas("/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
-			leituraCsvContatos("/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
-			leituraCsvProfissoes("/br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
-			leituraCsvEmpresas("/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
-			leituraCsvEscolaridade("/br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
-			leituraCsvInstituicao("/br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            leituraCsvEnderecos("Endereço.csv");
+            leituraCsvInstituicao("Instituicao de Ensino.csv");
+            leituraCsvProfissoes("Profissao.csv");
+            leituraCsvEmpresas("Empresa.csv");
+            leituraCsvEscolaridade("Escolaridade.csv");
+            leituraCsvContatos("Contato.csv");
+            leituraCsvPessoas("Pessoa.csv");
+        } catch (IOException e) {
+            e.getMessage();
+        }
 
 	}
 
-	public BufferedReader abrirCsv(String arquivo) throws IOException {
+	private BufferedReader abrirCsv(String nomeArquivo) throws IOException {
 
-		InputStream input = getClass().getClassLoader().getResourceAsStream(arquivo);
+        String caminhoCompleto = CAMINHO_BASE + nomeArquivo;
 
-		if (input == null) {
-			throw new IOException("Infelizmente, deu ruim nesse arquivo: " + arquivo);
-		}
+        InputStream input = getClass().getClassLoader().getResourceAsStream(caminhoCompleto);
 
-		return new BufferedReader(new InputStreamReader(input));
-	}
+        if (input == null) {
+            throw new IOException("Arquivo não encontrado no classpath: " + caminhoCompleto);
+        }
+
+        return new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+    }
 
 	@Override
 	public List<String> buscarCPFsDasPessoasMaioresIdade() {
@@ -1286,176 +1289,174 @@ public class RelacionamentoProvider implements Relacionamentos {
 	}
 
 	public void leituraCsvPessoas(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+        try (BufferedReader br = abrirCsv(arquivo)) {
+            String linha;
 
-			Pessoa pessoa = new Pessoa();
-			pessoa.setNome(info[0]);
-			pessoa.setSobrenome(info[1]);
-			pessoa.setDataNascimento(info[2]);
-			pessoa.setSexo(info[3]);
-			pessoa.setCpfCnpj(info[4]);
-			pessoa.setEstadoCivil(info[5]);
+            while ((linha = br.readLine()) != null) {
+                String[] info = linha.split(",");
 
-			if ("CASADO".equals(pessoa.getEstadoCivil())) {
-				Pessoa conjunge = new Pessoa();
-				conjunge.setNome(info[6]);
-				pessoa.setConjuge(conjunge);
-			}
+                Pessoa pessoa = new Pessoa();
+                pessoa.setNome(info[0]);
+                pessoa.setSobrenome(info[1]);
+                pessoa.setDataNascimento(info[2]);
+                pessoa.setSexo(info[3]);
+                pessoa.setCpfCnpj(info[4]);
+                pessoa.setEstadoCivil(info[5]);
 
-			List<Endereco> enderecoPorPessoa = new ArrayList<>();
+                if ("CASADO".equals(pessoa.getEstadoCivil())) {
+                    Pessoa conjuge = new Pessoa();
+                    conjuge.setNome(info[6]);
+                    pessoa.setConjuge(conjuge);
+                }
 
-			for (Endereco endereco : listaEnderecos) {
-				if (pessoa.getCpfCnpj().equals(info[4])) {
-					enderecoPorPessoa.add(endereco);
-				}
-			}
+                List<Endereco> enderecos = new ArrayList<>();
+                for (Endereco endereco : listaEnderecos) {
+                    if (pessoa.getCpfCnpj().equals(endereco.getCpfCnpj())) {
+                        enderecos.add(endereco);
+                    }
+                }
 
-			pessoa.setEnderecos(enderecoPorPessoa);
+                pessoa.setEnderecos(enderecos);
+                listaPessoas.add(pessoa);
+            }
+        }
+    }
 
-			listaPessoas.add(pessoa);
-		}
-		br.close();
-	}
+    public void leituraCsvEnderecos(String arquivo) throws IOException {
 
-	public void leituraCsvEnderecos(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
+        try (BufferedReader br = abrirCsv(arquivo)) {
+            String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+            while ((linha = br.readLine()) != null) {
+                String[] info = linha.split(",");
 
-			Endereco endereco = new Endereco();
-			endereco.setCpfCnpj(info[0]);
-			endereco.setTipoEndereço(info[1]);
-			endereco.setPais(info[2]);
-			endereco.setRua(info[3]);
-			endereco.setNumero(info[4]);
-			endereco.setBairro(info[5]);
-			endereco.setCidade(info[6]);
-			endereco.setEstado(info[7]);
-			endereco.setCep(info[8]);
-			endereco.setComplementoCep(info[9]);
+                Endereco endereco = new Endereco();
+                endereco.setCpfCnpj(info[0]);
+                endereco.setTipoEndereço(info[1]);
+                endereco.setPais(info[2]);
+                endereco.setRua(info[3]);
+                endereco.setNumero(info[4]);
+                endereco.setBairro(info[5]);
+                endereco.setCidade(info[6]);
+                endereco.setEstado(info[7]);
+                endereco.setCep(info[8]);
+                endereco.setComplementoCep(info[9]);
 
-			listaEnderecos.add(endereco);
-		}
-		br.close();
-	}
+                listaEnderecos.add(endereco);
+            }
+        }
+    }
 
-	public void leituraCsvContatos(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
+    public void leituraCsvContatos(String arquivo) throws IOException {
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+        try (BufferedReader br = abrirCsv(arquivo)) {
+            String linha;
 
-			Contato contato = new Contato();
-			contato.setCpfCnpj(info[0]);
-			contato.setTipo(info[1]);
-			contato.setValor(info[2]);
+            while ((linha = br.readLine()) != null) {
+                String[] info = linha.split(",");
 
-			listaContatos.add(contato);
-		}
-		br.close();
-	}
+                Contato contato = new Contato();
+                contato.setCpfCnpj(info[0]);
+                contato.setTipo(info[1]);
+                contato.setValor(info[2]);
 
-	public void leituraCsvProfissoes(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
+                listaContatos.add(contato);
+            }
+        }
+    }
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+    public void leituraCsvProfissoes(String arquivo) throws IOException {
 
-			Profissao profissao = new Profissao();
-			profissao.setCodigoProfissao(info[0]);
-			profissao.setNomeProfissao(info[1]);
-			profissao.setAreaAtuação(info[2]);
-			profissao.setSalarioBase(info[3]);
+        try (BufferedReader br = abrirCsv(arquivo)) {
+            String linha;
 
-			listaProfissoes.add(profissao);
-		}
-		br.close();
-	}
+            while ((linha = br.readLine()) != null) {
+                String[] info = linha.split(",");
 
-	public void leituraCsvEmpresas(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
+                Profissao profissao = new Profissao();
+                profissao.setCodigoProfissao(info[0]);
+                profissao.setNomeProfissao(info[1]);
+                profissao.setAreaAtuação(info[2]);
+                profissao.setSalarioBase(info[3]);
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+                listaProfissoes.add(profissao);
+            }
+        }
+    }
 
-			Empresa empresa = new Empresa();
-			empresa.setNome(info[0]);
-			empresa.setCodigoProfissao(info[1]);
-			empresa.setCpfCnpj(info[2]);
+    public void leituraCsvEmpresas(String arquivo) throws IOException {
 
-			List<Profissao> profPorEmpresa = new ArrayList<>();
-			for (Profissao profissao : listaProfissoes) {
-				if (profissao.getCodigoProfissao().equals(info[1])) {
-					profPorEmpresa.add(profissao);
-				}
-			}
+        try (BufferedReader br = abrirCsv(arquivo)) {
+            String linha;
 
-			empresa.setProfissao(profPorEmpresa);
-			listaEmpresas.add(empresa);
-		}
-		br.close();
-	}
+            while ((linha = br.readLine()) != null) {
+                String[] info = linha.split(",");
 
-	public void leituraCsvEscolaridade(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
+                Empresa empresa = new Empresa();
+                empresa.setNome(info[0]);
+                empresa.setCodigoProfissao(info[1]);
+                empresa.setCpfCnpj(info[2]);
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+                List<Profissao> profPorEmpresa = new ArrayList<>();
+                for (Profissao profissao : listaProfissoes) {
+                    if (profissao.getCodigoProfissao().equals(info[1])) {
+                        profPorEmpresa.add(profissao);
+                    }
+                }
 
-			Escolaridade escolaridade = new Escolaridade();
-			escolaridade.setCpfCnpj(info[0]);
-			escolaridade.setCodigoInstituicao(info[1]);
-			escolaridade.setConcluido(info[2]);
-			escolaridade.setDataTermino(info[3]);
-			escolaridade.setSemestreAtual(info[4]);
+                empresa.setProfissao(profPorEmpresa);
+                listaEmpresas.add(empresa);
+            }
+        }
+    }
 
-			List<Instituicao> escolaPorInstituicao = new ArrayList<>();
-			for (Instituicao instituicao : listaInstituicoes) {
-				if (instituicao.getCodigo().equals(info[1])) {
-					escolaPorInstituicao.add(instituicao);
-				}
-			}
+    public void leituraCsvEscolaridade(String arquivo) throws IOException {
 
-			escolaridade.setInstituicao(escolaPorInstituicao);
-			listaEscolaridade.add(escolaridade);
+        try (BufferedReader br = abrirCsv(arquivo)) {
+            String linha;
 
-		}
-		br.close();
+            while ((linha = br.readLine()) != null) {
+                String[] info = linha.split(",");
 
-	}
+                Escolaridade escolaridade = new Escolaridade();
+                escolaridade.setCpfCnpj(info[0]);
+                escolaridade.setCodigoInstituicao(info[1]);
+                escolaridade.setConcluido(info[2]);
+                escolaridade.setDataTermino(info[3]);
+                escolaridade.setSemestreAtual(info[4]);
 
-	public void leituraCsvInstituicao(String arquivo) throws IOException {
+                List<Instituicao> instituicoes = new ArrayList<>();
+                for (Instituicao instituicao : listaInstituicoes) {
+                    if (instituicao.getCodigo().equals(info[1])) {
+                        instituicoes.add(instituicao);
+                    }
+                }
 
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
+                escolaridade.setInstituicao(instituicoes);
+                listaEscolaridade.add(escolaridade);
+            }
+        }
+    }
 
-		while ((linha = br.readLine()) != null) {
+    public void leituraCsvInstituicao(String arquivo) throws IOException {
 
-			String[] info = linha.split(",");
-			Instituicao instituicao = new Instituicao();
+        try (BufferedReader br = abrirCsv(arquivo)) {
+            String linha;
 
-			instituicao.setCodigo(info[0]);
-			instituicao.setNome(info[1]);
-			instituicao.setAreaAtuacao(info[2]);
-			instituicao.setQuantidadeSemestre(info[3]);
+            while ((linha = br.readLine()) != null) {
+                String[] info = linha.split(",");
 
-			listaInstituicoes.add(instituicao);
+                Instituicao instituicao = new Instituicao();
+                instituicao.setCodigo(info[0]);
+                instituicao.setNome(info[1]);
+                instituicao.setAreaAtuacao(info[2]);
+                instituicao.setQuantidadeSemestre(info[3]);
 
-		}
-		
-		br.close();
-
-	}
+                listaInstituicoes.add(instituicao);
+            }
+        }
+    }
 
 	public Integer separaAnoData(String dataCompleta) {
 
