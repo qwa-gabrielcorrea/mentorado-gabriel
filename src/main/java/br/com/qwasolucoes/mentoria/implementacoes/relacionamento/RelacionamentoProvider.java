@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
@@ -21,9 +24,12 @@ import br.com.qwasolucoes.mentoria.modelagem_dados.Instituicao;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Pessoa;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
-
 public class RelacionamentoProvider implements Relacionamentos {
-
+	
+	public RelacionamentoProvider() {
+		iniciar();
+	}
+	
 	List<Pessoa> listaPessoas = new ArrayList<>();
 	List<Endereco> listaEnderecos = new ArrayList<>();
 	List<Contato> listaContatos = new ArrayList<>();
@@ -36,30 +42,28 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public void iniciar() {
 
 		try {
-
-			leituraCsvPessoas("../br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
-			leituraCsvEnderecos("../br/com/qwasolucoes/mentoria/modelagem_dados/Endere�o.csv");
-			leituraCsvContatos("../br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
-			leituraCsvProfissoes("../br/com/qwasolucoes/mentoria/modelagem_dados/Profissao.csv");
-			leituraCsvEmpresas("../br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
-			leituraCsvEscolaridade("../br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
-			leituraCsvInstituicao("../br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
-			
+			leituraCsvEnderecos("/br/com/qwasolucoes/mentoria/modelagem_dados/Endereço.csv");
+			leituraCsvInstituicao("/br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
+			leituraCsvProfissoes("/br/com/qwasolucoes/mentoria/modelagem_dados/Profissão.csv");
+			leituraCsvEmpresas("/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
+			leituraCsvEscolaridade("/br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
+			leituraCsvContatos("/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
+			leituraCsvPessoas("/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 
 	}
 
-	public BufferedReader abrirCsv(String arquivo) throws IOException {
+	private BufferedReader abrirCsv(String nomeArquivo) throws IOException {
 
-		InputStream input = getClass().getClassLoader().getResourceAsStream(arquivo);
+		InputStream input = getClass().getResourceAsStream(nomeArquivo);
 
 		if (input == null) {
-			throw new IOException("Infelizmente, deu ruim nesse arquivo: " + arquivo);
+			throw new IOException("Arquivo não encontrado no classpath: " + nomeArquivo);
 		}
 
-		return new BufferedReader(new InputStreamReader(input));
+		return new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
 	}
 
 	@Override
@@ -118,7 +122,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		List<Pessoa> resultado = new ArrayList<>();
 
 		for (Endereco endereco : listaEnderecos) {
-			if (tipoResidencia.equals(endereco.getTipoEndereço())) {
+			if (endereco.getTipoEndereço().equals(tipoResidencia)) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -136,7 +140,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		List<Pessoa> resultado = new ArrayList<>();
 
 		for (Contato contato : listaContatos) {
-			if (tipoContato.equals(contato.getTipo())) {
+			if (contato.getTipo().equals(tipoContato)) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -153,12 +157,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Endereco endereco : listaEnderecos) {
-			if (bairro.equals(endereco.getBairro())) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-						resultado.add(pessoa);
-					}
+		for(Pessoa pessoa : listaPessoas) {
+			for(Endereco endereco : listaEnderecos) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().equals(bairro)) {
+					resultado.add(pessoa);
 				}
 			}
 		}
@@ -171,12 +173,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Endereco endereco : listaEnderecos) {
-			if (endereco.getBairro().contains(valor)) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-						resultado.add(pessoa);
-					}
+		for(Pessoa pessoa : listaPessoas) {
+			for(Endereco endereco : listaEnderecos) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().contains(valor)) {
+					resultado.add(pessoa);
 				}
 			}
 		}
@@ -189,12 +189,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Endereco endereco : listaEnderecos) {
-			if (endereco.getEstado().equals(estado)) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-						resultado.add(pessoa);
-					}
+		for(Pessoa pessoa : listaPessoas) {
+			for(Endereco endereco : listaEnderecos) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getEstado().equals(estado)) {
+					resultado.add(pessoa);
 				}
 			}
 		}
@@ -206,12 +204,12 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorProfissao(String nomeProfissao) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-
-		for (Empresa empresa : listaEmpresas) {
-			for (Profissao profissao : empresa.getProfissao()) {
-				if (nomeProfissao.equals(profissao.getNomeProfissao())) {
-					for (Pessoa pessoa : listaPessoas) {
-						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+		
+		for(Empresa empresa : listaEmpresas) {
+			for(Profissao profissao : listaProfissoes) {
+				if(empresa.getCodigoProfissao().equals(profissao.getCodigoProfissao())) {
+					for(Pessoa pessoa : listaPessoas) {
+						if(pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getNomeProfissao().equals(nomeProfissao)) {
 							resultado.add(pessoa);
 						}
 					}
@@ -277,11 +275,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 			}
 			if (retornaValor) {
 				for (Pessoa pessoa : listaPessoas) {
-					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
-						if (!resultado.contains(pessoa)) {
+					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && !resultado.contains(pessoa)) {
 							resultado.add(pessoa);
 						}
-					}
+					
 				}
 			}
 		}
@@ -400,7 +397,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 
-			if (ano == separaAnoData(escolaridade.getDataTermino())) {
+			Integer anoAux = separaAnoData(escolaridade.getDataTermino());
+			
+			if (ano == anoAux && anoAux != null) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -455,7 +454,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			Integer semestreAtual = Integer.parseInt(escolaridade.getSemestreAtual());
-			if (semestreAtual == semestre) {
+			if (semestreAtual.equals(semestre)) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
 						segundoParam.add(pessoa);
@@ -634,16 +633,24 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacao(String areaAtuacao) {
 
 		List<Contato> resultado = new ArrayList<>();
+		List<Pessoa> primeiroParam = new ArrayList<>();
 
 		for (Profissao profissao : listaProfissoes) {
 			for (Empresa empresa : listaEmpresas) {
 				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-					for (Contato contato : listaContatos) {
-						if (contato.getCpfCnpj().equals(empresa.getCpfCnpj())
-								&& profissao.getAreaAtuação().equals(areaAtuacao)) {
-							resultado.add(contato);
+					for(Pessoa pessoa : listaPessoas) {
+						if(empresa.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+							primeiroParam.add(pessoa);
 						}
 					}
+				}
+			}
+		}
+		
+		for(Pessoa pessoa : primeiroParam) {
+			for(Contato contato : listaContatos) {
+				if(pessoa.getCpfCnpj().equals(contato.getCpfCnpj())) {
+					resultado.add(contato);
 				}
 			}
 		}
@@ -737,17 +744,24 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public List<Contato> buscarContatoPorTiposContato(List<String> tipoContato) {
 
-		List<Contato> resultado = new ArrayList<>();
+		List<Contato> resultadoFinal = new ArrayList<>();
+		Set<Contato> resultadoOrdenado = new HashSet<>();
+		
+		//ORDENAR 
 
 		for (Contato contato : listaContatos) {
 			for (String tipo : tipoContato) {
 				if (contato.getTipo().equals(tipo)) {
-					resultado.add(contato);
+					resultadoOrdenado.add(contato);
 				}
 			}
 		}
+		
+		for(Contato contato : resultadoOrdenado) {
+			resultadoFinal.add(contato);
+		}
 
-		return resultado;
+		return resultadoFinal;
 	}
 
 	@Override
@@ -834,7 +848,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 			for (Empresa empresa : listaEmpresas) {
 				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 					for (Pessoa pessoa : listaPessoas) {
-						if (pessoa.getCpfCnpj().equals(profissao.getAreaAtuação())) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
 							resultado.add(pessoa.getNome());
 						}
 					}
@@ -869,17 +883,22 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorProfissaoPorAreaAtuacao(String areaAtuacaoProfissao) {
 
 		Integer resultado = 0;
+		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Profissao profissao : listaProfissoes) {
 			for (Empresa empresa : listaEmpresas) {
 				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 					for (Pessoa pessoa : listaPessoas) {
 						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
-							resultado++;
+							listaAuxiliar.add(pessoa);
 						}
 					}
 				}
 			}
+		}
+		
+		for(Pessoa pessoa : listaAuxiliar) {
+			resultado++;
 		}
 
 		return resultado;
@@ -889,6 +908,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadePorAreaAtuacao(String areaAtuacaoEscolaridade) {
 
 		Integer resultado = 0;
+		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			for (Instituicao instituicao : listaInstituicoes) {
@@ -896,11 +916,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 					for (Pessoa pessoa : listaPessoas) {
 						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())
 								&& instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
-							resultado++;
+							listaAuxiliar.add(pessoa);
 						}
 					}
 				}
 			}
+		}
+		
+		for(Pessoa pessoa : listaAuxiliar) {
+			resultado++;
 		}
 
 		return resultado;
@@ -952,6 +976,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorProfissao(String nomeProfissao) {
 
 		Integer resultado = 0;
+		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Pessoa pessoa : listaPessoas) {
 			for (Profissao profissao : listaProfissoes) {
@@ -959,10 +984,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 					if (profissao.getNomeProfissao().equals(nomeProfissao)
 							&& pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
 							&& profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-						resultado++;
+						listaAuxiliar.add(pessoa);
 					}
 				}
 			}
+		}
+		
+		for(Pessoa pessoa : listaAuxiliar) {
+			resultado++;
 		}
 
 		return resultado;
@@ -1287,174 +1316,190 @@ public class RelacionamentoProvider implements Relacionamentos {
 	}
 
 	public void leituraCsvPessoas(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+		try (BufferedReader br = abrirCsv(arquivo)) {
+			String linha;
+			br.readLine();
 
-			Pessoa pessoa = new Pessoa();
-			pessoa.setNome(info[0]);
-			pessoa.setSobrenome(info[1]);
-			pessoa.setDataNascimento(info[2]);
-			pessoa.setSexo(info[3]);
-			pessoa.setCpfCnpj(info[4]);
-			pessoa.setEstadoCivil(info[5]);
+			while ((linha = br.readLine()) != null) {
+				
+				String[] info = linha.split(",", -1);
 
-			if ("CASADO".equals(pessoa.getEstadoCivil())) {
-				Pessoa conjunge = new Pessoa();
-				conjunge.setNome(info[6]);
-				pessoa.setConjuge(conjunge);
-			}
+				Pessoa pessoa = new Pessoa();
+				pessoa.setNome(info[0].trim());
+				pessoa.setSobrenome(info[1].trim());
+				pessoa.setDataNascimento(info[2].trim());
+				pessoa.setSexo(info[3].trim());
+				pessoa.setCpfCnpj(info[4].trim());
+				pessoa.setEstadoCivil(info[5].trim());
 
-			List<Endereco> enderecoPorPessoa = new ArrayList<>();
-
-			for (Endereco endereco : listaEnderecos) {
-				if (pessoa.getCpfCnpj().equals(info[4])) {
-					enderecoPorPessoa.add(endereco);
+				if ("CASADO".equals(pessoa.getEstadoCivil())) {
+					Pessoa conjuge = new Pessoa();
+					conjuge.setNome(info[6].trim());
+					pessoa.setConjuge(conjuge);
 				}
+
+				List<Endereco> enderecos = new ArrayList<>();
+				for (Endereco endereco : listaEnderecos) {
+					if (pessoa.getCpfCnpj().equals(endereco.getCpfCnpj())) {
+						enderecos.add(endereco);
+					}
+				}
+
+				pessoa.setEnderecos(enderecos);
+				listaPessoas.add(pessoa);
 			}
-
-			pessoa.setEnderecos(enderecoPorPessoa);
-
-			listaPessoas.add(pessoa);
+			br.close();
 		}
-		br.close();
 	}
 
 	public void leituraCsvEnderecos(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+		try (BufferedReader br = abrirCsv(arquivo)) {
+			String linha;
+			br.readLine();
 
-			Endereco endereco = new Endereco();
-			endereco.setCpfCnpj(info[0]);
-			endereco.setTipoEndereço(info[1]);
-			endereco.setPais(info[2]);
-			endereco.setRua(info[3]);
-			endereco.setNumero(info[4]);
-			endereco.setBairro(info[5]);
-			endereco.setCidade(info[6]);
-			endereco.setEstado(info[7]);
-			endereco.setCep(info[8]);
-			endereco.setComplementoCep(info[9]);
+			while ((linha = br.readLine()) != null) {
+				String[] info = linha.split(",", -1);
 
-			listaEnderecos.add(endereco);
+				Endereco endereco = new Endereco();
+				endereco.setCpfCnpj(info[0].trim());
+				endereco.setTipoEndereço(info[1].trim());
+				endereco.setPais(info[2].trim());
+				endereco.setRua(info[3].trim());
+				endereco.setNumero(info[4].trim());
+				endereco.setBairro(info[5].trim());
+				endereco.setCidade(info[6].trim());
+				endereco.setEstado(info[7].trim());
+				endereco.setCep(info[8].trim());
+				endereco.setComplementoCep(info[9].trim());
+
+				listaEnderecos.add(endereco);
+			}
+			br.close();
 		}
-		br.close();
 	}
 
 	public void leituraCsvContatos(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+		try (BufferedReader br = abrirCsv(arquivo)) {
+			String linha;
+			br.readLine();
 
-			Contato contato = new Contato();
-			contato.setCpfCnpj(info[0]);
-			contato.setTipo(info[1]);
-			contato.setValor(info[2]);
+			while ((linha = br.readLine()) != null) {
+				String[] info = linha.split(",", -1);
 
-			listaContatos.add(contato);
+				Contato contato = new Contato();
+				contato.setCpfCnpj(info[0].trim());
+				contato.setTipo(info[1].trim());
+				contato.setValor(info[2].trim());
+
+				listaContatos.add(contato);
+			}
+			br.close();
 		}
-		br.close();
 	}
 
 	public void leituraCsvProfissoes(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+		try (BufferedReader br = abrirCsv(arquivo)) {
+			String linha;
+			br.readLine();
 
-			Profissao profissao = new Profissao();
-			profissao.setCodigoProfissao(info[0]);
-			profissao.setNomeProfissao(info[1]);
-			profissao.setAreaAtuação(info[2]);
-			profissao.setSalarioBase(info[3]);
+			while ((linha = br.readLine()) != null) {
+				String[] info = linha.split(",", -1);
 
-			listaProfissoes.add(profissao);
+				Profissao profissao = new Profissao();
+				profissao.setCodigoProfissao(info[0].trim());
+				profissao.setNomeProfissao(info[1].trim());
+				profissao.setAreaAtuação(info[2].trim());
+				profissao.setSalarioBase(info[3].trim());
+
+				listaProfissoes.add(profissao);
+			}
+			br.close();
 		}
-		br.close();
 	}
 
 	public void leituraCsvEmpresas(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+		try (BufferedReader br = abrirCsv(arquivo)) {
+			String linha;
+			br.readLine();
 
-			Empresa empresa = new Empresa();
-			empresa.setNome(info[0]);
-			empresa.setCodigoProfissao(info[1]);
-			empresa.setCpfCnpj(info[2]);
+			while ((linha = br.readLine()) != null) {
+				String[] info = linha.split(",", -1);
 
-			List<Profissao> profPorEmpresa = new ArrayList<>();
-			for (Profissao profissao : listaProfissoes) {
-				if (profissao.getCodigoProfissao().equals(info[1])) {
-					profPorEmpresa.add(profissao);
+				Empresa empresa = new Empresa();
+				empresa.setNome(info[0].trim());
+				empresa.setCodigoProfissao(info[1].trim());
+				empresa.setCpfCnpj(info[2].trim());
+
+				List<Profissao> profPorEmpresa = new ArrayList<>();
+				for (Profissao profissao : listaProfissoes) {
+					if (profissao.getCodigoProfissao().equals(info[1].trim())) {
+						profPorEmpresa.add(profissao);
+					}
 				}
-			}
 
-			empresa.setProfissao(profPorEmpresa);
-			listaEmpresas.add(empresa);
+				empresa.setProfissao(profPorEmpresa);
+				listaEmpresas.add(empresa);
+			}
+			br.close();
 		}
-		br.close();
+
 	}
 
 	public void leituraCsvEscolaridade(String arquivo) throws IOException {
-		BufferedReader br = abrirCsv(arquivo);
-		String linha;
 
-		while ((linha = br.readLine()) != null) {
-			String[] info = linha.split(",");
+		try (BufferedReader br = abrirCsv(arquivo)) {
+			String linha;
+			br.readLine();
 
-			Escolaridade escolaridade = new Escolaridade();
-			escolaridade.setCpfCnpj(info[0]);
-			escolaridade.setCodigoInstituicao(info[1]);
-			escolaridade.setConcluido(info[2]);
-			escolaridade.setDataTermino(info[3]);
-			escolaridade.setSemestreAtual(info[4]);
+			while ((linha = br.readLine()) != null) {
+				String[] info = linha.split(",", -1);
 
-			List<Instituicao> escolaPorInstituicao = new ArrayList<>();
-			for (Instituicao instituicao : listaInstituicoes) {
-				if (instituicao.getCodigo().equals(info[1])) {
-					escolaPorInstituicao.add(instituicao);
+				Escolaridade escolaridade = new Escolaridade();
+				escolaridade.setCpfCnpj(info[0].trim());
+				escolaridade.setCodigoInstituicao(info[1].trim());
+				escolaridade.setConcluido(info[2].trim());
+				
+				escolaridade.setDataTermino(info[3].trim());
+				escolaridade.setSemestreAtual(info[4].trim());
+
+				List<Instituicao> instituicoes = new ArrayList<>();
+				for (Instituicao instituicao : listaInstituicoes) {
+					if (instituicao.getCodigo().equals(info[1].trim())) {
+						instituicoes.add(instituicao);
+					}
 				}
+
+				escolaridade.setInstituicao(instituicoes);
+				listaEscolaridade.add(escolaridade);
 			}
-
-			escolaridade.setInstituicao(escolaPorInstituicao);
-			listaEscolaridade.add(escolaridade);
-
+			br.close();
 		}
-		br.close();
-
 	}
 
 	public void leituraCsvInstituicao(String arquivo) throws IOException {
 
-		BufferedReader br = abrirCsv(arquivo);
-		String linha; 
-		
-		while ((linha = br.readLine()) != null) {
-			
-			String[] info = linha.split(",");
-			Instituicao instituicao = new Instituicao();
-			
-			instituicao.setCodigo(info[0]);
-			instituicao.setNome(info[1]);
-			instituicao.setAreaAtuacao(info[2]);
-			instituicao.setQuantidadeSemestre(info[3]);
-			
-			listaInstituicoes.add(instituicao);
-			
+		try (BufferedReader br = abrirCsv(arquivo)) {
+			String linha;
+			br.readLine();
+
+			while ((linha = br.readLine()) != null) {
+				String[] info = linha.split(",", -1);
+
+				Instituicao instituicao = new Instituicao();
+				instituicao.setCodigo(info[0].trim());
+				instituicao.setNome(info[1].trim());
+				instituicao.setAreaAtuacao(info[2].trim());
+				instituicao.setQuantidadeSemestre(info[3].trim());
+
+				listaInstituicoes.add(instituicao);
+			}
 			br.close();
 		}
-		
 	}
 
 	public Integer separaAnoData(String dataCompleta) {
