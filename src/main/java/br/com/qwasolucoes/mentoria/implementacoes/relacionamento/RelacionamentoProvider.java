@@ -24,8 +24,8 @@ import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
 public class RelacionamentoProvider implements Relacionamentos {
 	
-	private static final String CAMINHO_BASE = "/br/com/qwasolucoes/mentoria/modelagem_dados/";
-	
+	private static final String CAMINHO_BASE = "src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/";
+
 	List<Pessoa> listaPessoas = new ArrayList<>();
 	List<Endereco> listaEnderecos = new ArrayList<>();
 	List<Contato> listaContatos = new ArrayList<>();
