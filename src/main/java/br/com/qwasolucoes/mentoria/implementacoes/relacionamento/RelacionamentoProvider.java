@@ -11,7 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
@@ -120,7 +122,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		List<Pessoa> resultado = new ArrayList<>();
 
 		for (Endereco endereco : listaEnderecos) {
-			if (tipoResidencia.equals(endereco.getTipoEndereço())) {
+			if (endereco.getTipoEndereço().equals(tipoResidencia)) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -138,7 +140,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		List<Pessoa> resultado = new ArrayList<>();
 
 		for (Contato contato : listaContatos) {
-			if (tipoContato.equals(contato.getTipo())) {
+			if (contato.getTipo().equals(tipoContato)) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -155,12 +157,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Endereco endereco : listaEnderecos) {
-			if (bairro.equals(endereco.getBairro())) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-						resultado.add(pessoa);
-					}
+		for(Pessoa pessoa : listaPessoas) {
+			for(Endereco endereco : listaEnderecos) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().equals(bairro)) {
+					resultado.add(pessoa);
 				}
 			}
 		}
@@ -173,12 +173,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Endereco endereco : listaEnderecos) {
-			if (endereco.getBairro().contains(valor)) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-						resultado.add(pessoa);
-					}
+		for(Pessoa pessoa : listaPessoas) {
+			for(Endereco endereco : listaEnderecos) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().contains(valor)) {
+					resultado.add(pessoa);
 				}
 			}
 		}
@@ -191,12 +189,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Endereco endereco : listaEnderecos) {
-			if (endereco.getEstado().equals(estado)) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-						resultado.add(pessoa);
-					}
+		for(Pessoa pessoa : listaPessoas) {
+			for(Endereco endereco : listaEnderecos) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getEstado().equals(estado)) {
+					resultado.add(pessoa);
 				}
 			}
 		}
@@ -208,12 +204,12 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorProfissao(String nomeProfissao) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-
-		for (Empresa empresa : listaEmpresas) {
-			for (Profissao profissao : empresa.getProfissao()) {
-				if (nomeProfissao.equals(profissao.getNomeProfissao())) {
-					for (Pessoa pessoa : listaPessoas) {
-						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+		
+		for(Empresa empresa : listaEmpresas) {
+			for(Profissao profissao : listaProfissoes) {
+				if(empresa.getCodigoProfissao().equals(profissao.getCodigoProfissao())) {
+					for(Pessoa pessoa : listaPessoas) {
+						if(pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getNomeProfissao().equals(nomeProfissao)) {
 							resultado.add(pessoa);
 						}
 					}
@@ -279,11 +275,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 			}
 			if (retornaValor) {
 				for (Pessoa pessoa : listaPessoas) {
-					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
-						if (!resultado.contains(pessoa)) {
+					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && !resultado.contains(pessoa)) {
 							resultado.add(pessoa);
 						}
-					}
+					
 				}
 			}
 		}
@@ -402,7 +397,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 
-			if (ano == separaAnoData(escolaridade.getDataTermino())) {
+			Integer anoAux = separaAnoData(escolaridade.getDataTermino());
+			
+			if (ano == anoAux && anoAux != null) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
 						resultado.add(pessoa);
@@ -457,7 +454,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			Integer semestreAtual = Integer.parseInt(escolaridade.getSemestreAtual());
-			if (semestreAtual == semestre) {
+			if (semestreAtual.equals(semestre)) {
 				for (Pessoa pessoa : listaPessoas) {
 					if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
 						segundoParam.add(pessoa);
@@ -636,16 +633,24 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacao(String areaAtuacao) {
 
 		List<Contato> resultado = new ArrayList<>();
+		List<Pessoa> primeiroParam = new ArrayList<>();
 
 		for (Profissao profissao : listaProfissoes) {
 			for (Empresa empresa : listaEmpresas) {
 				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-					for (Contato contato : listaContatos) {
-						if (contato.getCpfCnpj().equals(empresa.getCpfCnpj())
-								&& profissao.getAreaAtuação().equals(areaAtuacao)) {
-							resultado.add(contato);
+					for(Pessoa pessoa : listaPessoas) {
+						if(empresa.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+							primeiroParam.add(pessoa);
 						}
 					}
+				}
+			}
+		}
+		
+		for(Pessoa pessoa : primeiroParam) {
+			for(Contato contato : listaContatos) {
+				if(pessoa.getCpfCnpj().equals(contato.getCpfCnpj())) {
+					resultado.add(contato);
 				}
 			}
 		}
@@ -739,17 +744,24 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public List<Contato> buscarContatoPorTiposContato(List<String> tipoContato) {
 
-		List<Contato> resultado = new ArrayList<>();
+		List<Contato> resultadoFinal = new ArrayList<>();
+		Set<Contato> resultadoOrdenado = new HashSet<>();
+		
+		//ORDENAR 
 
 		for (Contato contato : listaContatos) {
 			for (String tipo : tipoContato) {
 				if (contato.getTipo().equals(tipo)) {
-					resultado.add(contato);
+					resultadoOrdenado.add(contato);
 				}
 			}
 		}
+		
+		for(Contato contato : resultadoOrdenado) {
+			resultadoFinal.add(contato);
+		}
 
-		return resultado;
+		return resultadoFinal;
 	}
 
 	@Override
@@ -836,7 +848,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 			for (Empresa empresa : listaEmpresas) {
 				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 					for (Pessoa pessoa : listaPessoas) {
-						if (pessoa.getCpfCnpj().equals(profissao.getAreaAtuação())) {
+						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
 							resultado.add(pessoa.getNome());
 						}
 					}
@@ -871,17 +883,22 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorProfissaoPorAreaAtuacao(String areaAtuacaoProfissao) {
 
 		Integer resultado = 0;
+		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Profissao profissao : listaProfissoes) {
 			for (Empresa empresa : listaEmpresas) {
 				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 					for (Pessoa pessoa : listaPessoas) {
 						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
-							resultado++;
+							listaAuxiliar.add(pessoa);
 						}
 					}
 				}
 			}
+		}
+		
+		for(Pessoa pessoa : listaAuxiliar) {
+			resultado++;
 		}
 
 		return resultado;
@@ -891,6 +908,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadePorAreaAtuacao(String areaAtuacaoEscolaridade) {
 
 		Integer resultado = 0;
+		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			for (Instituicao instituicao : listaInstituicoes) {
@@ -898,11 +916,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 					for (Pessoa pessoa : listaPessoas) {
 						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())
 								&& instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
-							resultado++;
+							listaAuxiliar.add(pessoa);
 						}
 					}
 				}
 			}
+		}
+		
+		for(Pessoa pessoa : listaAuxiliar) {
+			resultado++;
 		}
 
 		return resultado;
@@ -954,6 +976,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorProfissao(String nomeProfissao) {
 
 		Integer resultado = 0;
+		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Pessoa pessoa : listaPessoas) {
 			for (Profissao profissao : listaProfissoes) {
@@ -961,10 +984,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 					if (profissao.getNomeProfissao().equals(nomeProfissao)
 							&& pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
 							&& profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-						resultado++;
+						listaAuxiliar.add(pessoa);
 					}
 				}
 			}
+		}
+		
+		for(Pessoa pessoa : listaAuxiliar) {
+			resultado++;
 		}
 
 		return resultado;
@@ -1299,16 +1326,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 				String[] info = linha.split(",", -1);
 
 				Pessoa pessoa = new Pessoa();
-				pessoa.setNome(info[0]);
-				pessoa.setSobrenome(info[1]);
-				pessoa.setDataNascimento(info[2]);
-				pessoa.setSexo(info[3]);
-				pessoa.setCpfCnpj(info[4]);
-				pessoa.setEstadoCivil(info[5]);
+				pessoa.setNome(info[0].trim());
+				pessoa.setSobrenome(info[1].trim());
+				pessoa.setDataNascimento(info[2].trim());
+				pessoa.setSexo(info[3].trim());
+				pessoa.setCpfCnpj(info[4].trim());
+				pessoa.setEstadoCivil(info[5].trim());
 
 				if ("CASADO".equals(pessoa.getEstadoCivil())) {
 					Pessoa conjuge = new Pessoa();
-					conjuge.setNome(info[6]);
+					conjuge.setNome(info[6].trim());
 					pessoa.setConjuge(conjuge);
 				}
 
@@ -1336,16 +1363,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 				String[] info = linha.split(",", -1);
 
 				Endereco endereco = new Endereco();
-				endereco.setCpfCnpj(info[0]);
-				endereco.setTipoEndereço(info[1]);
-				endereco.setPais(info[2]);
-				endereco.setRua(info[3]);
-				endereco.setNumero(info[4]);
-				endereco.setBairro(info[5]);
-				endereco.setCidade(info[6]);
-				endereco.setEstado(info[7]);
-				endereco.setCep(info[8]);
-				endereco.setComplementoCep(info[9]);
+				endereco.setCpfCnpj(info[0].trim());
+				endereco.setTipoEndereço(info[1].trim());
+				endereco.setPais(info[2].trim());
+				endereco.setRua(info[3].trim());
+				endereco.setNumero(info[4].trim());
+				endereco.setBairro(info[5].trim());
+				endereco.setCidade(info[6].trim());
+				endereco.setEstado(info[7].trim());
+				endereco.setCep(info[8].trim());
+				endereco.setComplementoCep(info[9].trim());
 
 				listaEnderecos.add(endereco);
 			}
@@ -1363,9 +1390,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 				String[] info = linha.split(",", -1);
 
 				Contato contato = new Contato();
-				contato.setCpfCnpj(info[0]);
-				contato.setTipo(info[1]);
-				contato.setValor(info[2]);
+				contato.setCpfCnpj(info[0].trim());
+				contato.setTipo(info[1].trim());
+				contato.setValor(info[2].trim());
 
 				listaContatos.add(contato);
 			}
@@ -1383,10 +1410,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 				String[] info = linha.split(",", -1);
 
 				Profissao profissao = new Profissao();
-				profissao.setCodigoProfissao(info[0]);
-				profissao.setNomeProfissao(info[1]);
-				profissao.setAreaAtuação(info[2]);
-				profissao.setSalarioBase(info[3]);
+				profissao.setCodigoProfissao(info[0].trim());
+				profissao.setNomeProfissao(info[1].trim());
+				profissao.setAreaAtuação(info[2].trim());
+				profissao.setSalarioBase(info[3].trim());
 
 				listaProfissoes.add(profissao);
 			}
@@ -1404,13 +1431,13 @@ public class RelacionamentoProvider implements Relacionamentos {
 				String[] info = linha.split(",", -1);
 
 				Empresa empresa = new Empresa();
-				empresa.setNome(info[0]);
-				empresa.setCodigoProfissao(info[1]);
-				empresa.setCpfCnpj(info[2]);
+				empresa.setNome(info[0].trim());
+				empresa.setCodigoProfissao(info[1].trim());
+				empresa.setCpfCnpj(info[2].trim());
 
 				List<Profissao> profPorEmpresa = new ArrayList<>();
 				for (Profissao profissao : listaProfissoes) {
-					if (profissao.getCodigoProfissao().equals(info[1])) {
+					if (profissao.getCodigoProfissao().equals(info[1].trim())) {
 						profPorEmpresa.add(profissao);
 					}
 				}
@@ -1433,16 +1460,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 				String[] info = linha.split(",", -1);
 
 				Escolaridade escolaridade = new Escolaridade();
-				escolaridade.setCpfCnpj(info[0]);
-				escolaridade.setCodigoInstituicao(info[1]);
-				escolaridade.setConcluido(info[2]);
+				escolaridade.setCpfCnpj(info[0].trim());
+				escolaridade.setCodigoInstituicao(info[1].trim());
+				escolaridade.setConcluido(info[2].trim());
 				
-				escolaridade.setDataTermino(info[3]);
-				escolaridade.setSemestreAtual(info[4]);
+				escolaridade.setDataTermino(info[3].trim());
+				escolaridade.setSemestreAtual(info[4].trim());
 
 				List<Instituicao> instituicoes = new ArrayList<>();
 				for (Instituicao instituicao : listaInstituicoes) {
-					if (instituicao.getCodigo().equals(info[1])) {
+					if (instituicao.getCodigo().equals(info[1].trim())) {
 						instituicoes.add(instituicao);
 					}
 				}
@@ -1464,10 +1491,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 				String[] info = linha.split(",", -1);
 
 				Instituicao instituicao = new Instituicao();
-				instituicao.setCodigo(info[0]);
-				instituicao.setNome(info[1]);
-				instituicao.setAreaAtuacao(info[2]);
-				instituicao.setQuantidadeSemestre(info[3]);
+				instituicao.setCodigo(info[0].trim());
+				instituicao.setNome(info[1].trim());
+				instituicao.setAreaAtuacao(info[2].trim());
+				instituicao.setQuantidadeSemestre(info[3].trim());
 
 				listaInstituicoes.add(instituicao);
 			}
