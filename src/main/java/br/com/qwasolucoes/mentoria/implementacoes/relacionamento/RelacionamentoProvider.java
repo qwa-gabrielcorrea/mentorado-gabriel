@@ -24,8 +24,6 @@ import br.com.qwasolucoes.mentoria.modelagem_dados.Profissao;
 
 public class RelacionamentoProvider implements Relacionamentos {
 	
-	private static final String CAMINHO_BASE = "/src/main/resources/br/com/qwasolucoes/mentoria/modelagem_dados/";
-
 	List<Pessoa> listaPessoas = new ArrayList<>();
 	List<Endereco> listaEnderecos = new ArrayList<>();
 	List<Contato> listaContatos = new ArrayList<>();
@@ -38,13 +36,13 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public void iniciar() {
 		
 		try {
-            leituraCsvEnderecos("Endereço.csv");
-            leituraCsvInstituicao("Instituicao de Ensino.csv");
-            leituraCsvProfissoes("Profissao.csv");
-            leituraCsvEmpresas("Empresa.csv");
-            leituraCsvEscolaridade("Escolaridade.csv");
-            leituraCsvContatos("Contato.csv");
-            leituraCsvPessoas("Pessoa.csv");
+            leituraCsvEnderecos("/br/com/qwasolucoes/mentoria/modelagem_dados/Endereço.csv");
+            leituraCsvInstituicao("/br/com/qwasolucoes/mentoria/modelagem_dados/Instituição de Ensino.csv");
+            leituraCsvProfissoes("/br/com/qwasolucoes/mentoria/modelagem_dados/Profissão.csv");
+            leituraCsvEmpresas("/br/com/qwasolucoes/mentoria/modelagem_dados/Empresa.csv");
+            leituraCsvEscolaridade("/br/com/qwasolucoes/mentoria/modelagem_dados/Escolaridade.csv");
+            leituraCsvContatos("/br/com/qwasolucoes/mentoria/modelagem_dados/Contato.csv");
+            leituraCsvPessoas("/br/com/qwasolucoes/mentoria/modelagem_dados/Pessoa.csv");
         } catch (IOException e) {
             e.getMessage();
         }
@@ -53,12 +51,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 	private BufferedReader abrirCsv(String nomeArquivo) throws IOException {
 
-        String caminhoCompleto = CAMINHO_BASE + nomeArquivo;
-
-        InputStream input = getClass().getClassLoader().getResourceAsStream(caminhoCompleto);
+        InputStream input = getClass().getResourceAsStream(nomeArquivo);
 
         if (input == null) {
-            throw new IOException("Arquivo não encontrado no classpath: " + caminhoCompleto);
+            throw new IOException("Arquivo não encontrado no classpath: " + nomeArquivo);
         }
 
         return new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
