@@ -194,11 +194,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
 
-		for (Endereco endereco : listaEnderecos) {
-			if (endereco.getBairro().contains(valor)) {
+		Set<String > cpfsAdicionados = new HashSet<>();
+		
+		for(Endereco endereco : listaEnderecos) {
+			String bairro = endereco.getBairro(); 
+			
+			if(bairro != null && bairro.contains(valor)) {
 				Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-				if (pessoa != null) {
+				
+				if(pessoa != null && !cpfsAdicionados.contains(pessoa.getCpfCnpj())) {
 					resultado.add(pessoa);
+					cpfsAdicionados.add(pessoa.getCpfCnpj());
 				}
 			}
 		}
@@ -233,19 +239,23 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 		Map<String, Pessoa> pegaCpf = new HashMap<>();
-
-		for (Pessoa pessoa : listaPessoas) {
+		Set<String> profCods = new HashSet<>();
+		
+		for(Pessoa pessoa : listaPessoas) {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
 
-		for (Profissao profissao : listaProfissoes) {
-			for (Empresa empresa : listaEmpresas) {
-				if (profissao.getNomeProfissao().equals(nomeProfissao)
-						&& profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-					Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-					if (pessoa != null) {
-						resultado.add(pessoa);
-					}
+		for(Profissao profissao : listaProfissoes) {
+			if(profissao.getNomeProfissao().trim().equalsIgnoreCase(nomeProfissao.trim())) {
+				profCods.add(profissao.getCodigoProfissao());
+			}
+		}
+		
+		for(Empresa empresa : listaEmpresas) {
+			if(profCods.contains(empresa.getCodigoProfissao())) {
+				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+				if(pessoa != null) {
+					resultado.add(pessoa);
 				}
 			}
 		}
@@ -394,7 +404,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		}
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
-			if (escolaridade.getConcluido().equals("Sim")) {
+			if (escolaridade.getConcluido().equalsIgnoreCase("Sim")) {
 				Pessoa pessoa = pegaCpf.get(escolaridade.getCpfCnpj());
 				if (pessoa != null) {
 					resultado.add(pessoa);
