@@ -947,7 +947,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorProfissaoPorAreaAtuacao(String areaAtuacaoProfissao) {
 
-		Integer resultado = 0;
+		int resultado = 0;
 		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Profissao profissao : listaProfissoes) {
@@ -972,7 +972,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadePorAreaAtuacao(String areaAtuacaoEscolaridade) {
 
-		Integer resultado = 0;
+		int resultado = 0;
 		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
@@ -1040,7 +1040,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorProfissao(String nomeProfissao) {
 
-		Integer resultado = 0;
+		int resultado = 0;
 		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
 		for (Pessoa pessoa : listaPessoas) {
@@ -1065,7 +1065,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorSalarioBaseMaiorIgual(BigDecimal salarioBase) {
 
-		Integer resultado = 0;
+		int resultado = 0;
 
 		for (Empresa empresa : listaEmpresas) {
 
@@ -1094,7 +1094,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadeAreaAtuacao(String areaAtuacao) {
 
-		Integer resultado = 0;
+		int resultado = 0;
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			for (Instituicao instituicao : listaInstituicoes) {
@@ -1137,7 +1137,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorProfissaoAreaAtuacaoEscolaridadePorSemestre(String areaAtuacao,
 			Integer semestre) {
 
-		Integer resultado = 0;
+		int resultado = 0;
 		List<Pessoa> primeiroParam = new ArrayList<>();
 		List<Pessoa> segundoParam = new ArrayList<>();
 
@@ -1243,7 +1243,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalConjugeDasPessoasMaioresIdadeEEstadoCivil(String estadoCivil) {
 
-		Integer resultado = 0;
+		int resultado = 0;
 		Integer idade;
 		List<Pessoa> listaAuxiliar = new ArrayList<>();
 
@@ -1286,7 +1286,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadeNaoConcluida() {
 
-		Integer resultado = 0;
+		int resultado = 0;
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			for (Pessoa pessoa : listaPessoas) {
