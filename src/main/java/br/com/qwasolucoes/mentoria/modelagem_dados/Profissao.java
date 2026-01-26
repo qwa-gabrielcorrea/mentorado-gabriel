@@ -42,7 +42,7 @@ public class Profissao {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(areaAtuação, codigoProfissao, nomeProfissao, salarioBase);
+		return Objects.hash(codigoProfissao);
 	}
 
 	@Override
@@ -54,8 +54,7 @@ public class Profissao {
 		if (getClass() != obj.getClass())
 			return false;
 		Profissao other = (Profissao) obj;
-		return Objects.equals(areaAtuação, other.areaAtuação) && Objects.equals(codigoProfissao, other.codigoProfissao)
-				&& Objects.equals(nomeProfissao, other.nomeProfissao) && Objects.equals(salarioBase, other.salarioBase);
+		return Objects.equals(codigoProfissao, other.codigoProfissao);
 	}
 
 }

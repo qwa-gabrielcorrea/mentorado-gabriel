@@ -33,7 +33,7 @@ public class Contato {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpfCnpj, tipo, valor);
+		return Objects.hash(valor);
 	}
 
 	@Override
@@ -45,8 +45,7 @@ public class Contato {
 		if (getClass() != obj.getClass())
 			return false;
 		Contato other = (Contato) obj;
-		return Objects.equals(cpfCnpj, other.cpfCnpj) && Objects.equals(tipo, other.tipo)
-				&& Objects.equals(valor, other.valor);
+		return Objects.equals(valor, other.valor);
 	}
 
 }
