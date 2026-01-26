@@ -1290,10 +1290,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			for (Pessoa pessoa : listaPessoas) {
-				if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-					if (escolaridade.getConcluido().contains("S")) {
-						resultado++;
-					}
+				if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())
+						&& escolaridade.getConcluido().contains("S")) {
+					resultado++;
 				}
 			}
 		}
