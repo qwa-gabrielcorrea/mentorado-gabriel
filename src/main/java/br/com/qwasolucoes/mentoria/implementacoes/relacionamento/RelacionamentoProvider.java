@@ -194,18 +194,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
 
-		Set<String> cpfsAdicionados = new HashSet<>();
-
-		for (Endereco endereco : listaEnderecos) {
-			String bairro = endereco.getBairro();
-
-			if (bairro != null && bairro.contains(valor)) {
-				Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-
-				if (pessoa != null && !cpfsAdicionados.contains(pessoa.getCpfCnpj())) {
-					resultado.add(pessoa);
-					cpfsAdicionados.add(pessoa.getCpfCnpj());
-				}
+		for(Endereco endereco : listaEnderecos) {
+			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
+			if(pessoa != null && endereco.getBairro().contains(valor)) {
+				resultado.add(pessoa);
 			}
 		}
 
