@@ -1297,11 +1297,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorEscolaridadeNaoConcluida() {
 
 		int resultado = 0;
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
 
-		for (Escolaridade escolaridade : listaEscolaridade) {
-			for (Pessoa pessoa : listaPessoas) {
-				if (escolaridade.getCpfCnpj().equals(pessoa.getCpfCnpj())
-						&& escolaridade.getConcluido().contains("S")) {
+		for(Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
+		
+		for(Escolaridade escolaridade : listaEscolaridade) {
+			Pessoa pessoa = pegaCpf.get(escolaridade.getCpfCnpj());
+			if(pessoa != null) {
+				String concluido = escolaridade.getConcluido();
+				if(!concluido.equalsIgnoreCase("Sim")) {
 					resultado++;
 				}
 			}
