@@ -188,16 +188,12 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorNomeBairroContem(String valor) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-		Map<String, Pessoa> pegaCpf = new HashMap<>();
-
-		for (Pessoa pessoa : listaPessoas) {
-			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
-		}
-
+		
 		for(Endereco endereco : listaEnderecos) {
-			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-			if(pessoa != null && endereco.getBairro().contains(valor)) {
-				resultado.add(pessoa);
+			for(Pessoa pessoa : listaPessoas) {
+				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().contains(valor)) {
+					resultado.add(pessoa);
+				}
 			}
 		}
 
