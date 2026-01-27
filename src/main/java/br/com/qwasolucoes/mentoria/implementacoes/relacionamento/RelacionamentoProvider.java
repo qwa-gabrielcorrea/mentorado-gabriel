@@ -1051,24 +1051,21 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public Integer buscarQuantidadeTotalPessoasPorProfissao(String nomeProfissao) {
 
 		int resultado = 0;
-		List<Pessoa> listaAuxiliar = new ArrayList<>();
-
-		for (Pessoa pessoa : listaPessoas) {
-			for (Profissao profissao : listaProfissoes) {
-				for (Empresa empresa : listaEmpresas) {
-					if (profissao.getNomeProfissao().equals(nomeProfissao)
-							&& pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
-							&& profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-						listaAuxiliar.add(pessoa);
-					}
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
+		
+		for(Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
+		
+		for(Profissao profissao : listaProfissoes) {
+			for(Empresa empresa : listaEmpresas) {
+				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+				if(pessoa != null && profissao.getNomeProfissao().equalsIgnoreCase(nomeProfissao)) {
+					resultado++;
 				}
 			}
 		}
-
-		for (Pessoa pessoa : listaAuxiliar) {
-			resultado++;
-		}
-
+				
 		return resultado;
 	}
 
@@ -1082,7 +1079,12 @@ public class RelacionamentoProvider implements Relacionamentos {
 			boolean retornaValor = false;
 			for (Profissao profissao : listaProfissoes) {
 
-				BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+				BigDecimal salario = new BigDecimal(profissao.getSalarioBase()
+						.replace("R$", "")
+		                .replace(".", "")
+		                .replace(",", ".")
+		                .replace("\"", "")
+		                .trim());
 
 				if (salario.compareTo(salarioBase) >= 0) {
 					retornaValor = true;
