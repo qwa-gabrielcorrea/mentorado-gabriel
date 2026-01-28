@@ -439,11 +439,13 @@ public class RelacionamentoProvider implements Relacionamentos {
 		}
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
-			Integer anoAtual = separaAnoData(escolaridade.getDataTermino());
-			if (anoAtual.equals(ano)) {
-				Pessoa pessoa = pegaCpf.get(escolaridade.getCpfCnpj());
-				if (pessoa != null) {
-					resultado.add(pessoa);
+			if (escolaridade.getDataTermino() != null) {
+				Integer anoAtual = separaAnoData(escolaridade.getDataTermino());
+				if (anoAtual.equals(ano)) {
+					Pessoa pessoa = pegaCpf.get(escolaridade.getCpfCnpj());
+					if (pessoa != null) {
+						resultado.add(pessoa);
+					}
 				}
 			}
 		}
@@ -663,8 +665,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		for (Pessoa pessoa : listaPessoas) {
 			for (String estado : estadoCivil) {
 				if (pessoa.getEstadoCivil().equals(estado)) {
-					Pessoa conjunge = pessoa.getConjuge();
-					resultado.add(conjunge.getNome());
+					resultado.add(String.valueOf(pessoa.getConjuge()));
 				}
 			}
 		}
@@ -905,20 +906,34 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomePessoasPorProfissaoPorAreaAtuacao(String areaAtuacaoProfissao) {
 
 		List<String> resultado = new ArrayList<>();
-
-		for (Profissao profissao : listaProfissoes) {
-			for (Empresa empresa : listaEmpresas) {
-				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-					for (Pessoa pessoa : listaPessoas) {
-						if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())
-								&& profissao.getAreaAtuação().equals(areaAtuacaoProfissao)) {
-							resultado.add(pessoa.getNome());
-						}
-					}
-				}
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
+		
+		for(Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
+		
+		String areaAtuacao = null;
+		String codProf = null;
+		
+		for(Profissao profissao : listaProfissoes) {
+			if(profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
+				areaAtuacao = profissao.getAreaAtuação();
+				codProf = profissao.getCodigoProfissao();
+				break;
 			}
 		}
-
+		
+		if(areaAtuacao == null) {
+			return null;
+		}
+		
+		for(Empresa empresa : listaEmpresas) {
+			Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+			if(pessoa != null && empresa.getCodigoProfissao().equals(codProf)) {
+				resultado.add(pessoa.getNome());
+			}
+		}
+		
 		return resultado;
 	}
 
