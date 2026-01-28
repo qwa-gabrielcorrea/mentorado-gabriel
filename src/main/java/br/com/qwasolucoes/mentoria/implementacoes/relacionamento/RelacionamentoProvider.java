@@ -188,10 +188,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorNomeBairroContem(String valor) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-		
-		for(Endereco endereco : listaEnderecos) {
-			for(Pessoa pessoa : listaPessoas) {
-				if(pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().contains(valor)) {
+
+		for (Endereco endereco : listaEnderecos) {
+			for (Pessoa pessoa : listaPessoas) {
+				if (pessoa.getCpfCnpj().equals(endereco.getCpfCnpj()) && endereco.getBairro().contains(valor)) {
 					resultado.add(pessoa);
 				}
 			}
@@ -1040,20 +1040,31 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		int resultado = 0;
 		Map<String, Pessoa> pegaCpf = new HashMap<>();
-		
-		for(Pessoa pessoa : listaPessoas) {
+
+		for (Pessoa pessoa : listaPessoas) {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
-		
-		for(Profissao profissao : listaProfissoes) {
-			for(Empresa empresa : listaEmpresas) {
-				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-				if(pessoa != null && profissao.getNomeProfissao().equalsIgnoreCase(nomeProfissao)) {
-					resultado++;
-				}
+
+		String profCod = null;
+
+		for (Profissao profissao : listaProfissoes) {
+			if (profissao.getNomeProfissao().equalsIgnoreCase(nomeProfissao)) {
+				profCod = profissao.getCodigoProfissao();
+				break;
 			}
 		}
-				
+
+		if (profCod == null) {
+			return 0;
+		}
+
+		for (Empresa empresa : listaEmpresas) {
+			Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+			if (pessoa != null && empresa.getCodigoProfissao().equals(profCod)) {
+				resultado++;
+			}
+		}
+
 		return resultado;
 	}
 
@@ -1067,12 +1078,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			boolean retornaValor = false;
 			for (Profissao profissao : listaProfissoes) {
 
-				BigDecimal salario = new BigDecimal(profissao.getSalarioBase()
-						.replace("R$", "")
-		                .replace(".", "")
-		                .replace(",", ".")
-		                .replace("\"", "")
-		                .trim());
+				BigDecimal salario = new BigDecimal(profissao.getSalarioBase().replace("R$", "").replace(".", "")
+						.replace(",", ".").replace("\"", "").trim());
 
 				if (salario.compareTo(salarioBase) >= 0) {
 					retornaValor = true;
@@ -1106,7 +1113,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 						}
 					}
 				}
-			} 
+			}
 		}
 
 		return resultado;
@@ -1376,8 +1383,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-
-				String[] info = linha.split(",", -1);
+				String linhaLimpa = linha.replace("\"", "");
+				String[] info = linhaLimpa.split(",", -1);
 
 				Pessoa pessoa = new Pessoa();
 				pessoa.setNome(info[0].trim());
@@ -1414,7 +1421,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-				String[] info = linha.split(",", -1);
+				String linhaLimpa = linha.replace("\"", "");
+				String[] info = linhaLimpa.split(",", -1);
 
 				Endereco endereco = new Endereco();
 				endereco.setCpfCnpj(info[0].trim());
@@ -1441,7 +1449,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-				String[] info = linha.split(",", -1);
+				String linhaLimpa = linha.replace("\"", "");
+				String[] info = linhaLimpa.split(",", -1);
 
 				Contato contato = new Contato();
 				contato.setCpfCnpj(info[0].trim());
@@ -1461,7 +1470,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-				String[] info = linha.split(",", -1);
+				String linhaLimpa = linha.replace("\"", "");
+				String[] info = linhaLimpa.split(",", -1);
 
 				Profissao profissao = new Profissao();
 				profissao.setCodigoProfissao(info[0].trim());
@@ -1482,7 +1492,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-				String[] info = linha.split(",", -1);
+				String linhaLimpa = linha.replace("\"", "");
+				String[] info = linhaLimpa.split(",", -1);
 
 				Empresa empresa = new Empresa();
 				empresa.setNome(info[0].trim());
@@ -1511,7 +1522,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-				String[] info = linha.split(",", -1);
+				String linhaLimpa = linha.replace("\"", "");
+				String[] info = linhaLimpa.split(",", -1);
 
 				Escolaridade escolaridade = new Escolaridade();
 				escolaridade.setCpfCnpj(info[0].trim());
@@ -1542,7 +1554,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-				String[] info = linha.split(",", -1);
+				String linhaLimpa = linha.replace("\"", "");
+				String[] info = linhaLimpa.split(",", -1);
 
 				Instituicao instituicao = new Instituicao();
 				instituicao.setCodigo(info[0].trim());
