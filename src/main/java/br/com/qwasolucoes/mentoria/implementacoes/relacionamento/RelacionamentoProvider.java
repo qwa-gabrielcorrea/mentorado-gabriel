@@ -726,22 +726,40 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacaoEnderecoPorEstadoEBairro(String areaAtuacao, String estado,
 			String bairro) {
 
-		List<Contato> primeiroParam = buscarContatoPorProfissaoAreaAtuacao(areaAtuacao);
 		List<Contato> resultado = new ArrayList<>();
-
-		for (Contato contato : listaContatos) {
-			for (Pessoa pessoa : listaPessoas) {
-				if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-					for (Endereco endereco : pessoa.getEnderecos()) {
-						if (endereco.getEstado().equals(estado) && endereco.getBairro().equals(bairro)) {
-							resultado.add(contato);
-						}
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
+		Map<String, Pessoa> preResultado = new HashMap<>();
+		Map<String, Pessoa> filtro = new HashMap<>();
+		
+		for(Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
+		
+		for(Profissao profissao : listaProfissoes) {
+			for(Empresa empresa : listaEmpresas) {
+				if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+					if(pessoa != null && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacao)) {
+						preResultado.put(pessoa.getCpfCnpj(), pessoa);
 					}
 				}
 			}
 		}
-
-		resultado.retainAll(primeiroParam);
+		
+		for(Endereco endereco : listaEnderecos) {
+			Pessoa pessoa = preResultado.get(endereco.getCpfCnpj());
+			if(pessoa != null && endereco.getBairro().equalsIgnoreCase(bairro) && endereco.getEstado().equalsIgnoreCase(estado)) {
+				filtro.put(pessoa.getCpfCnpj(), pessoa);
+			}
+		}
+		
+		for(Contato contato : listaContatos) {
+			Pessoa pessoa = filtro.get(contato.getCpfCnpj());
+			if(pessoa != null) {
+				resultado.add(contato);
+			}
+		}
+		
 
 		return resultado;
 	}
