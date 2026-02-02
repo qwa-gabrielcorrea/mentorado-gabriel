@@ -681,7 +681,6 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacao(String areaAtuacao) {
 
 		List<Contato> resultado = new ArrayList<>();
-		List<String> pegaCpf = new ArrayList<>();
 		
 		for(Contato contato : listaContatos) {
 			for(Empresa empresa : listaEmpresas) {
@@ -802,24 +801,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 	@Override
 	public List<Contato> buscarContatoPorTiposContato(List<String> tipoContato) {
 
-		List<Contato> resultadoFinal = new ArrayList<>();
-		Set<Contato> resultadoOrdenado = new HashSet<>();
-
-		// ORDENAR
-
-		for (Contato contato : listaContatos) {
-			for (String tipo : tipoContato) {
-				if (contato.getTipo().equals(tipo)) {
-					resultadoOrdenado.add(contato);
+		List<Contato> resultado = new ArrayList<>();
+		
+		for(String tipo : tipoContato) {
+			for(Contato contato : listaContatos) {
+				if(contato.getTipo().equalsIgnoreCase(tipo)) {
+					resultado.add(contato);
 				}
 			}
 		}
 
-		for (Contato contato : resultadoOrdenado) {
-			resultadoFinal.add(contato);
-		}
-
-		return resultadoFinal;
+		return resultado;
 	}
 
 	@Override
