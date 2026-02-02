@@ -196,8 +196,11 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Endereco endereco : listaEnderecos) {
 			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-			String bairro = endereco.getBairro();
-			if (pessoa != null && bairro.toUpperCase().contains(valor.toUpperCase())) {
+
+			String bairro = valor.toUpperCase();
+			String compara = endereco.getBairro().toUpperCase();
+
+			if (pessoa != null && compara.contains(bairro)) {
 				resultado.add(pessoa);
 			}
 		}
@@ -643,7 +646,6 @@ public class RelacionamentoProvider implements Relacionamentos {
 		for (Pessoa pessoa : listaPessoas) {
 			for (String estado : estadoCivil) {
 				if (pessoa.getEstadoCivil().equalsIgnoreCase(estado) && pessoa.getConjuge() != null) {
-					
 					String conjuge = String.valueOf(pessoa.getConjuge());
 					resultado.add(conjuge);
 				}
@@ -657,22 +659,18 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomeDoConjungeMaioresDeIdadeDasPessoasPorEstadoCivil(String estadoCivil) {
 
 		List<String> resultado = new ArrayList<>();
-		Integer idade;
 
+		int idade = 0;
 		for (Pessoa pessoa : listaPessoas) {
-			if (pessoa.getEstadoCivil().equals(estadoCivil)) {
-				Pessoa conjunge = pessoa.getConjuge();
-				try {
-					idade = converteIdade(conjunge.getDataNascimento());
-
-					if (idade > -18) {
-						resultado.add(conjunge.getNome());
-					}
-				} catch (ParseException e) {
-					e.printStackTrace();
+			try {
+				idade = converteIdade(pessoa.getDataNascimento());
+				if (idade >= 18 && pessoa.getEstadoCivil().equalsIgnoreCase(estadoCivil)) {
+					resultado.add(String.valueOf(pessoa.getConjuge().getNome()));
 				}
+			} catch (ParseException e) {
+				e.getMessage();
 			}
-		}
+		}		
 
 		return resultado;
 	}
