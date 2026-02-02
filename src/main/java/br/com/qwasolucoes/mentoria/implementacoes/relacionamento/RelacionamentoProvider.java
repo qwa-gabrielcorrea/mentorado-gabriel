@@ -797,11 +797,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Contato> resultado = new ArrayList<>();
 		
-		Collections.sort(tipoContato);
+		List<String> tiposOrdenados = new ArrayList<>(tipoContato);
+		Collections.sort(tiposOrdenados);
 		
-		System.out.println(tipoContato);
-		
-		for(String tipo : tipoContato) {
+		for(String tipo : tiposOrdenados) {
 			for(Contato contato : listaContatos) {
 				if(contato.getTipo().equalsIgnoreCase(tipo)) {
 					resultado.add(contato);
