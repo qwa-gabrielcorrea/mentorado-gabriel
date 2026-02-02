@@ -643,6 +643,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		for (Pessoa pessoa : listaPessoas) {
 			for (String estado : estadoCivil) {
 				if (pessoa.getEstadoCivil().equalsIgnoreCase(estado) && pessoa.getConjuge() != null) {
+					
 					String conjuge = String.valueOf(pessoa.getConjuge());
 					resultado.add(conjuge);
 				}
