@@ -500,9 +500,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Profissao profissao : listaProfissoes) {
 			for (Empresa empresa : listaEmpresas) {
-				if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 					Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-					if(pessoa != null && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacao)) {
+					if (pessoa != null && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacao)) {
 						filtro.put(pessoa.getCpfCnpj(), pessoa);
 					}
 				}
@@ -528,7 +528,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 		Map<String, Pessoa> pegaCpf = new HashMap<>();
-		Map<String, Pessoa> preResultado = new HashMap<>();
+		Map<String, Pessoa> preResult = new HashMap<>();
 
 		for (Pessoa pessoa : listaPessoas) {
 			if (pessoa.getEstadoCivil().equalsIgnoreCase(estadoCivil)) {
@@ -538,11 +538,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Profissao profissao : listaProfissoes) {
 			for (Empresa empresa : listaEmpresas) {
-				if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-					Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-					if (pessoa != null && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
-						preResultado.put(pessoa.getCpfCnpj(), pessoa);
-					}
+				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+				if (pessoa != null && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
+					preResult.put(pessoa.getCpfCnpj(), pessoa);
 				}
 			}
 		}
@@ -550,7 +548,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			for (Instituicao instituicao : listaInstituicoes) {
 				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
-					Pessoa pessoa = preResultado.get(escolaridade.getCpfCnpj());
+					Pessoa pessoa = preResult.get(escolaridade.getCpfCnpj());
 					if (pessoa != null && instituicao.getAreaAtuacao().equalsIgnoreCase(areaAtuacaoEscolaridade)) {
 						resultado.add(pessoa);
 					}
