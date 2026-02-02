@@ -300,26 +300,20 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorSalarioBaseMaiorQue(BigDecimal salarioBase) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-
-		for (Empresa empresa : listaEmpresas) {
-
-			boolean retornaValor = false;
-
-			for (Profissao profissao : empresa.getProfissao()) {
-
-				BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
-
-				if (salario.compareTo(salarioBase) < 0) {
-					retornaValor = true;
-					break;
-				}
-			}
-			if (retornaValor) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj()) && !resultado.contains(pessoa)) {
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
+		
+		for(Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
+		
+		for(Profissao profissao : listaProfissoes) {
+			for(Empresa empresa : listaEmpresas) {
+				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+				if(pessoa != null && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+					BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+					if(salarioBase.compareTo(salario) > 0  || salarioBase.compareTo(salario) == 0) {
 						resultado.add(pessoa);
 					}
-
 				}
 			}
 		}
