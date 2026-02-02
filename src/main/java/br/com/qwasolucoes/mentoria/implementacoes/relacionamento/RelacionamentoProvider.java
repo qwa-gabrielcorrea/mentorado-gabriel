@@ -13,9 +13,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
@@ -679,19 +681,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacao(String areaAtuacao) {
 
 		List<Contato> resultado = new ArrayList<>();
-		Map<String, Contato> pegaContato = new HashMap<>();
-
-		for (Contato contato : listaContatos) {
-			pegaContato.put(contato.getCpfCnpj(), contato);
-		}
-
-		for (Profissao profissao : listaProfissoes) {
-			for (Empresa empresa : listaEmpresas) {
-				Contato contato = pegaContato.get(empresa.getCpfCnpj());
-				if (contato != null && profissao.getCodigoProfissao().equalsIgnoreCase(empresa.getCodigoProfissao())) {
-					String area = profissao.getAreaAtuação();
-					if (area.equalsIgnoreCase(areaAtuacao)) {
-						resultado.add(contato);
+		List<String> pegaCpf = new ArrayList<>();
+		
+		for(Contato contato : listaContatos) {
+			for(Empresa empresa : listaEmpresas) {
+				if(empresa.getCpfCnpj().equals(contato.getCpfCnpj())) {
+					for(Profissao profissao : listaProfissoes) {
+						if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao()) && profissao.getAreaAtuação().equals(areaAtuacao)) {
+							resultado.add(contato);
+						}
 					}
 				}
 			}
