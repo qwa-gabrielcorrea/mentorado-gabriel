@@ -198,11 +198,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Endereco endereco : listaEnderecos) {
 			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-
-			String bairro = valor.toUpperCase();
-			String compara = endereco.getBairro().toUpperCase();
-
-			if (pessoa != null && compara.contains(bairro)) {
+			if (pessoa != null && endereco.getBairro().equalsIgnoreCase(valor)) {
 				resultado.add(pessoa);
 			}
 		}
@@ -311,7 +307,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
 				if(pessoa != null && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 					BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
-					if(salarioBase.compareTo(salario) > 0  || salarioBase.compareTo(salario) == 0) {
+					if(salario.compareTo(salarioBase) > 0) {
 						resultado.add(pessoa);
 					}
 				}
