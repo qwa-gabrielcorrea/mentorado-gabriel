@@ -1211,7 +1211,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 						if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())
 								&& instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
 							for (Contato contato : listaContatos) {
-								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+								if (contato.getCpfCnpj().equals(pessoa.getCpfCnpj()) && contato.getTipo().equals("3")) {
 									terceiroParam.add(contato.getValor());
 								}
 							}
