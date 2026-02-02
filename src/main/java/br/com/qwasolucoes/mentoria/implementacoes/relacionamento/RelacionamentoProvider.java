@@ -10,14 +10,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import br.com.qwasolucoes.mentoria.interfaces.relacionamento.Relacionamentos;
 import br.com.qwasolucoes.mentoria.modelagem_dados.Contato;
@@ -317,7 +317,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 				}
 			}
 		}
-
+		
 		return resultado;
 	}
 
@@ -797,6 +797,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Contato> resultado = new ArrayList<>();
 		
+		Collections.sort(tipoContato);
+		
+		System.out.println(tipoContato);
+		
 		for(String tipo : tipoContato) {
 			for(Contato contato : listaContatos) {
 				if(contato.getTipo().equalsIgnoreCase(tipo)) {
@@ -804,7 +808,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 				}
 			}
 		}
-
+		
 		return resultado;
 	}
 
