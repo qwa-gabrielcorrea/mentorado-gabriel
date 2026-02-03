@@ -793,7 +793,6 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Contato> resultado = new ArrayList<>();
 
-		Collections.sort(tipoContato);
 		for(String tipo : tipoContato) {
 			for(Contato contato : listaContatos) {
 				if(contato.getTipo().equalsIgnoreCase(tipo)) {
@@ -802,22 +801,22 @@ public class RelacionamentoProvider implements Relacionamentos {
 			}
 		}
 		
-//		Collections.sort(resultado, new Comparator<Contato>() {
-//			@Override
-//			
-//			public int compare(Contato c1, Contato c2) {
-//				
-//				int cpfComparado = c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
-//				if(cpfComparado != 0) {
-//					return cpfComparado;
-//				}
-//				
-//				Integer tipo1 = Integer.parseInt(c1.getTipo());
-//				Integer tipo2 = Integer.parseInt(c2.getTipo());
-//				
-//				return tipo1.compareTo(tipo2);
-//			}
-//		});
+		Collections.sort(resultado, new Comparator<Contato>() {
+			@Override
+			
+			public int compare(Contato c1, Contato c2) {
+				
+				int cpfComparado = c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
+				if(cpfComparado != 0) {
+					return cpfComparado;
+				}
+				
+				Integer tipo1 = Integer.parseInt(c1.getTipo());
+				Integer tipo2 = Integer.parseInt(c2.getTipo());
+				
+				return tipo1.compareTo(tipo2);
+			}
+		});
 		
 		return resultado;
 	}
