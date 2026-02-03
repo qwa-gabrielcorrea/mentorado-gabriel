@@ -297,23 +297,23 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 		Map<String, Pessoa> pegaCpf = new HashMap<>();
-		
-		for(Pessoa pessoa : listaPessoas) {
+
+		for (Pessoa pessoa : listaPessoas) {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
-				
-		for(Profissao profissao : listaProfissoes) {
-			for(Empresa empresa : listaEmpresas) {
+
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
 				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-				if(pessoa != null && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+				if (pessoa != null && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
 					BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
-					if(salario.compareTo(salarioBase) > 0) {
+					if (salario.compareTo(salarioBase) > 0) {
 						resultado.add(pessoa);
 					}
 				}
 			}
 		}
-				
+
 		return resultado;
 	}
 
@@ -662,7 +662,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 			} catch (ParseException e) {
 				e.getMessage();
 			}
-		}		
+		}
 
 		return resultado;
 	}
@@ -671,12 +671,13 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacao(String areaAtuacao) {
 
 		List<Contato> resultado = new ArrayList<>();
-		
-		for(Contato contato : listaContatos) {
-			for(Empresa empresa : listaEmpresas) {
-				if(empresa.getCpfCnpj().equals(contato.getCpfCnpj())) {
-					for(Profissao profissao : listaProfissoes) {
-						if(profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao()) && profissao.getAreaAtuação().equals(areaAtuacao)) {
+
+		for (Contato contato : listaContatos) {
+			for (Empresa empresa : listaEmpresas) {
+				if (empresa.getCpfCnpj().equals(contato.getCpfCnpj())) {
+					for (Profissao profissao : listaProfissoes) {
+						if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())
+								&& profissao.getAreaAtuação().equals(areaAtuacao)) {
 							resultado.add(contato);
 						}
 					}
@@ -793,31 +794,24 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Contato> resultado = new ArrayList<>();
 
-		for(String tipo : tipoContato) {
-			for(Contato contato : listaContatos) {
-				if(contato.getTipo().equalsIgnoreCase(tipo)) {
+		for (String tipo : tipoContato) {
+			for (Contato contato : listaContatos) {
+				if (contato.getTipo().equalsIgnoreCase(tipo)) {
 					resultado.add(contato);
 				}
 			}
 		}
-		
+
 		Collections.sort(resultado, new Comparator<Contato>() {
+
 			@Override
-			
 			public int compare(Contato c1, Contato c2) {
 				
-				int cpfComparado = c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
-				if(cpfComparado != 0) {
-					return cpfComparado;
-				}
+				return c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
 				
-				Integer tipo1 = Integer.parseInt(c1.getTipo());
-				Integer tipo2 = Integer.parseInt(c2.getTipo());
-				
-				return tipo1.compareTo(tipo2);
 			}
 		});
-		
+
 		return resultado;
 	}
 
@@ -1308,35 +1302,36 @@ public class RelacionamentoProvider implements Relacionamentos {
 		Map<String, Pessoa> pegaCpf = new HashMap<>();
 		Map<String, Pessoa> parcial = new HashMap<>();
 		List<Pessoa> listaFinal = new ArrayList<>();
-		
-		for(Pessoa pessoa : listaPessoas) {
+
+		for (Pessoa pessoa : listaPessoas) {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
-		
-		for(Endereco endereco : listaEnderecos) {
+
+		for (Endereco endereco : listaEnderecos) {
 			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-			if(endereco.getBairro().equalsIgnoreCase(bairro)) {
+			if (endereco.getBairro().equalsIgnoreCase(bairro)) {
 				parcial.put(pessoa.getCpfCnpj(), pessoa);
 			}
 		}
-		
-		for(Profissao profissao : listaProfissoes) {
-			for(Empresa empresa : listaEmpresas) {
+
+		for (Profissao profissao : listaProfissoes) {
+			for (Empresa empresa : listaEmpresas) {
 				Pessoa pessoa = parcial.get(empresa.getCpfCnpj());
-				if(pessoa != null && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao()) && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
+				if (pessoa != null && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())
+						&& profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
 					listaFinal.add(pessoa);
 				}
 			}
 		}
-		
-		for(Pessoa pessoa : listaFinal) {
-			if(pessoa != null) {
+
+		for (Pessoa pessoa : listaFinal) {
+			if (pessoa != null) {
 				resultado++;
 			} else {
 				return 0;
 			}
 		}
-		
+
 		return resultado;
 	}
 
