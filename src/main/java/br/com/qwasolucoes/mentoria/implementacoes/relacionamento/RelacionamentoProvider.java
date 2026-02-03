@@ -301,7 +301,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		for(Pessoa pessoa : listaPessoas) {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
-		
+				
 		for(Profissao profissao : listaProfissoes) {
 			for(Empresa empresa : listaEmpresas) {
 				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
@@ -313,7 +313,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 				}
 			}
 		}
-		
+				
 		return resultado;
 	}
 
@@ -792,7 +792,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorTiposContato(List<String> tipoContato) {
 
 		List<Contato> resultado = new ArrayList<>();
-				
+
 		for(String tipo : tipoContato) {
 			for(Contato contato : listaContatos) {
 				if(contato.getTipo().equalsIgnoreCase(tipo)) {
@@ -800,6 +800,23 @@ public class RelacionamentoProvider implements Relacionamentos {
 				}
 			}
 		}
+		
+		Collections.sort(resultado, new Comparator<Contato>() {
+			@Override
+			
+			public int compare(Contato c1, Contato c2) {
+				
+				int cpfComparado = c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
+				if(cpfComparado != 0) {
+					return cpfComparado;
+				}
+				
+				Integer tipo1 = Integer.parseInt(c1.getTipo());
+				Integer tipo2 = Integer.parseInt(c2.getTipo());
+				
+				return tipo1.compareTo(tipo2);
+			}
+		});
 		
 		return resultado;
 	}
