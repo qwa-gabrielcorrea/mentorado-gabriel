@@ -674,7 +674,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 		for (Pessoa pessoa : listaPessoas) {
 			try {
 				idade = converteIdade(pessoa.getDataNascimento());
-				if (idade >= 18 && pessoa.getEstadoCivil().equalsIgnoreCase(estadoCivil)) {
+				if (idade >= 18 && pessoa.getEstadoCivil().equalsIgnoreCase(estadoCivil) && pessoa.getConjuge() != null) {
 					resultado.add(String.valueOf(pessoa.getConjuge().getNome()));
 				}
 			} catch (ParseException e) {
