@@ -1470,7 +1470,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 				profissao.setCodigoProfissao(info[0].trim());
 				profissao.setNomeProfissao(info[1].trim());
 				profissao.setAreaAtuação(info[2].trim());
-				profissao.setSalarioBase(info[3].trim());
+				profissao.setSalarioBase(info[3].trim().replace(".", ""));
 
 				listaProfissoes.add(profissao);
 			}
