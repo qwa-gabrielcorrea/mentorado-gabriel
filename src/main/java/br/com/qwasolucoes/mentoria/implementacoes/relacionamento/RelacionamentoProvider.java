@@ -96,10 +96,10 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<String> resultado = new ArrayList<>();
 
-		for (Pessoa pessoa : listaPessoas) {
-
-			if (separaAnoData(pessoa.getDataNascimento()) == ano) {
-				resultado.add(pessoa.getNome() + pessoa.getSobrenome());
+		for(Pessoa pessoa : listaPessoas) {
+			int anoAtual = separaAnoData(pessoa.getDataNascimento());
+			if(anoAtual == ano) {
+				resultado.add(pessoa.getNome() + " " + pessoa.getSobrenome());
 			}
 		}
 
@@ -193,7 +193,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Endereco endereco : listaEnderecos) {
 			for (Pessoa pessoa : listaPessoas) {
-				if (endereco.getBairro().contains(valor) && endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+				if (endereco.getBairro().toLowerCase().contains(valor.toLowerCase()) && endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
 					resultado.add(pessoa);
 				}
 			}
@@ -316,24 +316,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for (Empresa empresa : listaEmpresas) {
-
-			boolean retornaValor = false;
-
-			for (Profissao profissao : empresa.getProfissao()) {
-
-				BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
-
-				if (salario.compareTo(salarioBase) <= 0) {
-					retornaValor = true;
-					break;
-				}
-			}
-			if (retornaValor) {
-				for (Pessoa pessoa : listaPessoas) {
-					if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
-						if (!resultado.contains(pessoa)) {
-							resultado.add(pessoa);
+		for (Pessoa pessoa : listaPessoas) {
+			for (Empresa empresa : listaEmpresas) {
+				if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+					for (Profissao profissao : listaProfissoes) {
+						if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+							BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+							if (salario.compareTo(salarioBase) >= 0) {
+								resultado.add(pessoa);
+							}
 						}
 					}
 				}
@@ -401,19 +392,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorEscolaridadeAreaAtuacao(String areaAtuacao) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-		Map<String, Pessoa> pegaCpf = new HashMap<>();
 
-		for (Pessoa pessoa : listaPessoas) {
-			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
-		}
-
-		for (Escolaridade escolaridade : listaEscolaridade) {
-			for (Instituicao instituicao : listaInstituicoes) {
-				if (escolaridade.getCodigoInstituicao().equals(instituicao.getAreaAtuacao())
-						&& instituicao.getAreaAtuacao().equals(areaAtuacao)) {
-					Pessoa pessoa = pegaCpf.get(escolaridade.getCpfCnpj());
-					if (pessoa != null) {
-						resultado.add(pessoa);
+		for(Pessoa pessoa : listaPessoas) {
+			for(Escolaridade escolaridade : listaEscolaridade) {
+				if(pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
+					for(Instituicao instituicao : listaInstituicoes) {
+						if(instituicao.getAreaAtuacao().equalsIgnoreCase(areaAtuacao) && escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+							resultado.add(pessoa);
+						}
 					}
 				}
 			}
@@ -798,6 +784,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 				}
 			}
 		}
+		
+		Collections.sort(resultado, new Comparator<Contato>() {
+
+			@Override
+			public int compare(Contato c1, Contato c2) {
+
+				return c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
+
+			}
+		});
 		
 		return resultado;
 	}
