@@ -895,11 +895,17 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomeInstituicaoPorPorAreaAtuacao(String areaAtuacaoProfissao) {
 
 		List<String> resultado = new ArrayList<>();
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
 
-		for (Profissao profissao : listaProfissoes) {
-			if (profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
-				for (Instituicao instituicao : listaInstituicoes) {
-					if (instituicao.getAreaAtuacao().equalsIgnoreCase(areaAtuacaoProfissao)) {
+		for(Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
+		
+		for(Escolaridade escolaridade : listaEscolaridade) {
+			for(Instituicao instituicao : listaInstituicoes) {
+				if(escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+					Pessoa pessoa = pegaCpf.get(escolaridade.getCpfCnpj());
+					if(pessoa != null && instituicao.getAreaAtuacao().equalsIgnoreCase(areaAtuacaoProfissao)) {
 						resultado.add(instituicao.getNome());
 					}
 				}
