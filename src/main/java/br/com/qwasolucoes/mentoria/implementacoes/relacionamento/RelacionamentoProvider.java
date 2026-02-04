@@ -198,7 +198,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Endereco endereco : listaEnderecos) {
 			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-			if (pessoa != null && endereco.getBairro().contains(valor)) {
+			if (pessoa != null && endereco.getBairro().toLowerCase().indexOf(valor.toLowerCase()) >= 0) {
 				resultado.add(pessoa);
 			}
 		}
@@ -640,7 +640,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		for (Pessoa pessoa : maiores) {
 			if (pessoa.getConjuge() != null && pessoa.getEstadoCivil().equalsIgnoreCase(estadoCivil)) {
-				String conjuge = String.valueOf(pessoa.getConjuge());
+				String conjuge = String.valueOf(pessoa.getConjuge().getNome().split("\\s").toString());
+				
 				resultado.add(conjuge);
 			}
 		}
