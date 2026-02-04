@@ -96,9 +96,9 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<String> resultado = new ArrayList<>();
 
-		for(Pessoa pessoa : listaPessoas) {
+		for (Pessoa pessoa : listaPessoas) {
 			int anoAtual = separaAnoData(pessoa.getDataNascimento());
-			if(anoAtual == ano) {
+			if (anoAtual == ano) {
 				resultado.add(pessoa.getNome() + " " + pessoa.getSobrenome());
 			}
 		}
@@ -190,12 +190,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorNomeBairroContem(String valor) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-
-		for (Endereco endereco : listaEnderecos) {
-			for (Pessoa pessoa : listaPessoas) {
-				if (endereco.getBairro().toLowerCase().contains(valor.toLowerCase()) && endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
-					resultado.add(pessoa);
-				}
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
+		
+		for(Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
+		
+		for(Endereco endereco : listaEnderecos) {
+			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
+			if(pessoa != null && endereco.getBairro().toLowerCase().contains(valor.toLowerCase())) {
+				resultado.add(pessoa);
 			}
 		}
 
@@ -393,11 +397,12 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 
-		for(Pessoa pessoa : listaPessoas) {
-			for(Escolaridade escolaridade : listaEscolaridade) {
-				if(pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
-					for(Instituicao instituicao : listaInstituicoes) {
-						if(instituicao.getAreaAtuacao().equalsIgnoreCase(areaAtuacao) && escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
+		for (Pessoa pessoa : listaPessoas) {
+			for (Escolaridade escolaridade : listaEscolaridade) {
+				if (pessoa.getCpfCnpj().equals(escolaridade.getCpfCnpj())) {
+					for (Instituicao instituicao : listaInstituicoes) {
+						if (instituicao.getAreaAtuacao().equalsIgnoreCase(areaAtuacao)
+								&& escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
 							resultado.add(pessoa);
 						}
 					}
@@ -777,24 +782,21 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Contato> resultado = new ArrayList<>();
 
-		for(Contato contato : listaContatos) {
-			for(String tipo : tipoContato) {
-				if(tipo.equalsIgnoreCase(contato.getTipo())) {
-					resultado.add(contato);
+		for (Pessoa pessoa : listaPessoas) {
+			for (Contato contato : listaContatos) {
+				if (pessoa.getCpfCnpj().equals(contato.getCpfCnpj())) {
+					for (String tipo : tipoContato) {
+						if (tipo.equalsIgnoreCase(contato.getTipo())) {
+							resultado.add(contato);
+						}
+					}
 				}
 			}
 		}
-		
-		Collections.sort(resultado, new Comparator<Contato>() {
 
-			@Override
-			public int compare(Contato c1, Contato c2) {
+		// ordenar pelo cpf afeta a ordem de todos, deve ser cpfX para cada tipo, sem
+		// mudar a ordem dos cpfs
 
-				return c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
-
-			}
-		});
-		
 		return resultado;
 	}
 
