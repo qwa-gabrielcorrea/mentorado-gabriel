@@ -190,26 +190,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorNomeBairroContem(String valor) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-		Map<String, Pessoa> pegaCpf = new HashMap<>();
-
-		for (Pessoa pessoa : listaPessoas) {
-			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
-		}
 
 		for (Endereco endereco : listaEnderecos) {
-			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-			if (pessoa != null && endereco.getBairro().toLowerCase().indexOf(valor.toLowerCase()) >= 0) {
-				resultado.add(pessoa);
+			for (Pessoa pessoa : listaPessoas) {
+				if (endereco.getBairro().contains(valor) && endereco.getCpfCnpj().equals(pessoa.getCpfCnpj())) {
+					resultado.add(pessoa);
+				}
 			}
 		}
-
-		Collections.sort(resultado, new Comparator<Pessoa>() {
-
-			@Override
-			public int compare(Pessoa p1, Pessoa p2) {
-				return p1.getCpfCnpj().compareTo(p2.getCpfCnpj());
-			}
-		});
 
 		return resultado;
 	}
@@ -304,31 +292,21 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorSalarioBaseMaiorQue(BigDecimal salarioBase) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-		Map<String, Pessoa> pegaCpf = new HashMap<>();
 
 		for (Pessoa pessoa : listaPessoas) {
-			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
-		}
-
-		for (Profissao profissao : listaProfissoes) {
 			for (Empresa empresa : listaEmpresas) {
-				Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-				if (pessoa != null && profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
-					BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
-					if (salario.compareTo(salarioBase) > 0) {
-						resultado.add(pessoa);
+				if (pessoa.getCpfCnpj().equals(empresa.getCpfCnpj())) {
+					for (Profissao profissao : listaProfissoes) {
+						if (profissao.getCodigoProfissao().equals(empresa.getCodigoProfissao())) {
+							BigDecimal salario = new BigDecimal(profissao.getSalarioBase());
+							if (salario.compareTo(salarioBase) > 0) {
+								resultado.add(pessoa);
+							}
+						}
 					}
 				}
 			}
 		}
-
-		Collections.sort(resultado, new Comparator<Pessoa>() {
-
-			@Override
-			public int compare(Pessoa p1, Pessoa p2) {
-				return p1.getCpfCnpj().compareTo(p2.getCpfCnpj());
-			}
-		});
 
 		return resultado;
 	}
@@ -690,54 +668,19 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Contato> buscarContatoPorProfissaoAreaAtuacao(String areaAtuacao) {
 
 		List<Contato> resultado = new ArrayList<>();
-		Map<String, Pessoa> pegaCpf = new HashMap<>();
-		Map<String, Pessoa> parcial = new HashMap<>();
-
-		for (Pessoa pessoa : listaPessoas) {
-			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
-		}
 
 		for (Empresa empresa : listaEmpresas) {
 			for (Profissao profissao : listaProfissoes) {
-				if (empresa.getCodigoProfissao().equals(profissao.getCodigoProfissao())) {
-					Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-					if (pessoa != null && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacao)) {
-						parcial.put(pessoa.getCpfCnpj(), pessoa);
+				if (empresa.getCodigoProfissao().equals(profissao.getCodigoProfissao())
+						&& profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacao)) {
+					for (Contato contato : listaContatos) {
+						if (empresa.getCpfCnpj().equals(contato.getCpfCnpj())) {
+							resultado.add(contato);
+						}
 					}
 				}
 			}
 		}
-
-		for (Contato contato : listaContatos) {
-			Pessoa pessoa = parcial.get(contato.getCpfCnpj());
-			if (pessoa != null) {
-				resultado.add(contato);
-			}
-		}
-		
-		Collections.sort(resultado, new Comparator<Contato>() {
-
-			@Override
-			public int compare(Contato c1, Contato c2) {
-
-				return c1.getTipo().compareTo(c2.getTipo());
-
-			}
-		});
-		
-		Collections.sort(resultado, new Comparator<Contato>() {
-
-			@Override
-			public int compare(Contato c1, Contato c2) {
-
-				c1.getTipo().compareTo(c2.getTipo());
-				return c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
-				
-
-			}
-		});
-		
-		
 
 		return resultado;
 	}
@@ -848,24 +791,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Contato> resultado = new ArrayList<>();
 
-		for (String tipo : tipoContato) {
-			for (Contato contato : listaContatos) {
-				if (contato.getTipo().equalsIgnoreCase(tipo)) {
+		for(Contato contato : listaContatos) {
+			for(String tipo : tipoContato) {
+				if(tipo.equalsIgnoreCase(contato.getTipo())) {
 					resultado.add(contato);
 				}
 			}
 		}
-
-		Collections.sort(resultado, new Comparator<Contato>() {
-
-			@Override
-			public int compare(Contato c1, Contato c2) {
-
-				return c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
-
-			}
-		});
-
+		
 		return resultado;
 	}
 
