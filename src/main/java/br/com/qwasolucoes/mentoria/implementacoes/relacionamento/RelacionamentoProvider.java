@@ -714,6 +714,30 @@ public class RelacionamentoProvider implements Relacionamentos {
 				resultado.add(contato);
 			}
 		}
+		
+		Collections.sort(resultado, new Comparator<Contato>() {
+
+			@Override
+			public int compare(Contato c1, Contato c2) {
+
+				return c1.getTipo().compareTo(c2.getTipo());
+
+			}
+		});
+		
+		Collections.sort(resultado, new Comparator<Contato>() {
+
+			@Override
+			public int compare(Contato c1, Contato c2) {
+
+				c1.getTipo().compareTo(c2.getTipo());
+				return c1.getCpfCnpj().compareTo(c2.getCpfCnpj());
+				
+
+			}
+		});
+		
+		
 
 		return resultado;
 	}
