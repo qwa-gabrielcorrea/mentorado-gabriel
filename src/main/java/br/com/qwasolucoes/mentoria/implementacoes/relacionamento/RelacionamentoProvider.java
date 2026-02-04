@@ -855,8 +855,8 @@ public class RelacionamentoProvider implements Relacionamentos {
 		Map<String, Pessoa> pessoas = new HashMap<>();
 
 		for (Pessoa pessoa : listaPessoas) {
-			Integer ano = separaAnoData(pessoa.getDataNascimento());
-			if (ano.equals(anoNasicmento)) {
+			int ano = separaAnoData(pessoa.getDataNascimento());
+			if (ano >= anoNasicmento) {
 				pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 			}
 		}
