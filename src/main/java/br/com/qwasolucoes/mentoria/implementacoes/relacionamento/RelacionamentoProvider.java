@@ -190,15 +190,15 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<Pessoa> buscarPessoasPorNomeBairroContem(String valor) {
 
 		List<Pessoa> resultado = new ArrayList<>();
-		Map<String, Pessoa> pegaCpf = new HashMap<>();
-		
-		for(Pessoa pessoa : listaPessoas) {
-			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
-		}
+		Map<String, Endereco> pegaEndereco = new HashMap<>();
 		
 		for(Endereco endereco : listaEnderecos) {
-			Pessoa pessoa = pegaCpf.get(endereco.getCpfCnpj());
-			if(pessoa != null && endereco.getBairro().toLowerCase().contains(valor.toLowerCase())) {
+			pegaEndereco.put(endereco.getCpfCnpj(), endereco);
+		}
+		
+		for(Pessoa pessoa : listaPessoas) {
+			Endereco endereco = pegaEndereco.get(pessoa.getCpfCnpj());
+			if(endereco != null && endereco.getBairro().toLowerCase().contains(valor.toLowerCase())) {
 				resultado.add(pessoa);
 			}
 		}
