@@ -191,14 +191,14 @@ public class RelacionamentoProvider implements Relacionamentos {
 
 		List<Pessoa> resultado = new ArrayList<>();
 		Map<String, Endereco> pegaEndereco = new HashMap<>();
-		
-		for(Endereco endereco : listaEnderecos) {
+
+		for (Endereco endereco : listaEnderecos) {
 			pegaEndereco.put(endereco.getCpfCnpj(), endereco);
 		}
-		
-		for(Pessoa pessoa : listaPessoas) {
+
+		for (Pessoa pessoa : listaPessoas) {
 			Endereco endereco = pegaEndereco.get(pessoa.getCpfCnpj());
-			if(endereco != null && endereco.getBairro().toLowerCase().contains(valor.toLowerCase())) {
+			if (endereco != null && endereco.getBairro().toLowerCase().contains(valor.toLowerCase())) {
 				resultado.add(pessoa);
 			}
 		}
@@ -879,26 +879,16 @@ public class RelacionamentoProvider implements Relacionamentos {
 		for (Pessoa pessoa : listaPessoas) {
 			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
 		}
-
-		String areaAtuacao = null;
-		String codProf = null;
-
-		for (Profissao profissao : listaProfissoes) {
-			if (profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
-				areaAtuacao = profissao.getAreaAtuação();
-				codProf = profissao.getCodigoProfissao();
-				break;
-			}
-		}
-
-		if (areaAtuacao == null) {
-			return null;
-		}
-
-		for (Empresa empresa : listaEmpresas) {
-			Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
-			if (pessoa != null && empresa.getCodigoProfissao().equals(codProf)) {
-				resultado.add(pessoa.getNome());
+		
+		for(Empresa empresa : listaEmpresas) {
+			for(Profissao profissao : listaProfissoes) {
+				if(empresa.getCodigoProfissao().equals(profissao.getCodigoProfissao())) {
+					Pessoa pessoa = pegaCpf.get(empresa.getCpfCnpj());
+					if(pessoa != null && profissao.getAreaAtuação().equalsIgnoreCase(areaAtuacaoProfissao)) {
+						String nome = pessoa.getNome();
+						resultado.add(nome);
+					}
+				}
 			}
 		}
 
@@ -909,14 +899,19 @@ public class RelacionamentoProvider implements Relacionamentos {
 	public List<String> buscarNomePessoasPorEscolaridadePorAreaAtuacao(String areaAtuacaoEscolaridade) {
 
 		List<String> resultado = new ArrayList<>();
+		Map<String, Pessoa> pegaCpf = new HashMap<>();
+
+		for (Pessoa pessoa : listaPessoas) {
+			pegaCpf.put(pessoa.getCpfCnpj(), pessoa);
+		}
 
 		for (Escolaridade escolaridade : listaEscolaridade) {
 			for (Instituicao instituicao : listaInstituicoes) {
-				if (escolaridade.getCodigoInstituicao().equals(instituicao.getCodigo())) {
-					for (Pessoa pessoa : listaPessoas) {
-						if (instituicao.getAreaAtuacao().equals(areaAtuacaoEscolaridade)) {
-							resultado.add(pessoa.getNome());
-						}
+				if (instituicao.getCodigo().equals(escolaridade.getCodigoInstituicao())) {
+					Pessoa pessoa = pegaCpf.get(escolaridade.getCpfCnpj());
+					if (pessoa != null && instituicao.getAreaAtuacao().equalsIgnoreCase(areaAtuacaoEscolaridade)) {
+						String nome = pessoa.getNome();
+						resultado.add(nome);
 					}
 				}
 			}
