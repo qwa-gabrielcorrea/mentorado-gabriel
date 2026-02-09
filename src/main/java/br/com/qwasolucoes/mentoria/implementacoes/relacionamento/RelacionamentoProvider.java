@@ -1363,8 +1363,7 @@ public class RelacionamentoProvider implements Relacionamentos {
 			br.readLine();
 
 			while ((linha = br.readLine()) != null) {
-				String linhaLimpa = linha.replace("\"", "");
-				String[] info = linhaLimpa.split(",", -1);
+				String[] info = linha.split(",", -1);
 
 				Pessoa pessoa = new Pessoa();
 				pessoa.setNome(info[0].trim());
