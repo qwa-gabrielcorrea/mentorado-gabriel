@@ -9,8 +9,63 @@ public class BancoDadosProvider implements BancoDados {
 
 	@Override
 	public void iniciarDDL() {
-
- }
+		
+		String pessoa = 
+				"CREATE TABLE Pessoa                                            (\n" +
+				" nome VARCHAR(20),                                              \n" +
+				" sobrenome VARCHAR(20),                                         \n" + 
+				" dataNasc VARCHAR(10),                                          \n" +
+				" sexo CHAR(1),                                                  \n" +
+				" cpf INT PRIMARY KEY,                                           \n" + 
+				" estadoCivil VARCHAR(10)                                        \n" +
+				" conjuge VARCHAR(20)                                            \n" +
+				");";
+		
+		String endereco = 
+				"CREATE TABLE Endereco                                          (\n" +
+				" FOREIGN KEY (cpf) REFERENCES Pessoa(cpf),                      \n" +
+				" tipo CHAR(1),       pais VARCHAR(20),                          \n" +
+				" rua VARCHAR(50),    numero VARCHAR(10),                        \n" +
+				" bairro VARCHAR(20), cidade VARCHAR(20),                        \n" +
+				" estado(20),         cep VARCHAR(10),                           \n" +
+				" complemento VARCHAR(20)                                        \n" +
+				");";
+		
+		String contato = 
+				"CREATE TABLE Contato                                           (\n" +
+				" FOREIGN KEY (cpf) REFERENCES Pessoa(cpf),                      \n" +
+				" tipo CHAR(1),     valor VARCHAR(50)                            \n" +
+				");";
+		
+		String profissao = 
+				"CREATE TABLE Profissao                                         (\n" +
+				" codProfissao CHAR(1), nome VARCHAR(30),                        \n" +
+				" areaAtuacao VARCHAR(30),                                       \n" +
+				" salarioBase DECIMAL(8, 2)                                      \n" +
+				");";
+		
+		String empresa =
+				"CREATE TABLE Empresa                                           (\n" +
+				" nome VARCHAR(30),                                              \n" +
+				" FOREIGN KEY (codProfissao) REFERENCES Profissao(codProfissao), \n" +
+				" FOREIGN KEY (cpf) REFERENCES Pessoa(cpf)                       \n" +
+				");";
+		
+		String escolaridade = 
+				"CREATE TABLE Escolaridade                                      (\n" +
+				" FOREIGN KEY (cpf) REFERENCES Pessoa(cpf),                      \n" +
+				" codigo CHAR(1),   concluido CHAR(3),  dataTermino VARCHAR(10), \n" +
+				" semestreAtual CHAR(1)                                          \n" +
+				");";
+		
+		String instituicao = 
+				"CREATE TABLE InstituicaoDeEnsino                               (\n" +
+				" FOREIGN KEY (codigo) REFERENCES Escolaridade(codigo),          \n" +
+				" nome VARCHAR(30),     AreaAtuacao VARCHAR(30),                 \n" +
+				" qtdeSemestres CHAR(1)                                          \n" +
+				");";
+ 
+	}
 
 	@Override
 	public List<String> iniciarInserts() {
@@ -20,7 +75,7 @@ public class BancoDadosProvider implements BancoDados {
 
 	@Override
 	public String criarSQLBuscarCPFsDasPessoasMaioresIdade() {
-
+ 
 		return null;
 	}
 

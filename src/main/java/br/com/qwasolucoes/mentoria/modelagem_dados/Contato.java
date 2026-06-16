@@ -48,4 +48,9 @@ public class Contato {
 		return Objects.equals(valor, other.valor);
 	}
 
+	@Override
+	public String toString() {
+		return cpfCnpj + ", " + tipo + ", " + valor + "\n" ;
+	}
+
 }
