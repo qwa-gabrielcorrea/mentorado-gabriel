@@ -122,4 +122,9 @@ public class Pessoa {
 		return Objects.equals(cpfCnpj, other.cpfCnpj);
 	}
 
+	@Override
+	public String toString() {
+		return nome + ", " + sobrenome + ", " + cpfCnpj + "\n";
+	}
+
 }
